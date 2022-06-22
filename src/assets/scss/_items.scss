@@ -4,7 +4,7 @@
   box-shadow: var(--shadow);
   -webkit-box-shadow: var(--shadow);
   -moz-box-shadow: var(--shadow);
-  overflow: hidden;
+  position: relative;
 
   &.no-shadow {
     box-shadow: unset;
@@ -13,11 +13,54 @@
   }
   
   .card-header {
-    padding: 1em 2em;
+    padding: 1em 1em .5em;
     background: rgba(255,255,255,.15);
   }
   .card-body {
-    padding: 1em;
+    padding: .5em 1em;
+  }
+  .card-footer {
+    padding: .5em 1em;
+  }
+
+  &.widget {
+    margin-top: 1.5em;
+    display: flex;
+    flex-direction: column;
+    height: calc(100% - 1.5em);
+
+    .card-header {
+      background: var(--color-primary);
+      box-shadow: var(--shadow);
+      -webkit-box-shadow: var(--shadow);
+      -moz-box-shadow: var(--shadow);
+      border-radius: .25em;
+      position: absolute;
+      top: -1em;
+      color: #fff;
+      align-items: center;
+      display: flex;
+      align-items: center;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 90%;
+      padding: .75em 1em;
+
+      .widget-icon {
+        display: block;
+        margin-right: 1em;
+      }
+      h3 {
+        font-size: 1.25em;
+        margin: 0;
+      }
+    }
+    .card-header + .card-body {
+      padding-top: 3.25em;
+    }
+    .card-body {
+      flex-grow: 1;
+    }
   }
 }
 

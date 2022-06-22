@@ -1,4 +1,4 @@
-# restoio_desktop
+# farena_admin_panel
 
 ## Project setup
 ```

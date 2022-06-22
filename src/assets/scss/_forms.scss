@@ -1,0 +1,139 @@
+input, select, label.checkbox span, textarea {
+  --color: var(--color-medium);
+  --background: var(--color-light-shade);
+
+  background: var(--background);
+  color: var(--color);
+  width: 100%;
+  border: none;
+  border-radius: 1.25em;
+  padding: .5em 1em;
+  margin: 0 0 1em 0;
+  display: block;
+}
+select {
+  padding: .5em 0;
+  border-right: 1em solid transparent;
+  border-left: 1em solid transparent;
+}
+label.checkbox {
+  position: relative;
+
+  input {
+    display: none;
+  }
+  span {
+    width: 100%;
+    color: var(--color-medium);
+    transition: ease .5s;
+    display: block;
+  }
+  &:hover span,
+  input:checked ~ span {
+    color: var(--color-light);
+    background: var(--color-primary-shade);
+    transition: ease .5s;
+  }
+  input:checked ~ span {
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: ease .75s;
+  }
+}
+
+.text-center {
+  input, label.checkbox, textarea {
+    text-align: center;
+
+    &::-webkit-input-placeholder {
+      text-align: center;
+    }
+
+    &:-moz-placeholder { /* Firefox 18- */
+      text-align: center;  
+    }
+
+    &::-moz-placeholder {  /* Firefox 19+ */
+      text-align: center;  
+    }
+
+    &:-ms-input-placeholder {  
+      text-align: center; 
+    }
+  }
+  select option {
+    text-align-last:center;
+  }
+}
+
+.btn {
+  border: none;
+  border-radius: 1.25em;
+  padding: .5em 1em;
+  font-weight: 600;
+  text-transform: uppercase;
+  display: block;
+  text-decoration: none;
+
+  &.btn-rounded {
+    width: 39px;
+    aspect-ratio: 1;
+    padding: 0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &.btn-fixed-width {
+    width: 150px;
+  }
+
+  &.btn-block {
+    width: 100%;
+  }
+  &.btn-sm {
+    font-size: .85em;
+  }
+  &.disabled,
+  &:disabled {
+    opacity: .5;
+    pointer-events: none;
+  }
+
+  @each $color, $value in $custom-theme-colors {
+    &.btn-#{$color} {
+      background-color: $value;
+      color: white;
+      transition: .5s ease;
+
+      &:not(:disabled), &:not(.disabled) {
+        &:hover {
+          background-color: darken($value, 7.5%);
+          transition: .5s ease;
+        }
+      }
+    }
+
+    &.btn-outline-#{$color} {
+      background-color: transparent;
+      border: 2px solid #{$value};
+      color: #{$value};
+      transition: .5s ease;
+
+      &:not(:disabled), &:not(.disabled) {
+        &:hover {
+          transition: .5s ease;
+          border: 2px solid transparent;
+          color: white;
+          background-color: darken($value, 7.5%);
+        }
+      }
+    }
+  }
+}
+
+.text-center .btn {
+  margin-left: auto;
+  margin-right: auto;
+}

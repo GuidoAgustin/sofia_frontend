@@ -1,0 +1,230 @@
+* {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-family);
+}
+
+html, body, #app {
+  height: 100%;
+  width: 100%;
+}
+body {
+  color: var(--body-text);
+  background: var(--body-bg);
+}
+
+// Scrollbar Style
+html, .sidebar .menu, .content-wrapper {
+  &::-webkit-scrollbar {
+    width: 5px;
+    
+    /* Track */
+    &-track {
+      background: #ccc;
+    }
+
+    /* Handle */
+    &-thumb {
+      background: #888;
+      border-radius: 3px;
+    }
+
+    /* Handle on hover */
+    &-thumb:hover {
+      background: #555;
+    }
+  }
+}
+
+img.brand-logo {
+  max-width: 100px;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
+  * {
+    padding: 0;
+    margin: 0;
+  }
+}
+
+.dashboard-layout {  
+  height: 100vh;
+  display: flex;
+
+  .sidebar {
+    width: var(--sidebar-width);
+    min-width: var(--sidebar-min-width);
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    z-index: 2;
+    box-shadow: var(--shadow);
+    -moz-box-shadow: var(--shadow);
+    -webkit-box-shadow: var(--shadow);
+
+    .brand {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1em;
+      background: white;
+      border-bottom: 1px solid var(--color-medium-tint);
+
+      h1 {
+        width: 100%;
+        text-align: center;
+        padding-top: 10px;
+        padding-bottom: 10px;
+        border-bottom: 1px solid var(--color-medium-tint);
+        margin-bottom: 15px;
+      }
+    }
+
+    .menu {
+      overflow-y: auto;
+      background: white;
+      flex: 1;
+
+      > li {
+        display: flex;
+        flex-direction: column-reverse;
+
+        a {
+          display: flex;
+          align-items: center;
+          font-weight: 600;
+          padding: 1em;
+          border-left: 5px solid transparent;
+          transition: .5s ease;
+          color: var(--body-text);
+
+          &:hover {
+            border-left: 5px solid var(--color-primary);
+            transition: .5s ease;
+            text-decoration: none;
+          }
+
+          &:disabled, &.disabled {
+            opacity: .8;
+            pointer-events: none;
+          }
+
+          &.active {
+            border-left: 5px solid var(--color-primary);
+            transition: .5s ease;
+
+            .arrow {
+              transition: .5s ease;
+              transform: rotate(90deg + 360deg);
+            }
+          }
+
+          .icon {
+            margin-right: 1em;
+            pointer-events: none;
+          }
+          .arrow {
+            margin-left: auto;
+            transition: .5s ease;
+            pointer-events: none;
+          }
+        }
+        > ul {
+          max-height: 0;
+          overflow: hidden;
+          pointer-events: none;
+          transition: .5s ease;
+
+          li a {
+            border-left: 5px solid var(--color-primary);
+            background: var(--color-primary-25);
+            padding-left: 35px;
+
+            &:hover {
+              background: var(--color-primary-50);
+            }
+          }
+        }
+
+        
+        ul.opened {
+          pointer-events: all;
+          transition: .5s ease;
+          max-height: 500px;
+        }
+        ul.opened + a {
+          border-left: 5px solid var(--color-primary);
+          transition: .5s ease;
+
+          .arrow {
+            transition: .5s ease;
+            transform: rotate(90deg + 360deg);
+          }
+        }
+
+      }
+    }
+  }
+
+  .main {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    flex: 1;
+    z-index: 1;
+
+    .topbar {
+      display: flex;
+      justify-content: flex-end;
+      align-items: stretch;
+      height: var(--topbar-height);
+      background: white;
+      box-shadow: var(--shadow);
+      -moz-box-shadow: var(--shadow);
+      -webkit-box-shadow: var(--shadow);
+
+      .topbar-buttons {
+        display: flex;
+        align-items: stretch;
+
+        li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          width: var(--topbar-height);
+        }
+      }
+    }
+
+    .content-wrapper {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow-y: auto;
+      overflow-x: hidden;
+
+      .content {
+        flex: 1;
+        padding: 1.5em;
+      }
+      
+      .footer {
+        padding: 1em;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        background: var(--color-light-shade);
+        font-size: .75em;
+      }
+    }
+
+  }
+}

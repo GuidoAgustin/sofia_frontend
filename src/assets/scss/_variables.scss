@@ -1,0 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+
+$custom-theme-colors: () !default;
+$custom-theme-colors: map-merge(
+  (
+    'primary-tint':     #ffaa48,
+    'primary':          #ff9928,
+    'primary-shade':    #da8019,
+    'primary-50':       #ff9b2850,
+    'primary-25':       #ff9b2825,
+
+    'secondary-tint':   #6cd0ff,
+    'secondary':        #3dc2ff,
+    'secondary-shade':  #2a9bcf,
+    
+    'light':            #f5f5f9,
+    'light-shade':      #f0ebe8,
+
+    'medium-tint':      #ADB3BB,
+    'medium':           #697a8d,
+    'medium-shade':     #506072,
+    
+    'dark-tint':        #373737,
+    'dark':             #2C2C2C,
+    'dark-shade':       #202020,
+  ),
+  $custom-theme-colors
+);
+
+
+$custom-sizes: () !default;
+$custom-sizes: map-merge(
+  (
+    0: 0,
+    1: 0.25rem,
+    2: 0.5rem,
+    3: 1rem,
+    4: 1.5rem,
+    5: 3rem,
+    6: 4.5rem,
+    7: 6rem,
+  ),
+  $custom-sizes
+);
+
+
+:root {
+  --font-family: 'Poppins', sans-serif;
+
+  @each $color, $value in $custom-theme-colors {
+    --color-#{$color}: #{$value};
+  }
+
+  --body-bg: var(--color-light);
+  --body-text: var(--color-medium);
+  --shadow: 0 0 10px 0 rgb(67 89 113 / 12%);
+  
+  --sidebar-width: 20%;
+  --sidebar-min-width: 220px;
+  --topbar-height: 45px;
+}

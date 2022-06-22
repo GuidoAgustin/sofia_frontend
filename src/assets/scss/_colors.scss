@@ -1,0 +1,29 @@
+@each $color, $value in $custom-theme-colors {
+  .text-#{$color} {
+    color: $value !important;
+  }
+  .bg-#{$color} {
+    background-color: $value !important;
+  }
+  .card.card-#{$color} {
+    background-color: $value;
+    color: white;
+  }
+
+  .topbar.topbar-#{$color} {
+    .lang-bar {
+      background-color: var(--color-#{$color}-shade);
+    }
+    .navbar {
+      background-color: var(--color-#{$color});
+
+      li > ul {
+        background-color: var(--color-#{$color}-shade);
+      }
+    }
+  }
+
+  .swiper.swiper-#{$color} {
+    --swiper-theme-color: #{$value};
+  }
+}

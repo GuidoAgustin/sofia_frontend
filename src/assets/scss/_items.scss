@@ -1,0 +1,31 @@
+.card {
+  background: white;
+  border-radius: .5em;
+  box-shadow: var(--shadow);
+  -webkit-box-shadow: var(--shadow);
+  -moz-box-shadow: var(--shadow);
+  overflow: hidden;
+
+  &.no-shadow {
+    box-shadow: unset;
+    -webkit-box-shadow: unset;
+    -moz-box-shadow: unset;
+  }
+  
+  .card-header {
+    padding: 1em 2em;
+    background: rgba(255,255,255,.15);
+  }
+  .card-body {
+    padding: 1em;
+  }
+}
+
+
+.swiper {
+  overflow: visible !important;
+
+  .swiper-pagination {
+    bottom: var(--pagination-bottom, -20px) !important;   
+  }
+}

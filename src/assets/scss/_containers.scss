@@ -1,0 +1,17 @@
+.img-container {
+  min-width: 100px;
+  min-height: 100px;
+  background-image: url('http://via.placeholder.com/400');
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: block;
+
+  &.img-container-circle {
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+  &.img-container-rounded {
+    border-radius: 1.5em;
+  }
+}

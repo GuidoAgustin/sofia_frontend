@@ -30,7 +30,7 @@ export default [
   {
     icon: "fa-solid fa-gear",
     title: "Opciones",
-    to: null,
+    to: "/opciones",
     children: null,
   },
 ];

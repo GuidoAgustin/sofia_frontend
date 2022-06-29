@@ -21,6 +21,10 @@ const routes = [
         path: "forms",
         component: () => import("@/views/UI/Forms.vue"),
       },
+      {
+        path: "opciones",
+        component: () => import("@/views/Dashboard/Options.vue"),
+      },
     ],
   },
 ];

@@ -8,7 +8,9 @@
           <router-view></router-view>
         </div>
         <div class="footer">
-          Copyright &reg; {{ new Date().getFullYear() }} - APPNAME
+          Copyright &reg; {{ new Date().getFullYear() }} - QUARTZ CRM - Powered
+          by
+          <a href="http://farenasoft.com" target="_blank">&nbsp;Farenasoft</a>
         </div>
       </div>
     </div>

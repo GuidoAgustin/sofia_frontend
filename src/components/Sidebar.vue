@@ -1,10 +1,8 @@
 <template>
   <div class="sidebar">
     <div class="brand">
-      <img src="/img/logo.jpg" class="brand-logo" alt="" />
-      <h1>APPNAME</h1>
-
-      <p>Bienvenido <b>Username</b></p>
+      <img src="/img/logo.svg" class="brand-logo" alt="" />
+      <h1>QUARTZ</h1>
     </div>
     <ul class="menu">
       <li v-for="(menu, mi) of menus" :key="mi">
@@ -43,7 +41,9 @@
           :class="{ disabled: !menu.to }"
           :to="menu.to || '/'"
         >
-          <i class="icon" :class="menu.icon" />
+          <div class="icon">
+            <i :class="menu.icon" />
+          </div>
           {{ menu.title }}
         </router-link>
       </li>

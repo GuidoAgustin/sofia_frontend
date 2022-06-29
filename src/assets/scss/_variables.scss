@@ -55,7 +55,7 @@ $custom-sizes: map-merge(
   --body-text: var(--color-medium);
   --shadow: 0 0 10px 0 rgb(67 89 113 / 12%);
   
-  --sidebar-width: 20%;
-  --sidebar-min-width: 220px;
+  --sidebar-closed-width: calc(40px + 2em);
+  --sidebar-open-width: 250px;
   --topbar-height: 45px;
 }

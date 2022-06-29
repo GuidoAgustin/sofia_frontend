@@ -40,6 +40,7 @@
           active-class="active"
           :class="{ disabled: !menu.to }"
           :to="menu.to || '/'"
+          @click="closeSubmenus"
         >
           <div class="icon">
             <i :class="menu.icon" />
@@ -69,7 +70,14 @@ export default {
         t.classList.add("opened");
       }
     };
-    return { toggleTarget, menus };
+    const closeSubmenus = () => {
+      const others = document.querySelectorAll("ul.menu > li > ul");
+      others.forEach((x) => {
+        x.classList.remove("opened");
+      });
+    };
+
+    return { toggleTarget, closeSubmenus, menus };
   },
 };
 </script>

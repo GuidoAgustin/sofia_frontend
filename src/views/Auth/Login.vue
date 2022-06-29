@@ -7,17 +7,23 @@
         <p>Por favor Logeá para continuar.</p>
       </div>
       <div class="card-body px-4 pb-4">
-        <input type="text" placeholder="Email" />
-        <input type="password" placeholder="Password" />
+        <FormText label="Email" icon="fa-solid fa-envelope" />
+        <FormText label="Password" icon="fa-solid fa-fingerprint" />
 
-        <router-link
-          tag="button"
-          to="/dashboard"
-          class="btn btn-primary btn-block"
-        >
+        <router-link to="/dashboard" class="btn btn-primary btn-block">
           Log In
         </router-link>
       </div>
     </div>
   </div>
 </template>
+
+<script>
+import FormText from "@/components/Form/FormText.vue";
+
+export default {
+  components: {
+    FormText,
+  },
+};
+</script>

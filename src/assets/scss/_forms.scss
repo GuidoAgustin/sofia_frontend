@@ -13,8 +13,9 @@
 
   label {
     position: absolute;
-    top: .5em;
+    top: -1.5em;
     left: 1em;
+    font-size: .9em;
     transition: .25s ease;
     font-weight: 600;
   }
@@ -26,24 +27,11 @@
     transition: .25s ease;
     font-weight: 600;
   }
-  .icon ~ label {
-    left: 2.5em;
-  }
   .icon ~ input {
     padding-left: 2.5em;
   }
   .icon ~ select {
     border-left: 2.5em solid transparent;
-  }
-  &.form-uploader label,
-  select:focus ~ label,
-  select:valid ~ label,
-  input:not(:placeholder-shown) ~ label,
-  input:focus ~ label {
-    left: 1em;
-    transform: translateY(-2.15em);
-    transition: .25s ease;
-    font-size: .8em;
   }
 
   &.form-switch {
@@ -165,6 +153,10 @@ label.checkbox {
   display: block;
   text-decoration: none;
 
+  &:hover {
+    text-decoration: none;
+  }
+
   &.btn-rounded {
     width: 39px;
     aspect-ratio: 1;
@@ -181,6 +173,7 @@ label.checkbox {
 
   &.btn-block {
     width: 100%;
+    text-align: center;
   }
   &.btn-sm {
     font-size: .85em;

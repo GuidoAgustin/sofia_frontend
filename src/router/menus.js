@@ -1,24 +1,23 @@
 export default [
   {
-    icon: "fa-solid fa-gauge-high",
-    title: "Dashboard",
-    to: "/dashboard",
-    children: null,
-  },
-  {
     icon: "fa-solid fa-book",
-    title: "Menu 1",
+    title: "Vistas",
     to: null,
     children: [
       {
-        icon: "fa-solid fa-list",
-        title: "Submenu 1",
-        to: null,
+        icon: "fa-solid fa-gauge-high",
+        title: "Dashboard",
+        to: "/dashboard",
       },
       {
-        icon: "fa-solid fa-burger",
-        title: "Submenu 2",
-        to: null,
+        icon: "fa-solid fa-right-to-bracket",
+        title: "Login",
+        to: "/login",
+      },
+      {
+        icon: "fa-solid fa-rectangle-list",
+        title: "Forms",
+        to: "/forms",
       },
     ],
   },

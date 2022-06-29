@@ -13,7 +13,7 @@
             <li v-for="(submenu, smi) of menu.children" :key="smi">
               <router-link
                 :class="{
-                  disabled: !menu.to,
+                  disabled: !submenu.to,
                 }"
                 :to="submenu.to || '#'"
               >

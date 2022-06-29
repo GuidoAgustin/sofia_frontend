@@ -1,15 +1,105 @@
-input, select, label.checkbox span, textarea {
+.form-container {
   --color: var(--color-medium);
   --background: var(--color-light-shade);
-
+  position: relative;
+  margin: 1.75em 0 1em 0;
   background: var(--background);
-  color: var(--color);
-  width: 100%;
+  border-radius: 1.25em;
+
+  &.disabled {
+    opacity: .6;
+    pointer-events: none;
+  }
+
+  label {
+    position: absolute;
+    top: .5em;
+    left: 1em;
+    transition: .25s ease;
+    font-weight: 600;
+  }
+  .icon {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 1em;
+    transition: .25s ease;
+    font-weight: 600;
+  }
+  .icon ~ label {
+    left: 2.5em;
+  }
+  .icon ~ input {
+    padding-left: 2.5em;
+  }
+  .icon ~ select {
+    border-left: 2.5em solid transparent;
+  }
+  &.form-uploader label,
+  select:focus ~ label,
+  select:valid ~ label,
+  input:not(:placeholder-shown) ~ label,
+  input:focus ~ label {
+    left: 1em;
+    transform: translateY(-2.15em);
+    transition: .25s ease;
+    font-size: .8em;
+  }
+
+  &.form-switch {
+    margin-top: 1em;
+    background: transparent;
+
+    label {
+      left: 4em !important;
+      top: 50% !important;
+      transform: translateY(-50%) !important;
+      font-size: 1em !important;
+    }
+
+    input {
+      position: relative;
+      appearance: none; outline: none;
+      width: 50px; height: 30px;
+      background-color: #ffffff; border: 1px solid #D9DADC;
+      border-radius: 50px; box-shadow: inset -20px 0 0 0 #ffffff;
+      transition-duration: 200ms;
+
+      &:after {
+        content: "";
+        position: absolute;
+        top: 1px; left: 1px;
+        width: 26px; height: 26px;
+        background-color: transparent;
+        border-radius: 50%; box-shadow: 2px 4px 6px rgba(0,0,0,0.2);
+      }
+      &:checked {
+        border-color: var(--color-primary);
+        box-shadow: inset 20px 0 0 0 var(--color-primary);
+      }
+      &:checked:after {
+        left: 20px;
+        box-shadow: -2px 4px 3px rgba(0,0,0,0.05);
+      }
+    }
+  }
+}
+input, select, label.checkbox span, textarea {
   border: none;
+  color: var(--color);
+  background: transparent;
+  width: 100%;
   border-radius: 1.25em;
   padding: .5em 1em;
-  margin: 0 0 1em 0;
   display: block;
+}
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button  {
+  -webkit-appearance: none;
+  margin: 0;
+}
+input[type="number"] {
+  -moz-appearance:textfield;
 }
 select {
   padding: .5em 0;

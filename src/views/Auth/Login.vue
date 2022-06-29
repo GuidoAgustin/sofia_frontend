@@ -1,7 +1,7 @@
 <template>
   <div class="d-flex align-items-center justify-content-center h-100">
     <div class="card mx-4">
-      <div class="card-header text-center">
+      <div class="card-header text-center px-4">
         <img src="/img/logo.jpg" alt="Logo" class="brand-logo mt-4 mt-md-0" />
         <h3>Bienvenido a APPNAME!</h3>
         <p>Por favor Logeá para continuar.</p>
@@ -10,7 +10,13 @@
         <input type="text" placeholder="Email" />
         <input type="password" placeholder="Password" />
 
-        <button class="btn btn-primary btn-block">Log In</button>
+        <router-link
+          tag="button"
+          to="/dashboard"
+          class="btn btn-primary btn-block"
+        >
+          Log In
+        </router-link>
       </div>
     </div>
   </div>

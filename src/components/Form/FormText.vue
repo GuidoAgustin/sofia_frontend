@@ -1,7 +1,12 @@
 <template>
   <div class="form-container" :class="{ disabled }">
     <i class="icon" :class="icon" v-if="icon"></i>
-    <input type="text" placeholder=" " :id="itemId" v-model="result" />
+    <input
+      :type="password ? 'password' : 'text'"
+      placeholder=" "
+      :id="itemId"
+      v-model="result"
+    />
     <label :for="itemId">{{ label }}</label>
   </div>
 </template>
@@ -22,6 +27,10 @@ export default {
       default: null,
     },
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    password: {
       type: Boolean,
       default: false,
     },

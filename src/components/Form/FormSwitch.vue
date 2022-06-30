@@ -1,5 +1,5 @@
 <template>
-  <div class="form-container form-switch" :class="{ disabled }">
+  <div class="form-container form-switch" :class="{ disabled, small }">
     <i class="icon" :class="icon" v-if="icon"></i>
     <input type="checkbox" :id="itemId" v-model="result" />
     <label :for="itemId">{{ label }}</label>
@@ -10,7 +10,7 @@
 export default {
   props: {
     modelValue: {
-      type: String,
+      type: Boolean,
       default: null,
     },
     label: {
@@ -22,6 +22,10 @@ export default {
       default: null,
     },
     disabled: {
+      type: Boolean,
+      default: false,
+    },
+    small: {
       type: Boolean,
       default: false,
     },

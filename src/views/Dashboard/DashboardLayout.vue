@@ -26,5 +26,15 @@ export default {
     Sidebar,
     Topbar,
   },
+  beforeMount() {
+    this.$store.dispatch("setCredentials");
+    const isLoggedIn = this.$store.getters.isLoggedIn;
+
+    if (!isLoggedIn) {
+      this.$router.push("/login");
+    } else {
+      // this.$store.dispatch("getUnreadNotifications");
+    }
+  },
 };
 </script>

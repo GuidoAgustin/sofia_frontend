@@ -4,8 +4,10 @@
     :class="{ disabled }"
     @click="launchFilePicker"
   >
-    <label>{{ label }}</label>
-    <button class="btn btn-primary btn-block">Subir {{ label }}</button>
+    <slot>
+      <label>{{ label }}</label>
+      <button class="btn btn-primary btn-block">Subir {{ label }}</button>
+    </slot>
     <input type="file" @change="fileSelected" ref="fileInput" />
   </div>
 </template>

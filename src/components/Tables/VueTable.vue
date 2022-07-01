@@ -458,11 +458,18 @@ th {
 
 .btn-group {
   margin: 5px 1px !important;
+  display: flex;
+  gap: 0.25em;
 }
 
 td {
   border-top: none;
   white-space: nowrap;
+  vertical-align: middle !important;
+}
+
+.btn {
+  position: relative;
 }
 
 .btn.btn-sm {
@@ -484,11 +491,12 @@ td {
   color: white;
   padding: 8px 10px;
   border-radius: 0.25rem;
-  top: 25px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: 50%;
+  left: 30px;
+  transform: translate(-100%, -50%);
   opacity: 0;
   transition: ease 0.5s;
+  pointer-events: none;
 }
 
 .v-table-input-container,
@@ -507,6 +515,7 @@ td {
 span:hover .v-table-tooltip {
   opacity: 1;
   transition: ease 0.5s;
+  left: 0;
 }
 
 thead th {

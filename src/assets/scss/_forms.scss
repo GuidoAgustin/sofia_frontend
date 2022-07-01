@@ -176,6 +176,11 @@ label.checkbox {
     display: flex;
     align-items: center;
     justify-content: center;
+
+    &.btn-sm {
+      width: 25px;
+      font-size: .75em;
+    }
   }
 
   &.btn-fixed-width {

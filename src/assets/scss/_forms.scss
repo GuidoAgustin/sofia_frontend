@@ -231,3 +231,17 @@ label.checkbox {
   margin-left: auto;
   margin-right: auto;
 }
+
+.p_func {
+  .page-link {
+    border: 1px solid var(--color-light-shade);
+    padding: .5em 1em;
+    transition: .25s ease;
+
+    &:hover {
+      background: var(--color-primary);
+      color: white;
+      transition: .25s ease;
+    }
+  }
+}

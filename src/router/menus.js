@@ -19,6 +19,11 @@ export default [
         title: "Forms",
         to: "/forms",
       },
+      {
+        icon: "fa-solid fa-table",
+        title: "Tables",
+        to: "/tables",
+      },
     ],
   },
   {

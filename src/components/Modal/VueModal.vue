@@ -59,14 +59,16 @@ export default {
   mounted() {
     setTimeout(() => (this.open = true), 100);
     document.body.classList.add("no-scrollable");
+
+    document.querySelector(".sidebar").style.zIndex = 0;
   },
   unmounted() {
     document.removeEventListener("keydown", escapeHandler);
+    document.body.classList.remove("no-scrollable");
+    document.querySelector(".sidebar").style.zIndex = 3;
   },
   methods: {
     close() {
-      document.body.classList.remove("no-scrollable");
-
       this.$emit("close");
     },
   },

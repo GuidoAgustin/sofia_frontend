@@ -26,6 +26,10 @@ const routes = [
         component: () => import("@/views/UI/Tables.vue"),
       },
       {
+        path: "modals",
+        component: () => import("@/views/UI/Modals.vue"),
+      },
+      {
         path: "opciones",
         component: () => import("@/views/Dashboard/Options.vue"),
       },

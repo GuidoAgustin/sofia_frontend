@@ -24,6 +24,11 @@ export default [
         title: "Tables",
         to: "/tables",
       },
+      {
+        icon: "fa-solid fa-table",
+        title: "Modals",
+        to: "/modals",
+      },
     ],
   },
   {

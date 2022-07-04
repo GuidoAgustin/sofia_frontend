@@ -17,7 +17,7 @@ export default {
   },
   props: {
     modelValue: {
-      type: [String],
+      type: String,
       default: null,
     },
     disabled: {
@@ -59,7 +59,7 @@ export default {
     },
   },
   mounted() {
-    this.resultHtml = this.value;
+    this.resultHtml = this.modelValue;
   },
 };
 </script>

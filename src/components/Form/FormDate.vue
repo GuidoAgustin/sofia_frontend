@@ -65,11 +65,9 @@ export default {
     },
   },
   watch: {
-    value: {
+    modelValue: {
       immediate: true,
       handler(val) {
-        // console.log('value received', val);
-
         let newDate = null;
         if (val && val instanceof moment) {
           newDate = val;
@@ -112,7 +110,7 @@ export default {
     date: {
       immediate: true,
       handler(value) {
-        if (!value) this.$emit("input", null);
+        if (!value) this.$emit("update:modelValue", null);
         else {
           const newEmitting = moment(value);
 
@@ -123,8 +121,7 @@ export default {
             !(this.value instanceof moment) ||
             !newEmitting.isSame(this.value)
           ) {
-            this.$emit("input", newEmitting);
-            // console.log('emitting new value');
+            this.$emit("update:modelValue", newEmitting);
           }
         }
       },

@@ -83,6 +83,14 @@
     }
   }
 }
+.trumbowyg-box {
+  border-radius: 1.25em;
+
+  .trumbowyg-button-pane {
+    border-top-right-radius: 1.25em;
+    border-top-left-radius: 1.25em;
+  }
+}
 input, select, label.checkbox span, textarea {
   border: none;
   color: var(--color);

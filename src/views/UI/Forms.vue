@@ -88,6 +88,14 @@
         <p>Value: {{ switched }}</p>
       </Widget>
     </div>
+    <div class="col-md-4">
+      <Widget>
+        <template #title>Form HTML</template>
+
+        <FormHtml v-model="html" label="HTML" />
+        <p>Value: {{ html }}</p>
+      </Widget>
+    </div>
   </div>
 </template>
 
@@ -99,6 +107,7 @@ import FormSelect from "@/components/Form/FormSelect.vue";
 import FormUploader from "@/components/Form/FormUploader.vue";
 import FormDate from "@/components/Form/FormDate.vue";
 import FormSwitch from "@/components/Form/FormSwitch.vue";
+import FormHtml from "@/components/Form/FormHtml.vue";
 
 export default {
   components: {
@@ -109,9 +118,11 @@ export default {
     FormUploader,
     FormDate,
     FormSwitch,
+    FormHtml,
   },
   data: () => ({
     number: null,
+    html: null,
     text: null,
     selOpt: null,
     selFile: null,

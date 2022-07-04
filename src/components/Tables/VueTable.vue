@@ -461,6 +461,7 @@ th {
   margin: 5px 1px !important;
   display: flex;
   gap: 0.25em;
+  justify-content: flex-end;
 }
 
 td {

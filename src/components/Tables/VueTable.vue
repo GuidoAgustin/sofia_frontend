@@ -405,6 +405,7 @@ export default {
     },
 
     dateFormatting(date, format, fromFormat = null) {
+      if (!date || date === "-") return "-";
       let d = date;
       if (!(date instanceof moment)) {
         if (fromFormat) d = moment(date, fromFormat, true);

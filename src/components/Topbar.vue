@@ -1,8 +1,10 @@
 <template>
   <div class="topbar">
     <ul class="topbar-buttons">
-      <li>
-        <i class="fa-solid fa-power-off" @click="$store.dispatch('logout')"></i>
+      <li><i class="fa-solid fa-bell"></i></li>
+      <li><i class="fa-solid fa-gear"></i></li>
+      <li @click="$store.dispatch('logout')">
+        <i class="fa-solid fa-power-off"></i>
       </li>
     </ul>
   </div>

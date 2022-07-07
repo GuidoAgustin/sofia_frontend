@@ -1,5 +1,5 @@
 import axios from "axios";
-import $router from "../router";
+import $router from "../router/index";
 
 const baseUrl = process.env.VUE_APP_BACKEND_URL;
 
@@ -22,12 +22,11 @@ export default {
   },
   actions: {
     setCredentials({ commit }) {
-      commit("SET_TOKEN", localStorage.getItem("token") || null);
+      commit("SET_TOKEN", localStorage.getItem("token"));
       commit("SET_USER", JSON.parse(localStorage.getItem("user")));
     },
     login({ commit }, form) {
       commit("SHOW_LOADER");
-
       return new Promise((resolve) => {
         axios
           .post(baseUrl + "login", form)
@@ -39,7 +38,6 @@ export default {
               localStorage.removeItem("default_email");
               localStorage.removeItem("default_pw");
             }
-            console.log(data.data);
             commit("SET_TOKEN", data.data.token);
             commit("SET_USER", data.data.user);
             resolve();
@@ -51,8 +49,9 @@ export default {
       });
     },
     logout({ commit }) {
-      console.log("logout");
       return new Promise((resolve) => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("user");
         commit("SET_TOKEN", null);
         commit("SET_USER", null);
         $router.push("/login");

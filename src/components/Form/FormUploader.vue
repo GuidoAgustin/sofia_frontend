@@ -1,12 +1,10 @@
 <template>
-  <div
-    class="form-container form-uploader"
-    :class="{ disabled }"
-    @click="launchFilePicker"
-  >
+  <div :class="{ disabled }" @click="launchFilePicker">
     <slot>
-      <label>{{ label }}</label>
-      <button class="btn btn-primary btn-block">Subir {{ label }}</button>
+      <div class="form-container form-uploader">
+        <label>{{ label }}</label>
+        <button class="btn btn-primary btn-block">Subir {{ label }}</button>
+      </div>
     </slot>
     <input type="file" @change="fileSelected" ref="fileInput" />
   </div>
@@ -43,7 +41,7 @@ export default {
     },
     tooBigErrorMsg: {
       type: String,
-      default: "The file max size is {maxSize} MB",
+      default: "El archivo no puede pesar mas de {maxSize}MB",
     },
   },
   computed: {
@@ -86,7 +84,7 @@ export default {
             !uploadedFile.type.match("image.*")
           ) {
             // check whether the upload is an image
-            this.$emit("error", "The file uploaded is not an image");
+            this.$toast.error("El archivo no es una imagen");
             return;
           }
           if (
@@ -94,7 +92,7 @@ export default {
             !uploadedFile.type.match("application/pdf")
           ) {
             // check whether the upload is an image
-            this.$emit("error", "The file uploaded is not a PDF");
+            this.$toast.error("El archivo no es un PDF");
             return;
           }
         } else if (
@@ -102,13 +100,13 @@ export default {
           !uploadedFile.type.match("application/pdf")
         ) {
           // check whether the upload is an image
-          this.$emit("error", "The file uploaded is not a PDF or an Image");
+          this.$toast.error("El archivo no es un PDF o una Imagen");
           return;
         }
 
         // check whether the size is greater than the size limit
         if (size > 1) {
-          this.$emit("error", this.tooBigMsg);
+          this.$toast.error(this.tooBigMsg);
         } else {
           this.$emit("update:modelValue", uploadedFile);
           this.$emit("onChange", {

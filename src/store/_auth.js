@@ -10,11 +10,13 @@ export default {
   }),
   mutations: {
     SET_TOKEN(state, value) {
-      localStorage.setItem("token", value);
+      if (value) localStorage.setItem("token", value);
+      else localStorage.removeItem("token");
       state.token = value;
     },
     SET_USER(state, value) {
-      localStorage.setItem("user", JSON.stringify(value));
+      if (value) localStorage.setItem("user", JSON.stringify(value));
+      else localStorage.removeItem("user");
       state.user = value;
     },
   },
@@ -49,6 +51,7 @@ export default {
       });
     },
     logout({ commit }) {
+      console.log("logout");
       return new Promise((resolve) => {
         commit("SET_TOKEN", null);
         commit("SET_USER", null);

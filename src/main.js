@@ -5,6 +5,7 @@ import store from "./store";
 import VCalendar from "v-calendar";
 import toast from "./utils/toast";
 import alert from "./utils/alert";
+import errorHandler from "./utils/errorHandler";
 import VueTables from "./components/Tables";
 import VueModal from "./components/Modal";
 
@@ -16,6 +17,7 @@ createApp(App)
   .use(router)
   .use(toast)
   .use(alert)
+  .use(errorHandler)
   .use(VCalendar, {})
   .use(VueTables)
   .use(VueModal)

@@ -1,11 +1,19 @@
 <template>
-  <div class="form-container" :class="{ disabled }">
+  <div class="form-container" :class="{ disabled, 'form-textarea': textarea }">
     <i class="icon" :class="icon" v-if="icon"></i>
     <input
       :type="password ? 'password' : 'text'"
       placeholder=" "
       :id="itemId"
       v-model="result"
+      v-if="!textarea"
+    />
+    <textarea
+      placeholder=" "
+      :rows="textareaRows"
+      :id="itemId"
+      v-model="result"
+      v-else
     />
     <label :for="itemId">{{ label }}</label>
   </div>
@@ -33,6 +41,14 @@ export default {
     password: {
       type: Boolean,
       default: false,
+    },
+    textarea: {
+      type: Boolean,
+      default: false,
+    },
+    textareaRows: {
+      type: Number,
+      default: 5,
     },
   },
   data: () => ({

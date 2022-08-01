@@ -1,24 +1,32 @@
-# farena_admin_panel
+# QUARTZ Admin Panel
 
-## Project setup
+## Pasos para iniciar proyecto en modo desarrollo
 ```
-npm install
-```
+// Instalamos dependencias
+npm install 
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+// copiamos archivo de variables de entorno
+cp .env.example .env.local 
 
-### Compiles and minifies for production
-```
-npm run build
-```
+// editamos las variables de entorno en .env.local
 
-### Lints and fixes files
-```
-npm run lint
+// compilamos y corremos hot-reload 
+npm start 
 ```
 
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).
+## Pasos para deploy en produccion
+```
+// Instalamos dependencias
+npm install 
+
+// copiamos archivo de variables de entorno
+cp .env.example .env.local 
+
+// editamos las variables de entorno en .env.local
+
+// compilamos archivos y creamos carpeta dist para produccion
+npm run build 
+
+// seteamos apache o nginx para que tome el 
+// proyecto desde la carpeta /dist como carpeta raiz
+```

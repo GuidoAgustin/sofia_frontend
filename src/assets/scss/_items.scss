@@ -1,6 +1,6 @@
 .card {
   background: white;
-  border-radius: .5em;
+  border-radius: 0.5em;
   box-shadow: var(--shadow);
   -webkit-box-shadow: var(--shadow);
   -moz-box-shadow: var(--shadow);
@@ -11,16 +11,16 @@
     -webkit-box-shadow: unset;
     -moz-box-shadow: unset;
   }
-  
+
   .card-header {
-    padding: 1em 1em .5em;
-    background: rgba(255,255,255,.15);
+    padding: 1em 1em 0.5em;
+    background: rgba(255, 255, 255, 0.15);
   }
   .card-body {
-    padding: .5em 1em;
+    padding: 0.5em 1em;
   }
   .card-footer {
-    padding: .5em 1em;
+    padding: 0.5em 1em;
   }
 
   &.widget {
@@ -34,7 +34,7 @@
       box-shadow: var(--shadow);
       -webkit-box-shadow: var(--shadow);
       -moz-box-shadow: var(--shadow);
-      border-radius: .25em;
+      border-radius: 0.25em;
       position: absolute;
       top: -1em;
       color: #fff;
@@ -44,7 +44,7 @@
       left: 50%;
       transform: translateX(-50%);
       width: 90%;
-      padding: .75em 1em;
+      padding: 0.75em 1em;
 
       .widget-icon {
         display: block;
@@ -64,11 +64,41 @@
   }
 }
 
-
 .swiper {
   overflow: visible !important;
 
   .swiper-pagination {
-    bottom: var(--pagination-bottom, -20px) !important;   
+    bottom: var(--pagination-bottom, -20px) !important;
+  }
+}
+
+.tooltip {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 0.25em;
+  padding: 5px 10px;
+  font-weight: 600;
+  font-size: 1em;
+  top: 50%;
+  left: 100%;
+  transform: translate(-50%, -50%) scale(0);
+  white-space: nowrap;
+  pointer-events: none;
+  transition: 0.25s ease;
+  z-index: 100;
+
+  &.toLeft {
+    left: unset;
+    right: 100%;
+    transform: translate(50%, -50%) scale(0);
+  }
+}
+
+.btn:hover .tooltip {
+  transition: 0.25s ease;
+  transform: translate(10%, -50%) scale(1);
+
+  &.toLeft {
+    transform: translate(-10%, -50%) scale(1);
   }
 }

@@ -4,7 +4,7 @@
     :mode="dateTime ? 'dateTime' : 'date'"
     :is24hr="dateTime"
     :masks="masksValues"
-    :popover="{ visibility: disabled ? 'hidden' : 'focus' }"
+    :popover="{ visibility: disabled ? 'hidden' : 'hover-focus' }"
     :disabled-dates="disabledDates"
   >
     <template v-slot="{ inputValue, inputEvents }">
@@ -110,8 +110,10 @@ export default {
     date: {
       immediate: true,
       handler(value) {
-        if (!value) this.$emit("update:modelValue", null);
-        else {
+        if (!value) {
+          this.$emit("update:modelValue", null);
+          this.$emit("change", null);
+        } else {
           const newEmitting = moment(value);
 
           if (!this.dateTime) newEmitting.startOf("day");
@@ -122,6 +124,7 @@ export default {
             !newEmitting.isSame(this.value)
           ) {
             this.$emit("update:modelValue", newEmitting);
+            this.$emit("change", newEmitting);
           }
         }
       },

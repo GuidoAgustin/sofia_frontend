@@ -276,4 +276,9 @@ export default {
   justify-content: center;
   margin-bottom: 0;
 }
+
+.p_func .disabled {
+  pointer-events: none;
+  opacity: 0.5;
+}
 </style>

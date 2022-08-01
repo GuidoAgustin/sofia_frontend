@@ -11,6 +11,7 @@ import VueModal from "./components/Modal";
 
 import "v-calendar/dist/style.css";
 import "./assets/scss/styles.scss";
+import "./components/Tables/utils/ucwords";
 
 createApp(App)
   .use(store)
@@ -20,6 +21,5 @@ createApp(App)
   .use(errorHandler)
   .use(VCalendar, {})
   .use(VueTables)
-  .use(VueModal)
   .use(VueModal)
   .mount("#app");

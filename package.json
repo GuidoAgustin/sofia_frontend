@@ -11,8 +11,9 @@
   "dependencies": {
     "axios": "^0.27.2",
     "core-js": "^3.6.5",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "sweetalert2": "^11.4.19",
+    "trumbowyg": "^2.25.1",
     "v-calendar": "^3.0.0-alpha.8",
     "vue": "^3.0.0",
     "vue-router": "^4.0.0-0",

@@ -6,14 +6,14 @@
       @keypress.esc="showContent = false"
       tabindex="0"
     >
-      <transition name="modal" @after-leave="close">
+      <transition name="modal" @after-leave="endClose">
         <div class="vue-modal-dialog" :class="modalSize" v-if="showContent">
           <div class="vue-modal-content">
             <div class="modal-header">
               <h5 class="modal-title">
                 <slot name="title"></slot>
               </h5>
-              <button type="button" class="close" @click="showContent = false">
+              <button type="button" class="close" @click="close">
                 <span aria-hidden="true">&times;</span>
               </button>
             </div>
@@ -31,12 +31,6 @@
 </template>
 
 <script>
-const escapeHandler = (e) => {
-  if (e.key === "Escape" && this.showContent) {
-    this.showContent = false;
-  }
-};
-
 export default {
   data() {
     return {
@@ -54,7 +48,7 @@ export default {
     },
   },
   created() {
-    document.addEventListener("keydown", escapeHandler);
+    document.addEventListener("keydown", this.escapeHandler);
   },
   mounted() {
     setTimeout(() => (this.open = true), 100);
@@ -63,12 +57,20 @@ export default {
     document.querySelector(".sidebar").style.zIndex = 0;
   },
   unmounted() {
-    document.removeEventListener("keydown", escapeHandler);
+    document.removeEventListener("keydown", this.escapeHandler);
     document.body.classList.remove("no-scrollable");
     document.querySelector(".sidebar").style.zIndex = 3;
   },
   methods: {
+    escapeHandler(e) {
+      if (e.key === "Escape" && this.showContent) {
+        this.showContent = false;
+      }
+    },
     close() {
+      this.showContent = false;
+    },
+    endClose() {
       this.$emit("close");
     },
   },

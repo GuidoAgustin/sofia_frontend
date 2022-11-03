@@ -112,6 +112,34 @@ export default {
           });
       });
     },
+
+    updateProfile({ commit, getters, dispatch }, form) {
+      commit("SHOW_LOADER");
+      return new Promise((resolve) => {
+        axios
+          .put(
+            baseUrl + "profile",
+            {
+              email: getters.user.email,
+              ...form,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${getters.token}`,
+              },
+            }
+          )
+          .then(({ data }) => {
+            this.$toast.success(data.data);
+            dispatch("logout");
+            resolve();
+          })
+          .catch(this.$errorHandler)
+          .finally(() => {
+            commit("HIDE_LOADER");
+          });
+      });
+    },
   },
   getters: {
     isLoggedIn(state) {

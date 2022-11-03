@@ -50,7 +50,7 @@ export default {
   }),
   methods: {
     savePassword() {
-      console.log(this.form);
+      this.$store.dispatch("updateProfile", this.form);
     },
   },
 };

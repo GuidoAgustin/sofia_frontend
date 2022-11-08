@@ -98,6 +98,41 @@
       padding-left: 2.5em;
     }
   }
+
+  &.form-autocomplete {
+    small {
+      position: absolute;
+      bottom: -20px;
+      left: 1em;
+      color: var(--color-danger);
+    }
+    ul.search_results {
+      list-style: none;
+      margin: 0;
+      padding: 0;
+      background: var(--color-light);
+      box-shadow: var(--shadow);
+      -moz-box-shadow: var(--shadow);
+      -webkit-box-shadow: var(--shadow);
+      border: 1px solid #ccc;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 40px;
+      z-index: 1000;
+      max-height: 150px;
+      overflow-y: auto;
+
+      li {
+        padding: 0.25em 0.5em;
+        cursor: pointer;
+
+        &:hover {
+          background: var(--color-light-shade);
+        }
+      }
+    }
+  }
 }
 .trumbowyg-box {
   border-radius: 1.25em;

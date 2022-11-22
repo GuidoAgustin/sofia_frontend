@@ -1,79 +1,71 @@
 <template>
-  <div class="p_func">
-    <div class="flex-row">
-      <div class="p_func_item">
-        <div class="flex-row">
-          <label>Mostrar</label>
-          <select
-            v-model="showing"
-            class="form-control"
-            style="min-width: 50px"
-            @change="changeShowing"
-          >
-            <option value="10">10</option>
-            <option value="50">50</option>
-            <option value="100">100</option>
-          </select>
-          <label>Items</label>
-        </div>
-      </div>
-      <div class="p_func_item">
-        <input
-          v-if="searchable"
-          type="text"
-          placeholder="Buscar..."
-          class="form-control"
-          @change="search"
-        />
-      </div>
+  <div class="v-table-pf">
+    <div class="v-table-pf-show">
+      <label>Mostrar</label>
+      <select
+        v-model="showing"
+        class="form-control"
+        style="min-width: 50px"
+        @change="changeShowing"
+      >
+        <option value="10">10</option>
+        <option value="50">50</option>
+        <option value="100">100</option>
+      </select>
+      <label>Items</label>
     </div>
-    <div class="flex-row">
-      <div class="p_func_item">
-        <div>
-          <ul class="flex-row">
-            <li
-              class="page-item-desktop"
-              :class="current_page - 1 === 0 ? 'disabled' : ''"
-              @click.prevent="changePage(1)"
-            >
-              <a class="page-link" href="#">Primera</a>
-            </li>
-            <li
-              v-for="page in pages_list"
-              :key="page.number"
-              class="page-item-desktop"
-              :class="current_page === page.number ? 'active' : ''"
-              @click.prevent="changePage(page.number)"
-            >
-              <a class="page-link" href="#">{{ page.number }}</a>
-            </li>
-            <li
-              class="page-item-desktop"
-              :class="
-                !lastPage || current_page + 1 > lastPage ? 'disabled' : ''
-              "
-              @click.prevent="changePage(lastPage)"
-            >
-              <a class="page-link" href="#">Última</a>
-            </li>
 
-            <li
-              class="page-item-mobile"
-              :class="current_page - 1 === 0 ? 'disabled' : ''"
-              @click.prevent="changePage(current_page - 1)"
-            >
-              <a class="page-link" href="#">Anterior</a>
-            </li>
-            <li
-              class="page-item-mobile"
-              :class="current_page + 1 > lastPage ? 'disabled' : ''"
-              @click.prevent="changePage(current_page + 1)"
-            >
-              <a class="page-link" href="#">Siguiente</a>
-            </li>
-          </ul>
-        </div>
-      </div>
+    <div class="v-table-pf-pager">
+      <ul class="flex-row">
+        <li
+          class="page-item-desktop"
+          :class="current_page - 1 === 0 ? 'disabled' : ''"
+          @click.prevent="changePage(1)"
+        >
+          <a class="page-link" href="#">Primera</a>
+        </li>
+        <li
+          v-for="page in pages_list"
+          :key="page.number"
+          class="page-item-desktop"
+          :class="current_page === page.number ? 'active' : ''"
+          @click.prevent="changePage(page.number)"
+        >
+          <a class="page-link" href="#">{{ page.number }}</a>
+        </li>
+        <li
+          class="page-item-desktop"
+          :class="!lastPage || current_page + 1 > lastPage ? 'disabled' : ''"
+          @click.prevent="changePage(lastPage)"
+        >
+          <a class="page-link" href="#">Última</a>
+        </li>
+
+        <li
+          class="page-item-mobile"
+          :class="current_page - 1 === 0 ? 'disabled' : ''"
+          @click.prevent="changePage(current_page - 1)"
+        >
+          <a class="page-link" href="#">Anterior</a>
+        </li>
+        <li
+          class="page-item-mobile"
+          :class="current_page + 1 > lastPage ? 'disabled' : ''"
+          @click.prevent="changePage(current_page + 1)"
+        >
+          <a class="page-link" href="#">Siguiente</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="v-table-pf-search">
+      <input
+        v-if="searchable"
+        type="text"
+        placeholder="Buscar..."
+        class="form-control"
+        @change="search"
+      />
     </div>
   </div>
 </template>
@@ -181,104 +173,111 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.flex-row {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  padding: 3px 0;
-}
-.p_func {
-  margin: 30px 0;
+.v-table-pf {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  grid-auto-rows: minmax(50px, auto);
+  grid-template-areas:
+    "show"
+    "search"
+    "pager";
+  align-items: center;
+  gap: 0.5em;
+  margin-bottom: 1em;
+  font-size: 0.9em;
 
-  &_item {
-    flex-grow: 1;
-    text-align: center;
+  &-show {
+    grid-area: show;
+    display: flex;
+    gap: 0.25em;
+    align-items: center;
+    justify-content: center;
+
+    label {
+      margin: 0;
+    }
+    select {
+      max-width: 150px;
+      display: block;
+    }
+  }
+  &-search {
+    grid-area: search;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 
     input {
       max-width: 300px;
       display: block;
-      margin-left: auto;
     }
-
-    > .flex-row {
-      align-items: flex-end;
-
-      select {
-        flex: 1;
-        margin: 0 15px;
-        max-width: 200px;
-      }
-
-      label:last-child {
-        margin-right: auto;
-      }
-    }
+  }
+  &-pager {
+    grid-area: pager;
 
     ul {
       list-style: none;
       margin: 0;
       padding: 0;
+      display: flex;
+      gap: 0.25em;
+      align-items: center;
+      justify-content: center;
     }
 
-    @media (max-width: 767px) {
-      flex-grow: 0;
-      width: 100%;
+    .page-item {
+      &-mobile {
+        display: none;
 
-      input {
-        margin: auto;
+        @media (max-width: 767px) {
+          display: block;
+        }
       }
+      &-desktop {
+        display: block;
 
-      > .flex-row label:last-child {
-        margin: unset;
+        @media (max-width: 767px) {
+          display: none;
+        }
+      }
+    }
+    .page-link {
+      text-align: center;
+      border-radius: 4em;
+      color: black;
+      text-decoration: none;
+      border: 1px solid var(--color-light-shade);
+      padding: 0.5em 1em;
+      transition: 0.25s ease;
+
+      &:hover {
+        background: var(--color-primary);
+        color: white;
+        transition: 0.25s ease;
       }
     }
   }
-}
-.page-item {
-  &-mobile {
-    display: none;
 
-    @media (max-width: 767px) {
-      display: block;
+  .disabled {
+    pointer-events: none;
+    opacity: 0.5;
+  }
+
+  @media (min-width: 450px) {
+    font-size: 1em;
+  }
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-areas:
+      "show . search"
+      "pager pager pager";
+
+    &-show {
+      justify-content: flex-start;
+    }
+    &-search {
+      justify-content: flex-end;
     }
   }
-  &-desktop {
-    display: block;
-
-    @media (max-width: 767px) {
-      display: none;
-    }
-  }
-}
-
-.page-link {
-  min-width: 2.6em;
-  margin-right: 0.5em;
-  text-align: center;
-  border-radius: 4em;
-  color: black;
-  text-decoration: none;
-}
-
-.page-item:first-child .page-link {
-  margin-left: 0;
-}
-
-.page-item:first-child .page-link,
-.page-item:last-child .page-link {
-  margin-left: 0;
-  border-radius: 4rem;
-}
-
-.form-inline label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 0;
-}
-
-.p_func .disabled {
-  pointer-events: none;
-  opacity: 0.5;
 }
 </style>

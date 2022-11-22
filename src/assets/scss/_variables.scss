@@ -1,37 +1,48 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;800&display=swap");
 
 $custom-theme-colors: () !default;
 $custom-theme-colors: map-merge(
   (
-    'primary-tint':     #ffaa48,
-    'primary':          #ff9928,
-    'primary-shade':    #da8019,
-    'primary-50':       #ff9b2850,
-    'primary-25':       #ff9b2825,
+    "primary": #ff9928,
+    "primary-text": #fff,
+    "primary-tint": #ffaa48,
+    "primary-shade": #da8019,
+    "primary-50": #ff9b2850,
+    "primary-25": #ff9b2825,
 
-    'secondary-tint':   #6cd0ff,
-    'secondary':        #3dc2ff,
-    'secondary-shade':  #2a9bcf,
-    
-    'light':            #f5f5f9,
-    'light-shade':      #f0ebe8,
+    "secondary-tint": #6cd0ff,
+    "secondary": #3dc2ff,
+    "secondary-text": #fff,
+    "secondary-shade": #2a9bcf,
 
-    'medium-tint':      #ADB3BB,
-    'medium':           #697a8d,
-    'medium-shade':     #506072,
-    
-    'dark-tint':        #373737,
-    'dark':             #2C2C2C,
-    'dark-shade':       #202020,
+    "transparent": transparent,
+    "transparent-text": #697a8d,
 
-    'danger':           #e14319,
-    'success':          #6abb45,
-    'info':             #7ad7e4,
-    'warning':          #dbbb4f,
+    "light": #f5f5f9,
+    "light-text": #000,
+    "light-shade": #f0ebe8,
+
+    "medium-tint": #adb3bb,
+    "medium": #697a8d,
+    "medium-text": #000,
+    "medium-shade": #506072,
+
+    "dark-tint": #373737,
+    "dark": #2c2c2c,
+    "dark-text": #fff,
+    "dark-shade": #202020,
+
+    "danger": #e14319,
+    "danger-text": #fff,
+    "success": #6abb45,
+    "success-text": #fff,
+    "info": #7ad7e4,
+    "info-text": #fff,
+    "warning": #dbbb4f,
+    "warning-text": #fff,
   ),
   $custom-theme-colors
 );
-
 
 $custom-sizes: () !default;
 $custom-sizes: map-merge(
@@ -48,9 +59,8 @@ $custom-sizes: map-merge(
   $custom-sizes
 );
 
-
 :root {
-  --font-family: 'Poppins', sans-serif;
+  --font-family: "Poppins", sans-serif;
 
   @each $color, $value in $custom-theme-colors {
     --color-#{$color}: #{$value};
@@ -59,8 +69,8 @@ $custom-sizes: map-merge(
   --body-bg: var(--color-light);
   --body-text: var(--color-medium);
   --shadow: 0 0 10px 0 rgb(67 89 113 / 12%);
-  
+
   --sidebar-closed-width: calc(40px + 2em);
   --sidebar-open-width: 250px;
-  --topbar-height: 45px;
+  --topbar-height: 72px;
 }

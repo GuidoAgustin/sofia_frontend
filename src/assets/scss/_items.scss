@@ -30,6 +30,7 @@
     height: calc(100% - 1.5em);
 
     .card-header {
+      height: 65px;
       background: #fff;
       border-top-left-radius: 0.25em;
       border-top-right-radius: 0.25em;
@@ -74,6 +75,7 @@
 
 .tooltip {
   position: absolute;
+  color: #fff;
   background-color: rgba(0, 0, 0, 0.75);
   border-radius: 0.25em;
   padding: 5px 10px;

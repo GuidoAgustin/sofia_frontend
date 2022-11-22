@@ -17,6 +17,7 @@
           password
           icon="fa-solid fa-fingerprint"
           v-model="form.password"
+          @keyup.enter="signIn"
         />
         <FormSwitch label="Recordarme" v-model="form.remember" small />
 

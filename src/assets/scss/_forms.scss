@@ -225,6 +225,11 @@ label.checkbox {
   }
 }
 
+.btn-group {
+  display: flex;
+  gap: 0.25em;
+}
+
 .btn {
   border: none;
   border-radius: 1.25em;

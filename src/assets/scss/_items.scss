@@ -30,21 +30,14 @@
     height: calc(100% - 1.5em);
 
     .card-header {
-      background: var(--color-primary);
-      box-shadow: var(--shadow);
-      -webkit-box-shadow: var(--shadow);
-      -moz-box-shadow: var(--shadow);
-      border-radius: 0.25em;
-      position: absolute;
-      top: -1em;
-      color: #fff;
+      background: #fff;
+      border-top-left-radius: 0.25em;
+      border-top-right-radius: 0.25em;
       align-items: center;
       display: flex;
       align-items: center;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
       padding: 0.75em 1em;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 
       .widget-icon {
         display: block;
@@ -54,9 +47,16 @@
         font-size: 1.25em;
         margin: 0;
       }
-    }
-    .card-header + .card-body {
-      padding-top: 3.25em;
+
+      .buttons {
+        display: flex;
+        gap: 0.5em;
+
+        .btn {
+          font-size: 0.9em;
+          white-space: nowrap;
+        }
+      }
     }
     .card-body {
       flex-grow: 1;

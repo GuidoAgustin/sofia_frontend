@@ -4,7 +4,7 @@
     :mode="dateTime ? 'dateTime' : 'date'"
     :is24hr="dateTime"
     :masks="masksValues"
-    :popover="{ visibility: disabled ? 'hidden' : 'hover-focus' }"
+    :popover="{ visibility: disabled ? 'hidden' : 'focus' }"
     :disabled-dates="disabledDates"
   >
     <template v-slot="{ inputValue, inputEvents }">

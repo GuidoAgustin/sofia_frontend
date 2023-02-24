@@ -3,7 +3,9 @@
     <slot>
       <div class="form-container form-uploader">
         <label>{{ label }}</label>
-        <button class="btn btn-primary btn-block">Subir {{ label }}</button>
+        <button class="btn btn-primary btn-sm btn-block">
+          {{ buttonText }}
+        </button>
       </div>
     </slot>
     <input type="file" @change="fileSelected" ref="fileInput" />
@@ -21,6 +23,10 @@ export default {
       type: String,
       default: "File",
     },
+    buttonText: {
+      type: String,
+      default: "Upload File",
+    },
     maxSize: {
       type: Number,
       default() {
@@ -32,6 +38,14 @@ export default {
       default: false,
     },
     imageType: {
+      type: Boolean,
+      default: false,
+    },
+    videoType: {
+      type: Boolean,
+      default: false,
+    },
+    xlsType: {
       type: Boolean,
       default: false,
     },
@@ -54,12 +68,72 @@ export default {
       }
       return this.tooBigErrorMsg;
     },
-    acceptedType() {
-      if (this.imageType || this.pdfType) {
-        return this.imageType ? "image" : "pdf";
+    acceptedTypes() {
+      if (
+        !this.imageType &&
+        !this.pdfType &&
+        !this.videoType &&
+        !this.xlsType
+      ) {
+        return [
+          {
+            accepted: true,
+            mime: "image.*",
+            error: "una Imagen",
+          },
+          {
+            accepted: true,
+            mime: "application/pdf",
+            error: "un PDF",
+          },
+          {
+            accepted: true,
+            mime: "video.*",
+            error: "un Video",
+          },
+          {
+            accepted: true,
+            mime: "sheet",
+            error: "un XLS",
+          },
+        ];
       }
 
-      return null;
+      let types = [];
+
+      if (this.imageType) {
+        types.push({
+          accepted: true,
+          mime: "image.*",
+          error: "una Imagen",
+        });
+      }
+
+      if (this.pdfType) {
+        types.push({
+          accepted: true,
+          mime: "application/pdf",
+          error: "un PDF",
+        });
+      }
+
+      if (this.videoType) {
+        types.push({
+          accepted: true,
+          mime: "video.*",
+          error: "un Video",
+        });
+      }
+
+      if (this.xlsType) {
+        types.push({
+          accepted: true,
+          mime: "sheet",
+          error: "un XLS",
+        });
+      }
+
+      return types;
     },
   },
   methods: {
@@ -68,53 +142,53 @@ export default {
       this.$refs.fileInput.click();
     },
     fileSelected(evt) {
-      // const fieldName = evt.target.name;
-      const file = evt.target.files;
-      const { maxSize } = this;
+      if (!evt.target.files.length) return;
 
-      // check if user actually selected a file
-      if (file.length > 0) {
-        const uploadedFile = file[0];
-        const size = uploadedFile.size / maxSize / maxSize;
+      const uploadedFile = evt.target.files[0];
 
-        // Check file type
-        if (this.acceptedType) {
-          if (
-            this.acceptedType === "image" &&
-            !uploadedFile.type.match("image.*")
-          ) {
-            // check whether the upload is an image
-            this.$toast.error("El archivo no es una imagen");
-            return;
-          }
-          if (
-            this.acceptedType === "pdf" &&
-            !uploadedFile.type.match("application/pdf")
-          ) {
-            // check whether the upload is an image
-            this.$toast.error("El archivo no es un PDF");
-            return;
-          }
-        } else if (
-          !uploadedFile.type.match("image.*") &&
-          !uploadedFile.type.match("application/pdf")
-        ) {
-          // check whether the upload is an image
-          this.$toast.error("El archivo no es un PDF o una Imagen");
-          return;
-        }
+      // Check file type
+      if (!this.checkFileType(uploadedFile.type)) return;
 
-        // check whether the size is greater than the size limit
-        if (size > 1) {
-          this.$toast.error(this.tooBigMsg);
+      // check whether the size is greater than the size limit
+      if (!this.checkFileSize(uploadedFile.size)) return;
+
+      this.$emit("update:modelValue", uploadedFile);
+      this.$emit("onChange", {
+        file: uploadedFile,
+        url: URL.createObjectURL(uploadedFile),
+      });
+    },
+
+    // check type match with at least 1 of the accepted mimetypes
+    checkFileType(type) {
+      let valid = false;
+      let errors = [];
+
+      console.log(type);
+
+      for (const acceptedType of this.acceptedTypes) {
+        if (!type.match(acceptedType.mime)) {
+          errors.push(acceptedType.error);
         } else {
-          this.$emit("update:modelValue", uploadedFile);
-          this.$emit("onChange", {
-            file: uploadedFile,
-            url: URL.createObjectURL(uploadedFile),
-          });
+          valid = true;
         }
       }
+
+      if (!valid) {
+        this.$toast.error(`El archivo no es ${errors.join(" o ")}`);
+      }
+
+      return valid;
+    },
+    checkFileSize(fileSize) {
+      const size = fileSize / this.maxSize / this.maxSize;
+
+      if (size > 1) {
+        this.$toast.error(this.tooBigMsg);
+        return false;
+      }
+
+      return true;
     },
   },
 };

@@ -1,7 +1,7 @@
 import axios from "axios";
 import $router from "../router/index";
 
-const baseUrl = process.env.VUE_APP_BACKEND_URL;
+const baseUrl = import.meta.env.VITE_BACKEND_URL;
 
 export default {
   state: () => ({

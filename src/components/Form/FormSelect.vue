@@ -1,12 +1,14 @@
 <template>
-  <div class="form-container" :class="{ disabled }">
-    <i class="icon" :class="icon" v-if="icon"></i>
-    <select :id="itemId" v-model="result" :multiple="multiple">
-      <option :value="opt.value" v-for="opt in options" :key="opt.value">
-        {{ opt.name }}
-      </option>
-    </select>
+  <div class="form-container form-select" :class="{ disabled }">
     <label :for="itemId">{{ label }}</label>
+    <div class="form-wrapper">
+      <i class="icon" :class="icon" v-if="icon"></i>
+      <select :id="itemId" v-model="result" :multiple="multiple">
+        <option :value="opt.value" v-for="opt in options" :key="opt.value">
+          {{ opt.name }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 
@@ -15,51 +17,51 @@ export default {
   props: {
     modelValue: {
       type: Number,
-      default: null,
+      default: null
     },
     label: {
       type: String,
-      default: null,
+      default: null
     },
     options: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
     icon: {
       type: String,
-      default: null,
+      default: null
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     multiple: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data: () => ({
-    itemId: null,
+    itemId: null
   }),
   computed: {
     result: {
       get() {
-        return this.modelValue;
+        return this.modelValue
       },
       set(value) {
-        this.$emit("update:modelValue", value !== "" ? value : null);
-      },
-    },
+        this.$emit('update:modelValue', value !== '' ? value : null)
+      }
+    }
   },
   mounted() {
-    this.fillId();
+    this.fillId()
   },
   methods: {
     fillId() {
-      this.itemId = Math.floor(Math.random() * Date.now());
-    },
-  },
-};
+      this.itemId = Math.floor(Math.random() * Date.now())
+    }
+  }
+}
 </script>
 
 <style></style>

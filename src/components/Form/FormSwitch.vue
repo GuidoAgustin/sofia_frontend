@@ -1,6 +1,5 @@
 <template>
   <div class="form-container form-switch" :class="{ disabled, small }">
-    <i class="icon" :class="icon" v-if="icon"></i>
     <input type="checkbox" :id="itemId" v-model="result" />
     <label :for="itemId">{{ label }}</label>
   </div>
@@ -11,47 +10,47 @@ export default {
   props: {
     modelValue: {
       type: Boolean,
-      default: null,
+      default: null
     },
     label: {
       type: String,
-      default: "Nombre",
+      default: 'Nombre'
     },
     icon: {
       type: String,
-      default: null,
+      default: null
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     small: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
   data: () => ({
-    itemId: null,
+    itemId: null
   }),
   computed: {
     result: {
       get() {
-        return this.modelValue;
+        return this.modelValue
       },
       set(value) {
-        this.$emit("update:modelValue", value);
-      },
-    },
+        this.$emit('update:modelValue', value)
+      }
+    }
   },
   mounted() {
-    this.fillId();
+    this.fillId()
   },
   methods: {
     fillId() {
-      this.itemId = Math.floor(Math.random() * Date.now());
-    },
-  },
-};
+      this.itemId = Math.floor(Math.random() * Date.now())
+    }
+  }
+}
 </script>
 
 <style></style>

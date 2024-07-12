@@ -22,7 +22,7 @@
               <slot name="body"></slot>
             </div>
           </div>
-          <div class="modal-footer">
+          <div class="modal-footer" v-if="hasFooter">
             <slot name="footer"></slot>
           </div>
         </div>
@@ -47,6 +47,11 @@ export default {
     position: {
       validator: (value) => ['center', 'left', 'right', 'top', 'bottom'].includes(value),
       default: 'center'
+    }
+  },
+  computed: {
+    hasFooter() {
+      return !!this.$slots.footer
     }
   },
   created() {

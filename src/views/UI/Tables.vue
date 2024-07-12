@@ -10,6 +10,7 @@
       :filters="vTable.filters"
       @changed="getData"
       ref="vtable"
+      @onShowDetails="onShowDetails"
     />
   </Widget>
 </template>
@@ -74,7 +75,14 @@ export default {
         }
       ],
       actions: [
-        /// Go to ACTIONS SECTION for explanation
+        {
+          title: 'Show Details',
+          callback: 'onShowDetails'
+        },
+        {
+          title: 'Delete item',
+          callback: 'onDelete'
+        }
       ],
       values: {
         total: 3,
@@ -114,6 +122,9 @@ export default {
       axios.get('http://localhost:5010/test', {
         params
       })
+    },
+    onShowDetails(item, index) {
+      console.log({ item, index })
     }
   }
 }

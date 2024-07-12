@@ -51,7 +51,8 @@
     &:not(.disabled) {
       &:hover {
         transition: 0.5s ease;
-        color: var(--color-#{$color}-shade);
+        background-color: var(--color-#{$color});
+        color: var(--color-#{$color}-text);
       }
     }
   }

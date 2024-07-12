@@ -18,10 +18,6 @@
             <template v-for="head in visibleHeaders" :key="head.key">
               <th :style="{ width: head.width ? head.width + '%' : 'auto' }">
                 {{ (head.mask || head.title).ucwords() }}
-
-                <button class="hide-btn" v-if="!head.required">
-                  <i class="fa fa-eye" />
-                </button>
               </th>
             </template>
             <th style="width: 1%" />
@@ -97,47 +93,33 @@
                   />
                 </div>
               </template>
-              <template v-else-if="head.callback">
-                {{ head.callback(nestedTitle(item, head.title)) }}
-              </template>
-              <template v-else-if="head.dateFormat">
-                {{
-                  dateFormatting(
-                    nestedTitle(item, head.title),
-                    head.dateFormat,
-                    head.dateFromFormat
-                  )
-                }}
-              </template>
-              <template
-                v-else-if="head.truncate && nestedTitle(item, head.title).length >= head.truncate"
-              >
-                <span :title="nestedTitle(item, head.title)">
-                  {{ nestedTitle(item, head.title).slice(0, head.truncate - 3) + '...' }}
-                </span>
-              </template>
+
               <template v-else>
-                {{ nestedTitle(item, head.title) }}
+                <span v-if="head.htmlFormat === true" v-html="parseValue(item, head)" />
+                <div v-else :title="parseValue(item, head, true)">
+                  <b v-if="head.strong">
+                    {{ parseValue(item, head) }}
+                  </b>
+                  <span v-else>
+                    {{ parseValue(item, head) }}
+                  </span>
+                </div>
               </template>
             </td>
 
             <td style="text-align: right">
-              <div class="btn-group">
-                <button class="btn btn-sm btn-white">
-                  <i class="fa fa-ellipsis"></i>
-                </button>
-                <!-- <template v-for="(act, i) in actions">
+              <VueTableActions v-slot="{ close }">
+                <template v-for="(act, i) in actions">
                   <button
                     v-if="item[act.callback] !== false"
                     :key="i"
-                    class="btn btn-sm"
-                    :class="act.buttonClass"
-                    @click="$emit(act.callback, item, a)"
+                    class="btn btn-block btn-borderless-medium"
+                    @click="actionClicked(act, item, a, close)"
                   >
-                    <i :class="act.icon" />
+                    {{ act.title }}
                   </button>
-                </template> -->
-              </div>
+                </template>
+              </VueTableActions>
             </td>
           </tr>
         </tbody>
@@ -148,7 +130,7 @@
               colspan="1000"
               style="text-align: center"
             >
-              No hay elementos para mostrar.
+              No data to show
             </td>
           </tr>
         </tfoot>
@@ -181,9 +163,8 @@
  * - pagination from laravel (https://laravel.com/docs/5.8/pagination)
  *
  * # ACTIONS
- * - buttonClass
  * - callback
- * - tooltip
+ * - title
  *
  * # FILTERS
  * - title
@@ -206,6 +187,7 @@ import './utils/ucwords'
 import moment from 'moment'
 import VueTableFilters from './VueTableFilters.vue'
 import VueTablePager from './VueTablePager.vue'
+import VueTableActions from './VueTableActions.vue'
 import loader from './loader.vue'
 
 export default {
@@ -213,6 +195,7 @@ export default {
   components: {
     VueTableFilters,
     VueTablePager,
+    VueTableActions,
     loader
   },
   props: {
@@ -235,6 +218,10 @@ export default {
     filters: {
       type: Array,
       default: () => []
+    },
+    truncate: {
+      type: [Number, Boolean],
+      default: 80
     },
     searchMinLen: {
       type: Number,
@@ -399,6 +386,41 @@ export default {
       }
       return d.format(format)
     },
+    parseValue(item, head, full = false) {
+      let result = this.nestedTitle(item, head.title)
+
+      if (head.dateFormat === true && result !== '-') result = this.dateFormat(result)
+      else if (head.dateTimeFormat === true && result !== '-') result = this.dateTimeFormat(result)
+      else if (head.boolean === true) result = head.booleanValues[result === true]
+      else if (head.callback !== undefined) result = head.callback(result)
+
+      if (head.pre) {
+        if (['€', '$'].includes(head.pre)) {
+          if (typeof result === 'number') {
+            result = `${head.pre}${result.toFixed(2).replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}`
+          } else {
+            result = `${head.pre}${parseFloat(result)
+              .toFixed(2)
+              .replace(/(\d)(?=(\d{3})+\.)/g, '$1,')}`
+          }
+        } else result = `${head.pre}${result}`
+      }
+      if (head.after) result = `${result}${head.after}`
+
+      if (full) return result || '-'
+
+      if (head.htmlFormat) {
+        return result
+      }
+
+      if (head.max_chars && result.length > head.max_chars)
+        result = `${result.slice(0, head.max_chars)}...`
+
+      if (this.truncate && result?.length > this.truncate)
+        result = `${result.slice(0, this.truncate)}...`
+
+      return result || '-'
+    },
 
     init() {
       this.$emit('changed', {
@@ -409,65 +431,12 @@ export default {
         filters: null,
         per_page: 10
       })
+    },
+
+    actionClicked(action, item, index, close) {
+      this.$emit(action.callback, item, index)
+      close()
     }
   }
 }
 </script>
-
-<style scoped lang="scss">
-.v-table-responsive-container {
-  width: 100%;
-  overflow: auto;
-  margin-top: 1em;
-
-  table {
-    width: 100%;
-
-    th {
-      font-size: 90%;
-      border: unset !important;
-      font-weight: 500;
-      opacity: 0.6;
-    }
-    td,
-    th {
-      padding: 0.5em 0.7em !important;
-    }
-    td {
-      font-size: 85%;
-      white-space: nowrap;
-      vertical-align: middle !important;
-    }
-
-    .hide-btn {
-      border: none;
-      outline: none;
-      background: transparent;
-      padding: 0;
-      display: none;
-    }
-    .v-table-input-container,
-    .v-table-input-container .v-table-input {
-      margin: 0;
-      width: 100%;
-      height: 100%;
-      border: unset;
-    }
-    .v-table-input-container .v-table-input[type='checkbox'] {
-      width: auto;
-      height: unset;
-    }
-    .btn.btn-sm {
-      padding: 4px;
-      width: 25px;
-      aspect-ratio: 1;
-      display: grid;
-      place-items: center;
-    }
-
-    tfoot tr td {
-      padding-top: 20px !important;
-    }
-  }
-}
-</style>

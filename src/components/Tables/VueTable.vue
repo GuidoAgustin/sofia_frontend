@@ -1,12 +1,11 @@
 <template>
   <div>
-    <page-functions
-      :actual-page="values.current_page"
-      :last-page="values.last_page"
+    <VueTableFilters
       :searchable="opts.searchable"
-      @changing_page="pageChanged"
-      @searching="searched"
-      @changing_showing="showChanged"
+      :filters="filters"
+      :headers="headers"
+      @search="searched"
+      @filter="filtered"
     />
 
     <div class="v-table-responsive-container">
@@ -16,30 +15,13 @@
             <th v-if="opts.checkeable">
               <input v-model="checkAll" type="checkbox" class="mt-2" />
             </th>
-            <template v-for="head in headers" :key="head.key">
-              <th
-                :style="{ width: head.width ? head.width + '%' : 'auto' }"
-                :class="head.sortable ? 'sortable' : ''"
-                @click="sorted(head)"
-              >
+            <template v-for="head in visibleHeaders" :key="head.key">
+              <th :style="{ width: head.width ? head.width + '%' : 'auto' }">
                 {{ (head.mask || head.title).ucwords() }}
 
-                <i
-                  v-if="
-                    head.sortable &&
-                    (sortedBy === head.title || sortedBy === head.sort_value)
-                  "
-                  class="fa"
-                  :class="sortedDir === 'desc' ? 'fa-sort-down' : 'fa-sort-up'"
-                />
-                <i
-                  v-if="
-                    head.sortable &&
-                    sortedBy !== head.title &&
-                    sortedBy !== head.sort_value
-                  "
-                  class="fa fa-sort"
-                />
+                <button class="hide-btn" v-if="!head.required">
+                  <i class="fa fa-eye" />
+                </button>
               </th>
             </template>
             <th style="width: 1%" />
@@ -50,12 +32,11 @@
             v-if="
               !values ||
               values.length === 0 ||
-              (Object.keys(values).length === 0 &&
-                values.constructor === Object)
+              (Object.keys(values).length === 0 && values.constructor === Object)
             "
           >
             <tr>
-              <td :colspan="headers.length + 1" style="text-align: center">
+              <td :colspan="visibleHeaders.length + 1" style="text-align: center">
                 <loader />
               </td>
             </tr>
@@ -71,10 +52,10 @@
             </td>
 
             <td
-              v-for="(head, b) in headers"
+              v-for="(head, b) in visibleHeaders"
               :key="b"
               :class="{
-                'v-table-editable-td': head.editable,
+                'v-table-editable-td': head.editable
               }"
             >
               <template v-if="head.editable">
@@ -89,66 +70,30 @@
                     :class="opts.inputClass"
                     :type="head.editable"
                     :value="nestedTitle(item, head.title)"
-                    @input="
-                      $emit('editableInput', a, head.title, $event.target.value)
-                    "
-                    @change="
-                      $emit(
-                        'editableChange',
-                        a,
-                        head.title,
-                        $event.target.value
-                      )
-                    "
+                    @input="$emit('editableInput', a, head.title, $event.target.value)"
+                    @change="$emit('editableChange', a, head.title, $event.target.value)"
                   />
                   <select
                     v-if="head.editable === 'select'"
                     :class="opts.inputClass"
                     class="v-table-input"
                     :value="nestedTitle(item, head.title)"
-                    @input="
-                      $emit('editableInput', a, head.title, $event.target.value)
-                    "
-                    @change="
-                      $emit(
-                        'editableChange',
-                        a,
-                        head.title,
-                        $event.target.value
-                      )
-                    "
+                    @input="$emit('editableInput', a, head.title, $event.target.value)"
+                    @change="$emit('editableChange', a, head.title, $event.target.value)"
                   >
                     <option v-for="o in head.options" :key="o.id" :value="o.id">
                       {{ o.label }}
                     </option>
                   </select>
                 </div>
-                <div
-                  v-else
-                  class="v-table-checkbox-container"
-                  :class="opts.checkboxContainerClass"
-                >
+                <div v-else class="v-table-checkbox-container" :class="opts.checkboxContainerClass">
                   <input
                     class="v-table-checkbox"
                     :class="opts.checkboxClass"
                     :type="head.editable"
                     :checked="nestedTitle(item, head.title)"
-                    @input="
-                      $emit(
-                        'editableInput',
-                        a,
-                        head.title,
-                        $event.target.checked
-                      )
-                    "
-                    @change="
-                      $emit(
-                        'editableChange',
-                        a,
-                        head.title,
-                        $event.target.checked
-                      )
-                    "
+                    @input="$emit('editableInput', a, head.title, $event.target.checked)"
+                    @change="$emit('editableChange', a, head.title, $event.target.checked)"
                   />
                 </div>
               </template>
@@ -165,18 +110,11 @@
                 }}
               </template>
               <template
-                v-else-if="
-                  head.truncate &&
-                  nestedTitle(item, head.title).length >= head.truncate
-                "
+                v-else-if="head.truncate && nestedTitle(item, head.title).length >= head.truncate"
               >
-                {{
-                  nestedTitle(item, head.title).slice(0, head.truncate - 3) +
-                  "..."
-                }}
-                <span class="v-table-tooltip">{{
-                  nestedTitle(item, head.title)
-                }}</span>
+                <span :title="nestedTitle(item, head.title)">
+                  {{ nestedTitle(item, head.title).slice(0, head.truncate - 3) + '...' }}
+                </span>
               </template>
               <template v-else>
                 {{ nestedTitle(item, head.title) }}
@@ -185,7 +123,10 @@
 
             <td style="text-align: right">
               <div class="btn-group">
-                <template v-for="(act, i) in actions">
+                <button class="btn btn-sm btn-white">
+                  <i class="fa fa-ellipsis"></i>
+                </button>
+                <!-- <template v-for="(act, i) in actions">
                   <button
                     v-if="item[act.callback] !== false"
                     :key="i"
@@ -194,25 +135,14 @@
                     @click="$emit(act.callback, item, a)"
                   >
                     <i :class="act.icon" />
-                    <span class="v-table-tooltip">{{ act.tooltip }}</span>
                   </button>
-                </template>
+                </template> -->
               </div>
             </td>
           </tr>
         </tbody>
         <tfoot>
           <tr>
-            <td
-              v-if="values.data && values.data.length > 0"
-              colspan="1000"
-              style="text-align: center"
-            >
-              Mostrando desde
-              <b>{{ values.from }}</b> hasta <b>{{ values.to }}</b> de
-              <b>{{ values.total }}</b>
-              elementos.
-            </td>
             <td
               v-if="values.data && values.data.length <= 0"
               colspan="1000"
@@ -224,6 +154,14 @@
         </tfoot>
       </table>
     </div>
+
+    <VueTablePager
+      :from="values.from"
+      :to="values.to"
+      :total="values.total"
+      :last-page="values.last_page"
+      @changing_page="pageChanged"
+    />
   </div>
 </template>
 
@@ -235,8 +173,9 @@
  * - title : string / nullable
  * - mask : string / nullable
  * - width: number(%) / nullable
- * - sortable: bool
  * - date: bool / unique (Solo un header con este campo, se utiliza para los filtros desde/hasta)
+ * - sortable: bool
+ * - hideable: bool
  *
  * # VALUES
  * - pagination from laravel (https://laravel.com/docs/5.8/pagination)
@@ -245,282 +184,290 @@
  * - buttonClass
  * - callback
  * - tooltip
- * - icon
+ *
+ * # FILTERS
+ * - title
+ * - type: select/select-multiple/combobox/date/date-range
+ * - options: array/null
+ * - column // Column to filter
+ * - module: string/null (only for combobox)
  *
  * # OPTIONS
  * - tableClass
  * - theadClass
  * - tbodyClass
- * - customFilters / Object array
- *      - title / nombre de columna
- *      - options / array de options
- *      # ej:
- *          - {
- *              title:'Tipos de Movimiento',
- *              column:'id_tipo_movimiento',
- *              options:[
- *                  {value:1,label:'Orden de Compra'}
- *              ]
- *          }
  */
 
 /**
  * Valores Emitidos
  * - changed (se modifican los parametros de busqueda)
  */
-import "./utils/ucwords";
-import moment from "moment";
-import PageFunctions from "./PageFunctions.vue";
-import loader from "./loader.vue";
+import './utils/ucwords'
+import moment from 'moment'
+import VueTableFilters from './VueTableFilters.vue'
+import VueTablePager from './VueTablePager.vue'
+import loader from './loader.vue'
 
 export default {
-  name: "VueTables",
+  name: 'VueTables',
   components: {
-    PageFunctions,
-    loader,
+    VueTableFilters,
+    VueTablePager,
+    loader
   },
   props: {
     headers: {
       type: Array,
-      default: null,
+      default: null
     },
     values: {
       type: Object,
-      default: null,
+      default: null
     },
     options: {
       type: Object,
-      default: null,
+      default: null
     },
     actions: {
       type: Array,
-      default: () => [],
+      default: () => []
     },
+    filters: {
+      type: Array,
+      default: () => []
+    },
+    searchMinLen: {
+      type: Number,
+      default: 3
+    }
   },
   data() {
     return {
       opts: {
-        tableClass: "table table-hover",
-        theadClass: "",
-        tbodyClass: "",
+        tableClass: 'table table-hover',
+        theadClass: '',
+        tbodyClass: '',
         checkeable: false,
-        inputContainerClass: "",
-        inputClass: "",
-        checkboxContainerClass: "",
-        checkboxClass: "",
+        inputContainerClass: '',
+        inputClass: '',
+        checkboxContainerClass: '',
+        checkboxClass: ''
       },
-      sortedBy: "",
-      sortedDir: "asc",
+      sortedBy: '',
+      sortedDir: 'asc',
       date_column: null,
       vTableParams: {
         page: 1,
         search: null,
-        sortBy: null,
-        sortDir: null,
-        filters: null,
+        sort_by: null,
+        sort_dir: null,
         per_page: 10,
+        hidden_cols: [],
+        filters: null
       },
-      checkAll: false,
-    };
+      checkAll: false
+    }
   },
   watch: {
     checkAll: {
       handler(val) {
-        this.$emit("checkAll", val);
-      },
-    },
+        this.$emit('checkAll', val)
+      }
+    }
+  },
+  computed: {
+    visibleHeaders() {
+      return this.headers.filter((x) => !this.vTableParams.hidden_cols.includes(x.title))
+    }
   },
   mounted() {
     if (!this.values)
-      throw new Error(
-        'Input VALUES is empty, please add data. (eg.: :values="myData")'
-      );
+      throw new Error('Input VALUES is empty, please add data. (eg.: :values="myData")')
     if (!this.headers)
-      throw new Error(
-        'Input HEADERS is empty, please add data. (eg.: :headers="myHeaders")'
-      );
+      throw new Error('Input HEADERS is empty, please add data. (eg.: :headers="myHeaders")')
 
     if (this.options) {
       Object.keys(this.options).forEach((key) => {
         if (key in this.opts) {
-          if (key === "checkeable" && typeof this.options[key] !== "boolean") {
-            throw new Error('Options "checkeable" must be a Boolean');
+          if (key === 'checkeable' && typeof this.options[key] !== 'boolean') {
+            throw new Error('Options "checkeable" must be a Boolean')
           }
-          if (key === "searchable" && typeof this.options[key] !== "boolean") {
-            throw new Error('Options "searchable" must be a Boolean');
+          if (key === 'searchable' && typeof this.options[key] !== 'boolean') {
+            throw new Error('Options "searchable" must be a Boolean')
           }
-          this.opts[key] = this.options[key];
+          this.opts[key] = this.options[key]
         }
-      });
+      })
     }
   },
   methods: {
     pageChanged(val) {
-      this.vTableParams.page = val;
-      this.changed();
+      this.vTableParams.page = val
+      this.changed()
     },
     searched(val) {
-      this.vTableParams.page = 1;
-      this.vTableParams.search = val;
-      this.changed();
-    },
-    showChanged(val) {
-      this.vTableParams.page = 1;
-      this.vTableParams.per_page = val;
-      this.changed();
-    },
-    sorted(item) {
-      if (item.sortable) {
-        if (this.sortedBy === item.title || this.sortedBy === item.sort_value) {
-          this.sortedDir = this.sortedDir === "asc" ? "desc" : "asc";
-        } else {
-          this.sortedDir = "asc";
-        }
-
-        this.sortedBy = item.sort_value || item.title;
-
-        this.vTableParams.sortBy = this.sortedBy;
-        this.vTableParams.sortDir = this.sortedDir;
-
-        this.changed();
+      if (val && val.length <= this.searchMinLen) {
+        this.$toast.error('Search value is too short')
+        return
       }
+
+      this.vTableParams.page = 1
+      this.vTableParams.search = val
+      this.changed()
+    },
+    filtered(val) {
+      const { sort, showing, hidden, ...filters } = val
+
+      if (sort && sort !== 'null') {
+        const [by, dir] = sort.split('__')
+
+        this.vTableParams.sort_by = by
+        this.vTableParams.sort_dir = dir
+      } else {
+        this.vTableParams.sort_by = null
+        this.vTableParams.sort_dir = null
+      }
+
+      if (showing !== this.vTableParams.per_page) {
+        this.vTableParams.page = 1
+        this.vTableParams.per_page = showing
+      }
+
+      if (hidden) {
+        this.vTableParams.hidden_cols = hidden
+      }
+
+      const FILTERS_CHANGED = JSON.stringify(filters) !== JSON.stringify(this.vTableParams.filters)
+      if (filters && FILTERS_CHANGED) {
+        this.vTableParams.page = 1
+        this.vTableParams.filters = filters
+      }
+
+      this.changed()
     },
 
     changed() {
-      this.$emit("changed", this.vTableParams);
+      const { sort_by, sort_dir, page, per_page, filters } = this.vTableParams
+
+      this.$emit('changed', {
+        sort_by,
+        sort_dir,
+        page,
+        per_page,
+        ...this.parseFilters(filters)
+      })
+    },
+
+    parseFilters(filters) {
+      const aux = {}
+
+      for (const key of Object.keys(filters)) {
+        const filter = filters[key]
+
+        if (typeof filter === 'object' && !Array.isArray(filter) && filter !== null) {
+          for (const subkey of Object.keys(filters[key])) {
+            aux[`${key}_${subkey}`] = filters[key][subkey]
+          }
+        } else {
+          aux[key] = filters[key]
+        }
+      }
+
+      return aux
     },
 
     nestedTitle(item, val) {
-      const value = item[val];
+      const value = item[val]
       if (!value) {
-        const array = val.split(".");
-        let aux = item;
+        const array = val.split('.')
+        let aux = item
 
         array.forEach((attr) => {
-          aux = aux[attr] === null || aux[attr] === undefined ? "-" : aux[attr];
-        });
-        return aux;
+          aux = aux[attr] === null || aux[attr] === undefined ? '-' : aux[attr]
+        })
+        return aux
       }
-      return value;
+      return value
     },
 
     dateFormatting(date, format, fromFormat = null) {
-      if (!date || date === "-") return "-";
-      let d = date;
+      if (!date || date === '-') return '-'
+      let d = date
       if (!(date instanceof moment)) {
-        if (fromFormat) d = moment(date, fromFormat, true);
-        else d = moment(date);
+        if (fromFormat) d = moment(date, fromFormat, true)
+        else d = moment(date)
       }
-      return d.format(format);
+      return d.format(format)
     },
 
     init() {
-      this.$emit("changed", {
+      this.$emit('changed', {
         page: 1,
         search: null,
-        sortBy: null,
-        sortDir: null,
+        sort_by: null,
+        sort_dir: null,
         filters: null,
-        per_page: 10,
-      });
-    },
-  },
-};
+        per_page: 10
+      })
+    }
+  }
+}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 .v-table-responsive-container {
   width: 100%;
   overflow: auto;
-}
-table {
-  width: 100%;
-}
-table th {
-  font-size: 98%;
-}
-table td,
-table tr {
-  font-size: 90%;
-}
+  margin-top: 1em;
 
-tfoot tr td {
-  padding-top: 20px !important;
-}
+  table {
+    width: 100%;
 
-.sortable {
-  cursor: pointer;
-}
+    th {
+      font-size: 90%;
+      border: unset !important;
+      font-weight: 500;
+      opacity: 0.6;
+    }
+    td,
+    th {
+      padding: 0.5em 0.7em !important;
+    }
+    td {
+      font-size: 85%;
+      white-space: nowrap;
+      vertical-align: middle !important;
+    }
 
-td,
-th {
-  padding: 5px !important;
-}
+    .hide-btn {
+      border: none;
+      outline: none;
+      background: transparent;
+      padding: 0;
+      display: none;
+    }
+    .v-table-input-container,
+    .v-table-input-container .v-table-input {
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      border: unset;
+    }
+    .v-table-input-container .v-table-input[type='checkbox'] {
+      width: auto;
+      height: unset;
+    }
+    .btn.btn-sm {
+      padding: 4px;
+      width: 25px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+    }
 
-.btn-group {
-  margin: 5px 1px !important;
-  display: flex;
-  gap: 0.25em;
-  justify-content: flex-end;
-}
-
-td {
-  border-top: none;
-  white-space: nowrap;
-  vertical-align: middle !important;
-}
-
-.btn {
-  position: relative;
-}
-
-.btn.btn-sm {
-  padding: 4px;
-  width: 25px;
-}
-
-.btn-sm i {
-  font-size: 100% !important;
-}
-
-.table-responsive {
-  overflow-y: hidden;
-}
-
-.v-table-tooltip {
-  position: absolute;
-  background: rgba(0, 0, 0, 0.75);
-  color: white;
-  padding: 8px 10px;
-  border-radius: 0.25rem;
-  top: 50%;
-  left: 30px;
-  transform: translate(-100%, -50%);
-  opacity: 0;
-  transition: ease 0.5s;
-  pointer-events: none;
-}
-
-.v-table-input-container,
-.v-table-input-container .v-table-input {
-  margin: 0;
-  width: 100%;
-  height: 100%;
-  border: unset;
-}
-.v-table-input-container .v-table-input[type="checkbox"] {
-  width: auto;
-  height: unset;
-}
-
-.btn:hover .v-table-tooltip,
-span:hover .v-table-tooltip {
-  opacity: 1;
-  transition: ease 0.5s;
-  left: 0;
-}
-
-thead th {
-  border-top: unset !important;
+    tfoot tr td {
+      padding-top: 20px !important;
+    }
+  }
 }
 </style>

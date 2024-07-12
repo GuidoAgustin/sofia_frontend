@@ -2,27 +2,28 @@
   <transition name="fade" @after-enter="showContent = true">
     <div
       class="vue-modal"
+      :class="`position-${position}`"
       v-if="open"
       @keypress.esc="showContent = false"
       tabindex="0"
     >
-      <transition name="modal" @after-leave="endClose">
-        <div class="vue-modal-dialog" :class="modalSize" v-if="showContent">
-          <div class="vue-modal-content">
-            <div class="modal-header">
-              <h5 class="modal-title">
-                <slot name="title"></slot>
-              </h5>
-              <button type="button" class="close" @click="close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            <div class="modal-body">
+      <transition :name="`modal-pos-${position}`" @after-leave="endClose">
+        <div class="vue-modal-content" v-if="showContent" :class="`modal-${size}`">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <slot name="title"></slot>
+            </h5>
+            <button type="button" class="close" @click="close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="modal-body-wrapper">
               <slot name="body"></slot>
             </div>
-            <div class="modal-footer">
-              <slot name="footer"></slot>
-            </div>
+          </div>
+          <div class="modal-footer">
+            <slot name="footer"></slot>
           </div>
         </div>
       </transition>
@@ -35,168 +36,45 @@ export default {
   data() {
     return {
       showContent: false,
-      open: false,
-    };
+      open: false
+    }
   },
   props: {
     size: {
-      validator: function (value) {
-        // The value must match one of these strings
-        return ["xs", "sm", "md", "lg"].indexOf(value) !== -1;
-      },
-      default: "lg",
+      validator: (value) => ['xs', 'sm', 'md', 'lg'].includes(value),
+      default: 'lg'
     },
+    position: {
+      validator: (value) => ['center', 'left', 'right', 'top', 'bottom'].includes(value),
+      default: 'center'
+    }
   },
   created() {
-    document.addEventListener("keydown", this.escapeHandler);
+    document.addEventListener('keydown', this.escapeHandler)
   },
   mounted() {
-    setTimeout(() => (this.open = true), 100);
-    document.body.classList.add("no-scrollable");
+    setTimeout(() => (this.open = true), 100)
+    document.body.classList.add('no-scrollable')
 
-    document.querySelector(".sidebar").style.zIndex = 0;
+    document.querySelector('.sidebar').style.zIndex = 0
   },
   unmounted() {
-    document.removeEventListener("keydown", this.escapeHandler);
-    document.body.classList.remove("no-scrollable");
-    document.querySelector(".sidebar").style.zIndex = 3;
+    document.removeEventListener('keydown', this.escapeHandler)
+    document.body.classList.remove('no-scrollable')
+    document.querySelector('.sidebar').style.zIndex = 3
   },
   methods: {
     escapeHandler(e) {
-      if (e.key === "Escape" && this.showContent) {
-        this.showContent = false;
+      if (e.key === 'Escape' && this.showContent) {
+        this.showContent = false
       }
     },
     close() {
-      this.showContent = false;
+      this.showContent = false
     },
     endClose() {
-      this.$emit("close");
-    },
-  },
-  computed: {
-    modalSize() {
-      return "modal-" + this.size;
-    },
-  },
-};
+      this.$emit('close')
+    }
+  }
+}
 </script>
-
-<style lang="scss">
-.vue-modal {
-  position: fixed;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  left: 0;
-  z-index: 2000;
-  overflow: auto;
-  outline: 0;
-  background: rgba(0, 0, 0, 0.8);
-
-  .vue-modal-dialog {
-    position: relative;
-    width: auto;
-    margin: 1rem auto;
-    pointer-events: none;
-
-    &.modal {
-      &-xs {
-        max-width: 300px;
-      }
-      &-sm {
-        max-width: 450px;
-      }
-      &-md {
-        max-width: 800px;
-      }
-      &-lg {
-        max-width: 100%;
-      }
-    }
-
-    .vue-modal-content {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      width: 100%;
-      pointer-events: auto;
-      background-color: #ffffff;
-      background-clip: padding-box;
-      border: 1px solid rgba(0, 0, 0, 0.2);
-      border-radius: 0.3rem;
-      box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5);
-      outline: 0;
-
-      .modal-header {
-        display: flex;
-        align-items: flex-start;
-        justify-content: space-between;
-        padding: 1rem;
-        border-bottom: 1px solid #e9ecef;
-        border-top-left-radius: 0.3rem;
-        border-top-right-radius: 0.3rem;
-      }
-
-      .modal-header .close {
-        padding: 1rem;
-        margin: -1rem -1rem -1rem auto;
-      }
-
-      .modal-title {
-        margin-bottom: 0;
-        line-height: 1.5;
-      }
-
-      .modal-body {
-        position: relative;
-        flex: 1 1 auto;
-        padding: 1rem;
-      }
-
-      .modal-footer {
-        display: flex;
-        align-items: center;
-        justify-content: flex-end;
-        padding: 1rem;
-        border-top: 1px solid #e9ecef;
-      }
-
-      .modal-footer > :not(:first-child) {
-        margin-left: 0.25rem;
-      }
-
-      .modal-footer > :not(:last-child) {
-        margin-right: 0.25rem;
-      }
-    }
-  }
-}
-
-.modal-scrollbar-measure {
-  position: absolute;
-  top: -9999px;
-  width: 50px;
-  height: 50px;
-  overflow: scroll;
-}
-
-@media (min-width: 576px) {
-  .modal-dialog {
-    max-width: 500px;
-    margin: 1.75rem auto;
-  }
-  .modal-dialog-centered {
-    min-height: calc(100% - (1.75rem * 2));
-  }
-  .modal-content {
-    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.5);
-  }
-}
-
-.no-scrollable {
-  margin: 0;
-  height: 100%;
-  overflow: hidden;
-}
-</style>

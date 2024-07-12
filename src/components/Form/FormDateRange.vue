@@ -1,6 +1,6 @@
 <template>
   <v-date-picker
-    v-model="date"
+    v-model.range="date"
     :mode="dateTime ? 'dateTime' : 'date'"
     :is24hr="dateTime"
     :masks="masksValues"
@@ -10,11 +10,20 @@
     <template v-slot="{ inputValue, inputEvents }">
       <div class="form-container" :class="{ disabled, 'flex-field': flexField }">
         <label>{{ label }}</label>
-        <div class="form-wrapper">
-          <div class="icon" v-if="!flexField">
-            <i class="fa-solid fa-calendar-day"></i>
+
+        <div class="d-grid grid-2-cols gap-2">
+          <div class="form-wrapper">
+            <div class="icon" v-if="!flexField">
+              <i class="fa-solid fa-calendar-day"></i>
+            </div>
+            <input :value="inputValue.start" v-on="inputEvents.start" />
           </div>
-          <input :value="inputValue" v-on="inputEvents" />
+          <div class="form-wrapper">
+            <div class="icon" v-if="!flexField">
+              <i class="fa-solid fa-calendar-day"></i>
+            </div>
+            <input :value="inputValue.end" v-on="inputEvents.end" />
+          </div>
         </div>
       </div>
     </template>
@@ -23,12 +32,11 @@
 
 <script>
 import { parseToDate, parseToString } from '@/utils/date.js'
-import moment from 'moment'
 
 export default {
   props: {
     modelValue: {
-      type: [moment, String],
+      type: [Object],
       default: null
     },
     label: {
@@ -70,21 +78,29 @@ export default {
     modelValue: {
       immediate: true,
       handler(val) {
-        this.date = parseToDate(val, this.dateTime)
+        this.date = {
+          start: parseToDate(val.start, this.dateTime),
+          end: parseToDate(val.end, this.dateTime)
+        }
       }
     },
     date: {
       immediate: true,
       handler(value) {
         if (!value) {
-          this.$emit('update:modelValue', null)
-          this.$emit('change', null)
+          this.$emit('update:modelValue', { start: null, end: null })
+          this.$emit('change', { start: null, end: null })
         } else {
-          const newEmitting = parseToString(value, this.dateTime)
+          const { start, end } = value
+          const newEmitting = {
+            start: parseToString(start, this.dateTime),
+            end: parseToString(end, this.dateTime)
+          }
 
-          const CHANGED = newEmitting && newEmitting !== this.modelValue
+          const START_CHANGED = newEmitting.start && newEmitting.start !== this.modelValue?.start
+          const END_CHANGED = newEmitting.end && newEmitting.end !== this.modelValue?.end
 
-          if (CHANGED) {
+          if (START_CHANGED || END_CHANGED) {
             this.$emit('update:modelValue', newEmitting)
             this.$emit('change', newEmitting)
           }

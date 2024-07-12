@@ -7,28 +7,71 @@
       :headers="vTable.headers"
       :actions="vTable.actions"
       :options="vTable.options"
+      :filters="vTable.filters"
+      @changed="getData"
       ref="vtable"
     />
   </Widget>
 </template>
 
 <script>
-import Widget from "@/components/Widget.vue";
+import Widget from '@/components/Widget.vue'
+import axios from 'axios'
 export default {
   components: {
-    Widget,
+    Widget
   },
   data: () => ({
     vTable: {
+      filters: [
+        {
+          title: 'Status',
+          type: 'select-multiple',
+          options: [
+            'Waiting for approval',
+            'Pre enrolled',
+            'Enrolled',
+            'Completed',
+            'Cancelled',
+            'Void'
+          ],
+          column: 'status'
+        },
+        {
+          title: 'Status Simple',
+          type: 'select',
+          options: [
+            'Waiting for approval',
+            'Pre enrolled',
+            'Enrolled',
+            'Completed',
+            'Cancelled',
+            'Void'
+          ],
+          column: 'status_simple'
+        },
+        {
+          title: 'Start Date',
+          type: 'date',
+          column: 'start_date'
+        },
+        {
+          title: 'Start Date (range)',
+          type: 'date-range',
+          column: 'start_date_range'
+        }
+      ],
       headers: [
         {
-          title: "name",
+          title: 'name',
           sortable: true,
+          hideable: true
         },
         {
-          title: "username",
+          title: 'username',
           sortable: true,
-        },
+          hideable: true
+        }
       ],
       actions: [
         /// Go to ACTIONS SECTION for explanation
@@ -43,27 +86,37 @@ export default {
         data: [
           {
             id: 1,
-            name: "Pedro Aznar",
-            username: "paznar",
+            name: 'Pedro Aznar',
+            username: 'paznar'
           },
           {
             id: 2,
-            name: "Charlie Alberti",
-            username: "chalberti",
+            name: 'Charlie Alberti',
+            username: 'chalberti'
           },
           {
             id: 3,
-            name: "Gustavo Cerati",
-            username: "gcerati",
-          },
-        ],
+            name: 'Gustavo Cerati',
+            username: 'gcerati'
+          }
+        ]
       },
       options: {
         /// Go to OPTIONS SECTION for explanation
-      },
-    },
+      }
+    }
   }),
-};
+  methods: {
+    getData(params) {
+      console.log('getData')
+      console.log(params)
+
+      axios.get('http://localhost:5010/test', {
+        params
+      })
+    }
+  }
+}
 </script>
 
 <style></style>

@@ -1,11 +1,11 @@
 <template>
-  <div class="form-container form-select" :class="{ disabled }">
+  <div class="form-container form-select" :class="{ disabled, 'flex-field': flexField }">
     <label :for="itemId">{{ label }}</label>
     <div class="form-wrapper">
       <i class="icon" :class="icon" v-if="icon"></i>
       <select :id="itemId" v-model="result" :multiple="multiple">
-        <option :value="opt.value" v-for="opt in options" :key="opt.value">
-          {{ opt.name }}
+        <option :value="opt.value || opt" v-for="opt in options" :key="opt.value || opt">
+          {{ opt.name || opt }}
         </option>
       </select>
     </div>
@@ -16,7 +16,7 @@
 export default {
   props: {
     modelValue: {
-      type: Number,
+      type: [Number, String],
       default: null
     },
     label: {
@@ -36,6 +36,10 @@ export default {
       default: false
     },
     multiple: {
+      type: Boolean,
+      default: false
+    },
+    flexField: {
       type: Boolean,
       default: false
     }

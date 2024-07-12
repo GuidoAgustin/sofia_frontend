@@ -1,14 +1,234 @@
 .vue-modal {
-  button.close {
-    border: unset;
-    border-radius: 50%;
-    width: 40px;
-    aspect-ratio: 1;
-    display: grid;
-    place-items: center;
-    padding: 0 !important;
-    background: unset;
-    font-size: 1.8em;
-    color: var(--color-medium);
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 2000;
+  overflow: auto;
+  outline: 0;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+
+  .vue-modal-content {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    pointer-events: auto;
+    background-color: #ffffff;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, 0.2);
+    border-radius: 0.3rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.5);
+    outline: 0;
+    height: fit-content;
+
+    &.modal {
+      &-xs {
+        max-width: 300px;
+      }
+      &-sm {
+        max-width: 450px;
+      }
+      &-md {
+        max-width: 800px;
+      }
+      &-lg {
+        max-width: 100%;
+      }
+    }
+
+    .modal-header {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      padding: 1rem;
+      border-bottom: 1px solid #e9ecef;
+      border-top-left-radius: 0.3rem;
+      border-top-right-radius: 0.3rem;
+    }
+
+    .modal-header .close {
+      padding: 1rem;
+      margin: -1rem -1rem -1rem auto;
+      border: unset;
+      border-radius: 50%;
+      width: 40px;
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      padding: 0 !important;
+      background: unset;
+      font-size: 1.8em;
+      color: var(--color-medium);
+    }
+
+    .modal-title {
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+
+    .modal-body {
+      position: relative;
+      flex: 1 1 auto;
+      padding: 1rem;
+    }
+
+    .modal-footer {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      padding: 0.75em 1rem;
+      border-top: 1px solid #e9ecef;
+    }
   }
+
+  &.position {
+    &-top {
+      justify-content: center;
+
+      .vue-modal-content {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+    }
+    &-bottom {
+      justify-content: center;
+      align-items: flex-end;
+
+      .vue-modal-content {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+      }
+    }
+    &-center {
+      justify-content: center;
+      align-items: flex-start;
+      padding: 3em 0;
+    }
+    &-left {
+      overflow: hidden;
+      justify-content: flex-start;
+      align-items: stretch;
+
+      .vue-modal-content {
+        height: 100%;
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+      }
+    }
+    &-right {
+      overflow: hidden;
+      justify-content: flex-end;
+      align-items: stretch;
+
+      .vue-modal-content {
+        height: 100%;
+        border-top-right-radius: 0;
+        border-bottom-right-radius: 0;
+
+        .modal-body {
+          overflow-y: auto;
+        }
+      }
+    }
+  }
+
+  &.vt-filters-modal {
+    .modal-footer {
+      justify-content: space-between !important;
+
+      a {
+        white-space: nowrap;
+      }
+      button {
+        margin-left: auto;
+      }
+    }
+    .modal-title {
+      display: flex;
+      align-items: center;
+      gap: 0.75em;
+    }
+
+    .filters-section {
+      &:not(:last-of-type) {
+        border-bottom: 1px solid rgba(0, 0, 0, 0.25);
+      }
+
+      .form-container {
+        margin: 0.25em 0;
+
+        select {
+          -webkit-appearance: none;
+          -moz-appearance: none;
+
+          option {
+            padding: 0.5em;
+          }
+        }
+      }
+
+      &.collapse {
+        .filters-section-head {
+          display: grid;
+          grid-template-columns: 1fr 40px;
+          align-items: center;
+          height: 42px;
+          margin: 0.25em 0;
+          cursor: pointer;
+
+          h6 {
+            font-size: 0.9em;
+            margin: 0;
+          }
+
+          .icon {
+            display: grid;
+            place-items: center;
+            transform: rotate(180deg);
+            transition: 0.25s ease-in-out;
+          }
+        }
+        .filters-section-body {
+          display: grid;
+          grid-template-rows: 1fr;
+          transition: 0.5s ease-in-out;
+          padding-bottom: 01em;
+
+          > div {
+            overflow: hidden;
+          }
+
+          .form-container {
+            margin: 0;
+          }
+
+          .filters-type {
+            &-select-multiple {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+            }
+          }
+        }
+
+        &.collapsed {
+          .filters-section-body {
+            grid-template-rows: 0fr;
+            padding-bottom: 0;
+          }
+
+          .icon {
+            transform: rotate(0);
+          }
+        }
+      }
+    }
+  }
+}
+
+.no-scrollable {
+  height: 100%;
+  overflow: hidden;
 }

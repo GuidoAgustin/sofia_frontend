@@ -94,6 +94,22 @@
     }
   }
 
+  &.form-checkbox {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 0.5em;
+
+    input {
+      width: auto;
+      cursor: pointer;
+    }
+    label {
+      margin: 0;
+      cursor: pointer;
+    }
+  }
+
   &.form-textarea {
     .icon {
       transform: unset;
@@ -158,6 +174,31 @@
       }
     }
   }
+
+  &.flex-field {
+    display: grid;
+    grid-template-columns: 150px 1fr;
+    align-items: center;
+
+    label {
+      margin: 0;
+    }
+
+    select {
+      border: unset;
+      padding: 0.5em 0.8em;
+    }
+
+    .form-wrapper {
+      border-color: transparent;
+      background: var(--background);
+
+      &:hover {
+        background: var(--background);
+        border: 1px solid rgb(196, 196, 196);
+      }
+    }
+  }
 }
 
 .vc-popover-content-wrapper button {
@@ -197,7 +238,7 @@ label.checkbox {
   }
   span {
     width: 100%;
-    color: var(--color-medium);
+    color: rgba(0, 0, 0, 0.25);
     transition: ease 0.5s;
     display: block;
   }
@@ -252,9 +293,9 @@ label.checkbox {
   border: none;
   border-radius: var(--radius);
   padding: 0.5em 1em;
-  font-weight: 600;
-  text-transform: uppercase;
-  display: block;
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
   text-decoration: none;
   position: relative;
 
@@ -292,39 +333,6 @@ label.checkbox {
   &:disabled {
     opacity: 0.5;
     pointer-events: none;
-  }
-
-  @each $color, $value in $custom-theme-colors {
-    &.btn-#{$color} {
-      background-color: $value;
-      color: white;
-      transition: 0.5s ease;
-
-      &:not(:disabled),
-      &:not(.disabled) {
-        &:hover {
-          background-color: darken($value, 7.5%);
-          transition: 0.5s ease;
-        }
-      }
-    }
-
-    &.btn-outline-#{$color} {
-      background-color: transparent;
-      border: 2px solid #{$value};
-      color: #{$value};
-      transition: 0.5s ease;
-
-      &:not(:disabled),
-      &:not(.disabled) {
-        &:hover {
-          transition: 0.5s ease;
-          border: 2px solid transparent;
-          color: white;
-          background-color: darken($value, 7.5%);
-        }
-      }
-    }
   }
 }
 

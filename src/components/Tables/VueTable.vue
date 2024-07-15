@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="v-table">
     <VueTableFilters
       :searchable="opts.searchable"
       :filters="filters"
@@ -8,134 +8,127 @@
       @filter="filtered"
     />
 
-    <div class="v-table-responsive-container">
-      <table :class="opts.tableClass">
-        <thead :class="opts.theadClass">
-          <tr>
-            <th v-if="opts.checkeable">
-              <input v-model="checkAll" type="checkbox" class="mt-2" />
+    <table :class="opts.tableClass">
+      <thead :class="opts.theadClass">
+        <tr>
+          <th v-if="opts.checkeable">
+            <input v-model="checkAll" type="checkbox" class="mt-2" />
+          </th>
+          <template v-for="head in visibleHeaders" :key="head.key">
+            <th :style="{ width: head.width ? head.width + '%' : 'auto' }">
+              {{ (head.mask || head.title).ucwords() }}
             </th>
-            <template v-for="head in visibleHeaders" :key="head.key">
-              <th :style="{ width: head.width ? head.width + '%' : 'auto' }">
-                {{ (head.mask || head.title).ucwords() }}
-              </th>
-            </template>
-            <th style="width: 1%" />
-          </tr>
-        </thead>
-        <tbody :class="opts.tbodyClass">
-          <template
-            v-if="
-              !values ||
-              values.length === 0 ||
-              (Object.keys(values).length === 0 && values.constructor === Object)
-            "
-          >
-            <tr>
-              <td :colspan="visibleHeaders.length + 1" style="text-align: center">
-                <loader />
-              </td>
-            </tr>
           </template>
-          <tr v-for="(item, a) in values.data" :key="item.id">
-            <td v-if="opts.checkeable">
-              <input
-                v-model="item.checked"
-                type="checkbox"
-                class="mt-2"
-                @click="$emit('itemChecked', a, $event.target.checked)"
-              />
-            </td>
-
-            <td
-              v-for="(head, b) in visibleHeaders"
-              :key="b"
-              :class="{
-                'v-table-editable-td': head.editable
-              }"
-            >
-              <template v-if="head.editable">
-                <div
-                  v-if="head.editable !== 'checkbox'"
-                  class="v-table-input-container"
-                  :class="opts.inputContainerClass"
-                >
-                  <input
-                    v-if="['text', 'number'].includes(head.editable)"
-                    class="v-table-input"
-                    :class="opts.inputClass"
-                    :type="head.editable"
-                    :value="nestedTitle(item, head.title)"
-                    @input="$emit('editableInput', a, head.title, $event.target.value)"
-                    @change="$emit('editableChange', a, head.title, $event.target.value)"
-                  />
-                  <select
-                    v-if="head.editable === 'select'"
-                    :class="opts.inputClass"
-                    class="v-table-input"
-                    :value="nestedTitle(item, head.title)"
-                    @input="$emit('editableInput', a, head.title, $event.target.value)"
-                    @change="$emit('editableChange', a, head.title, $event.target.value)"
-                  >
-                    <option v-for="o in head.options" :key="o.id" :value="o.id">
-                      {{ o.label }}
-                    </option>
-                  </select>
-                </div>
-                <div v-else class="v-table-checkbox-container" :class="opts.checkboxContainerClass">
-                  <input
-                    class="v-table-checkbox"
-                    :class="opts.checkboxClass"
-                    :type="head.editable"
-                    :checked="nestedTitle(item, head.title)"
-                    @input="$emit('editableInput', a, head.title, $event.target.checked)"
-                    @change="$emit('editableChange', a, head.title, $event.target.checked)"
-                  />
-                </div>
-              </template>
-
-              <template v-else>
-                <span v-if="head.htmlFormat === true" v-html="parseValue(item, head)" />
-                <div v-else :title="parseValue(item, head, true)">
-                  <b v-if="head.strong">
-                    {{ parseValue(item, head) }}
-                  </b>
-                  <span v-else>
-                    {{ parseValue(item, head) }}
-                  </span>
-                </div>
-              </template>
-            </td>
-
-            <td style="text-align: right">
-              <VueTableActions v-slot="{ close }">
-                <template v-for="(act, i) in actions">
-                  <button
-                    v-if="item[act.callback] !== false"
-                    :key="i"
-                    class="btn btn-block btn-borderless-medium"
-                    @click="actionClicked(act, item, a, close)"
-                  >
-                    {{ act.title }}
-                  </button>
-                </template>
-              </VueTableActions>
-            </td>
-          </tr>
-        </tbody>
-        <tfoot>
+          <th style="width: 1%" />
+        </tr>
+      </thead>
+      <tbody :class="opts.tbodyClass">
+        <template
+          v-if="
+            !values ||
+            values.length === 0 ||
+            (Object.keys(values).length === 0 && values.constructor === Object)
+          "
+        >
           <tr>
-            <td
-              v-if="values.data && values.data.length <= 0"
-              colspan="1000"
-              style="text-align: center"
-            >
-              No data to show
+            <td :colspan="visibleHeaders.length + 1" style="text-align: center">
+              <loader />
             </td>
           </tr>
-        </tfoot>
-      </table>
-    </div>
+        </template>
+        <tr v-for="(item, a) in values.data" :key="item.id">
+          <td v-if="opts.checkeable">
+            <input
+              v-model="item.checked"
+              type="checkbox"
+              class="mt-2"
+              @click="$emit('itemChecked', a, $event.target.checked)"
+            />
+          </td>
+
+          <td
+            v-for="(head, b) in visibleHeaders"
+            :key="b"
+            :class="{
+              'v-table-editable-td': head.editable
+            }"
+            :data-cell="(head.mask || head.title).ucwords()"
+          >
+            <template v-if="head.editable">
+              <div
+                v-if="head.editable !== 'checkbox'"
+                class="v-table-input-container"
+                :class="opts.inputContainerClass"
+              >
+                <input
+                  v-if="['text', 'number'].includes(head.editable)"
+                  class="v-table-input"
+                  :class="opts.inputClass"
+                  :type="head.editable"
+                  :value="nestedTitle(item, head.title)"
+                  @input="$emit('editableInput', a, head.title, $event.target.value)"
+                  @change="$emit('editableChange', a, head.title, $event.target.value)"
+                />
+                <select
+                  v-if="head.editable === 'select'"
+                  :class="opts.inputClass"
+                  class="v-table-input"
+                  :value="nestedTitle(item, head.title)"
+                  @input="$emit('editableInput', a, head.title, $event.target.value)"
+                  @change="$emit('editableChange', a, head.title, $event.target.value)"
+                >
+                  <option v-for="o in head.options" :key="o.id" :value="o.id">
+                    {{ o.label }}
+                  </option>
+                </select>
+              </div>
+              <div v-else class="v-table-checkbox-container" :class="opts.checkboxContainerClass">
+                <input
+                  class="v-table-checkbox"
+                  :class="opts.checkboxClass"
+                  :type="head.editable"
+                  :checked="nestedTitle(item, head.title)"
+                  @input="$emit('editableInput', a, head.title, $event.target.checked)"
+                  @change="$emit('editableChange', a, head.title, $event.target.checked)"
+                />
+              </div>
+            </template>
+
+            <template v-else>
+              <span v-if="head.htmlFormat === true" v-html="parseValue(item, head)" />
+              <div v-else :title="parseValue(item, head, true)">
+                <b v-if="head.strong">
+                  {{ parseValue(item, head) }}
+                </b>
+                <span v-else>
+                  {{ parseValue(item, head) }}
+                </span>
+              </div>
+            </template>
+          </td>
+
+          <td class="vt-actions-cell" style="text-align: right">
+            <VueTableActions v-slot="{ close }">
+              <template v-for="(act, i) in actions">
+                <button
+                  v-if="item[act.callback] !== false"
+                  :key="i"
+                  class="btn btn-block btn-borderless-medium"
+                  @click="actionClicked(act, item, a, close)"
+                >
+                  {{ act.title }}
+                </button>
+              </template>
+            </VueTableActions>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot v-if="values.data && values.data.length <= 0">
+        <tr>
+          <td colspan="1000" style="text-align: center">No data to show</td>
+        </tr>
+      </tfoot>
+    </table>
 
     <VueTablePager
       :from="values.from"

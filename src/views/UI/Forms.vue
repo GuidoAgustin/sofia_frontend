@@ -57,7 +57,8 @@
       <Widget>
         <template #title>Form Uploader</template>
 
-        <FormUploader @onChange="selFile = $event" label="Archivo" />
+        <FormUploader @onChange="selFile = $event" label="Archivo" :maxSizeMB="2" />
+        <FormUploader @onChange="selFile = $event" label="Archivo flex" flexField />
         <FormUploader disabled @onChange="selFile = $event" label="Archivo **disabled**" />
         <img
           :src="selFile?.url || 'http://via.placeholder.com/300'"

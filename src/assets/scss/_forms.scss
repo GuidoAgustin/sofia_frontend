@@ -33,11 +33,6 @@
     }
   }
 
-  &.disabled {
-    opacity: 0.6;
-    pointer-events: none;
-  }
-
   &.form-switch {
     margin-top: 1em;
     background: transparent;
@@ -157,7 +152,11 @@
   }
 
   &.form-uploader {
-    border: unset;
+    .form-wrapper {
+      display: grid;
+      border: unset;
+      grid-template-columns: 1fr;
+    }
   }
 
   &.form-select {
@@ -270,6 +269,11 @@
 
 .vc-popover-content-wrapper button {
   background: transparent;
+}
+
+.disabled {
+  opacity: 0.6;
+  pointer-events: none;
 }
 
 input,

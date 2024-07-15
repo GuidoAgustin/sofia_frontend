@@ -1,5 +1,8 @@
 <template>
-  <div class="form-container" :class="{ disabled, 'form-textarea': textarea }">
+  <div
+    class="form-container"
+    :class="{ disabled, 'form-textarea': textarea, 'flex-field': flexField }"
+  >
     <label :for="itemId">{{ label }}</label>
     <div class="form-wrapper">
       <div class="icon" v-if="icon">
@@ -60,6 +63,10 @@ export default {
     maxChars: {
       type: [Number, String],
       default: null
+    },
+    flexField: {
+      type: Boolean,
+      default: false
     }
   },
   data: () => ({

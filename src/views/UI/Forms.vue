@@ -4,7 +4,10 @@
       <Widget>
         <template #title>Form Combobox</template>
 
+        <UsersCombobox v-model="selectedUser" label="Users combo no icon" />
+        <UsersCombobox v-model="selectedUser" label="Users combo disabled" disabled />
         <UsersCombobox v-model="selectedUser" label="Users combo" icon="fa fa-users" />
+        <UsersCombobox v-model="selectedUser" label="Users combo 2" icon="fa fa-users" flex-field />
 
         <p>Value: {{ selectedUser }}</p>
       </Widget>

@@ -1,5 +1,5 @@
 <template>
-  <div class="form-container form-combobox" :class="{ disabled }">
+  <div class="form-container form-combobox" :class="{ disabled, 'flex-field': flexField }">
     <label :for="itemId">{{ label }}</label>
     <div class="form-wrapper">
       <div class="icon" v-if="icon">
@@ -22,19 +22,20 @@
           <div class="spinner"></div>
         </slot>
       </div>
+
+      <ul v-if="dropdownOpen" ref="dropdown">
+        <li
+          v-for="(option, index) in options"
+          :key="option[this.optionValue]"
+          :class="{ highlighted: index === highlightedIndex }"
+          @mousedown.prevent="selectOption(option)"
+          ref="options"
+        >
+          {{ option[this.optionLabel] }}
+        </li>
+        <li v-if="!options.length">{{ noDataMsg }}</li>
+      </ul>
     </div>
-    <ul v-if="dropdownOpen" ref="dropdown">
-      <li
-        v-for="(option, index) in options"
-        :key="option[this.optionValue]"
-        :class="{ highlighted: index === highlightedIndex }"
-        @mousedown.prevent="selectOption(option)"
-        ref="options"
-      >
-        {{ option[this.optionLabel] }}
-      </li>
-      <li v-if="!options.length">{{ noDataMsg }}</li>
-    </ul>
   </div>
 </template>
 
@@ -83,6 +84,10 @@ export default {
     optionValue: {
       type: String,
       default: 'value'
+    },
+    flexField: {
+      type: Boolean,
+      default: false
     }
   },
   data() {

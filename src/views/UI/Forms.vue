@@ -99,6 +99,92 @@
         <p>Value: {{ switched }}</p>
       </Widget>
     </div>
+    <div class="col-md-4">
+      <Widget>
+        <template #title>Form Buttons</template>
+
+        <div class="d-grid grid-2-cols mb-4">
+          <div>
+            <h6>Plain</h6>
+            <FormButton>Button Primary</FormButton>
+            <FormButton theme="secondary">Button Secondary</FormButton>
+            <FormButton theme="white">Button White</FormButton>
+            <FormButton theme="medium">Button Medium</FormButton>
+            <FormButton theme="dark">Button Dark</FormButton>
+            <FormButton theme="light">Button Light</FormButton>
+            <FormButton theme="danger">Button Danger</FormButton>
+            <FormButton theme="success">Button Success</FormButton>
+            <FormButton theme="info">Button Info</FormButton>
+            <FormButton theme="warning">Button Warning</FormButton>
+          </div>
+          <div>
+            <h6>Outlined</h6>
+
+            <FormButton outlined>Button Primary</FormButton>
+            <FormButton outlined theme="secondary">Button Secondary</FormButton>
+            <FormButton outlined theme="medium">Button Medium</FormButton>
+            <FormButton outlined theme="dark">Button Dark</FormButton>
+            <FormButton outlined theme="danger">Button Danger</FormButton>
+            <FormButton outlined theme="success">Button Success</FormButton>
+            <FormButton outlined theme="info">Button Info</FormButton>
+            <FormButton outlined theme="warning">Button Warning</FormButton>
+          </div>
+        </div>
+
+        <div class="d-grid grid-2-cols">
+          <div>
+            <h6>Small</h6>
+
+            <FormButton small>Button Primary</FormButton>
+            <FormButton small theme="secondary">Button Secondary</FormButton>
+            <FormButton small theme="medium">Button Medium</FormButton>
+            <FormButton small theme="dark">Button Dark</FormButton>
+            <FormButton small theme="danger">Button Danger</FormButton>
+            <FormButton small theme="success">Button Success</FormButton>
+            <FormButton small theme="info">Button Info</FormButton>
+            <FormButton small theme="warning">Button Warning</FormButton>
+          </div>
+
+          <div>
+            <h6>Block</h6>
+
+            <FormButton block>Button Primary</FormButton>
+            <FormButton block theme="secondary">Button Secondary</FormButton>
+            <FormButton block theme="medium">Button Medium</FormButton>
+            <FormButton block theme="dark">Button Dark</FormButton>
+            <FormButton block theme="danger">Button Danger</FormButton>
+            <FormButton block theme="success">Button Success</FormButton>
+            <FormButton block theme="info">Button Info</FormButton>
+            <FormButton block theme="warning">Button Warning</FormButton>
+          </div>
+        </div>
+
+        <hr />
+        <h6>Icons</h6>
+
+        <FormButton icon>
+          <i class="fa fa-users"></i>
+        </FormButton>
+
+        <FormButton icon theme="secondary">
+          <i class="fa fa-gears"></i>
+        </FormButton>
+
+        <FormButton icon theme="danger">
+          <i class="fa fa-house"></i>
+        </FormButton>
+      </Widget>
+    </div>
+    <div class="col-md-4">
+      <Widget>
+        <template #title>Form Link Buttons</template>
+
+        <FormButton to="/">Button Primary</FormButton>
+        <FormButton block to="/">Button Primary</FormButton>
+        <FormButton outlined to="/">Button Primary</FormButton>
+        <FormButton small to="/">Button Primary</FormButton>
+      </Widget>
+    </div>
   </div>
 </template>
 
@@ -111,6 +197,7 @@ import FormUploader from '@/components/Form/FormUploader.vue'
 import FormDate from '@/components/Form/FormDate.vue'
 import FormDateRange from '@/components/Form/FormDateRange.vue'
 import FormSwitch from '@/components/Form/FormSwitch.vue'
+import FormButton from '@/components/Form/FormButton.vue'
 // import FormHtml from '@/components/Form/FormHtml.vue'
 import UsersCombobox from '@/components/Comboboxes/UsersCombobox.vue'
 import moment from 'moment'
@@ -126,7 +213,8 @@ export default {
     FormSwitch,
     // FormHtml,
     UsersCombobox,
-    FormDateRange
+    FormDateRange,
+    FormButton
   },
   data: () => ({
     number: null,

@@ -364,7 +364,7 @@ label.checkbox {
   border: none;
   border-radius: var(--radius);
   padding: 0.5em 1em;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 0.25em;
   text-decoration: none;
@@ -379,7 +379,7 @@ label.checkbox {
     aspect-ratio: 1;
     padding: 0;
     border-radius: 50%;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
 

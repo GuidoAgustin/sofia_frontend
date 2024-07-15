@@ -19,7 +19,7 @@
     &:not(:disabled),
     &:not(.disabled) {
       &:hover {
-        background-color: var(--color-#{$color}-shade);
+        background-color: var(--color-#{$color}-shade) !important;
         transition: 0.5s ease;
       }
     }

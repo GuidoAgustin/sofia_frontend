@@ -21,6 +21,7 @@
         :section-type="f.type"
         :options="f.options"
         :label="f.title"
+        :moduleName="f.module"
         v-model="result[f.column]"
       />
     </template>

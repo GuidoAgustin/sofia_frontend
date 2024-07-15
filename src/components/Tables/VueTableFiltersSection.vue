@@ -17,6 +17,13 @@
       v-model="result"
       v-else-if="sectionType === 'date-range'"
     />
+    <component
+      v-else-if="sectionType === 'combobox'"
+      flex-field
+      :label="label"
+      v-model="result"
+      :is="comboComponent"
+    />
 
     <template v-else>
       <div class="filters-section-head" @click="collapsed = !collapsed">
@@ -45,13 +52,16 @@ import FormCheckbox from '@/components/Form/FormCheckbox.vue'
 import FormSelect from '@/components/Form/FormSelect.vue'
 import FormDate from '@/components/Form/FormDate.vue'
 import FormDateRange from '@/components/Form/FormDateRange.vue'
+import UsersCombobox from '@/components/Comboboxes/UsersCombobox.vue'
+import Comboboxes from '@/components/Comboboxes/combos-modules.js'
 
 export default {
   components: {
     FormCheckbox,
     FormDate,
     FormDateRange,
-    FormSelect
+    FormSelect,
+    UsersCombobox
   },
   props: {
     modelValue: {
@@ -60,7 +70,8 @@ export default {
     },
     sectionType: {
       type: String,
-      validator: (value) => ['select', 'select-multiple', 'date', 'date-range'].includes(value),
+      validator: (value) =>
+        ['select', 'select-multiple', 'date', 'date-range', 'combobox'].includes(value),
       default: 'select'
     },
     options: {
@@ -68,6 +79,10 @@ export default {
       default: () => []
     },
     label: {
+      type: String,
+      default: null
+    },
+    moduleName: {
       type: String,
       default: null
     }
@@ -83,6 +98,9 @@ export default {
     },
     isCollapse() {
       return ['select-multiple'].includes(this.sectionType)
+    },
+    comboComponent() {
+      return Comboboxes[this.moduleName]
     }
   },
   data: () => ({

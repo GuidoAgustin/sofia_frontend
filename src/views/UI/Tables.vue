@@ -52,6 +52,12 @@ export default {
           column: 'status_simple'
         },
         {
+          title: 'Responsible',
+          type: 'combobox',
+          column: 'agent_id',
+          module: 'users' // Combobox from combos-modules.js
+        },
+        {
           title: 'Start Date',
           type: 'date',
           column: 'start_date'

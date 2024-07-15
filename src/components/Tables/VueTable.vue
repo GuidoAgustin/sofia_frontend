@@ -346,6 +346,7 @@ export default {
     },
 
     parseFilters(filters) {
+      const allowedSubKeys = ['start', 'end', 'value']
       const aux = {}
 
       for (const key of Object.keys(filters)) {
@@ -353,7 +354,13 @@ export default {
 
         if (typeof filter === 'object' && !Array.isArray(filter) && filter !== null) {
           for (const subkey of Object.keys(filters[key])) {
-            aux[`${key}_${subkey}`] = filters[key][subkey]
+            if (allowedSubKeys.includes(subkey)) {
+              if (subkey === 'value') {
+                aux[`${key}`] = filters[key][subkey]
+              } else {
+                aux[`${key}_${subkey}`] = filters[key][subkey]
+              }
+            }
           }
         } else {
           aux[key] = filters[key]

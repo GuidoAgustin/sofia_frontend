@@ -122,9 +122,6 @@ export default {
   }),
   methods: {
     getData(params) {
-      console.log('getData')
-      console.log(params)
-
       axios.get('http://localhost:5010/test', {
         params
       })

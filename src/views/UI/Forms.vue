@@ -200,7 +200,6 @@ import FormSwitch from '@/components/Form/FormSwitch.vue'
 import FormButton from '@/components/Form/FormButton.vue'
 // import FormHtml from '@/components/Form/FormHtml.vue'
 import UsersCombobox from '@/components/Comboboxes/UsersCombobox.vue'
-import moment from 'moment'
 
 export default {
   components: {
@@ -241,13 +240,6 @@ export default {
       }
     ],
     selectedUser: { value: 1, label: 'John Smith' }
-  }),
-  mounted() {
-    const start = moment()
-    console.log(start.format('YYYY-MM-DD'))
-
-    const end = start.add('1 month')
-    console.log(end.format('YYYY-MM-DD'))
-  }
+  })
 }
 </script>

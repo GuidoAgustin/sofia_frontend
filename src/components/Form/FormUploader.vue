@@ -151,7 +151,6 @@ export default {
       if (!evt.target.files.length) return
 
       this.file = evt.target.files[0]
-      console.log(this.file)
       // Check file type
       if (!this.checkFileType(this.file.type)) return
 

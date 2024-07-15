@@ -6,9 +6,11 @@
     :masks="masksValues"
     :popover="{ visibility: disabled ? 'hidden' : 'focus' }"
     :disabled-dates="disabledDates"
+    :columns="isDesktop ? 2 : 1"
+    ref="popover"
   >
     <template v-slot="{ inputValue, inputEvents }">
-      <div class="form-container" :class="{ disabled, 'flex-field': flexField }">
+      <div class="form-container form-date" :class="{ disabled, 'flex-field': flexField }">
         <label>{{ label }}</label>
 
         <div class="d-grid grid-2-cols gap-2">
@@ -27,10 +29,24 @@
         </div>
       </div>
     </template>
+
+    <template #footer v-if="customRanges.length">
+      <div class="form-date-ranges">
+        <button
+          class="btn btn-outline-dark"
+          v-for="(r, ri) of customRanges"
+          :key="ri"
+          @click="applyCustomRange(r)"
+        >
+          {{ r.label }}
+        </button>
+      </div>
+    </template>
   </v-date-picker>
 </template>
 
 <script>
+import moment from 'moment'
 import { parseToDate, parseToString } from '@/utils/date.js'
 
 export default {
@@ -61,6 +77,10 @@ export default {
     flexField: {
       type: Boolean,
       default: false
+    },
+    customRanges: {
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({
@@ -72,6 +92,9 @@ export default {
         inputDateTime24hr: 'DD-MM-YYYY H:mm',
         input: 'DD-MM-YYYY'
       }
+    },
+    isDesktop() {
+      return window.innerWidth > 768
     }
   },
   watch: {
@@ -106,6 +129,35 @@ export default {
           }
         }
       }
+    }
+  },
+  methods: {
+    applyCustomRange(range) {
+      const { unit, qty } = range
+
+      if (!unit || !qty) {
+        this.$toast.error('Invalid range')
+        return
+      }
+
+      let newEmitting = {
+        start: null,
+        end: null
+      }
+
+      if (this.date.start) {
+        const { start } = this.date
+        newEmitting.start = parseToString(start, this.dateTime)
+        newEmitting.end = parseToString(moment(start).add(qty, unit), this.dateTime)
+      } else {
+        const start = moment()
+        newEmitting.start = parseToString(start, this.dateTime)
+        newEmitting.end = parseToString(moment(start).add(qty, unit), this.dateTime)
+      }
+
+      this.$emit('update:modelValue', newEmitting)
+      this.$emit('change', newEmitting)
+      this.$refs.popover.togglePopover()
     }
   }
 }

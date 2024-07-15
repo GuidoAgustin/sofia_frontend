@@ -67,11 +67,24 @@
       </Widget>
     </div>
     <div class="col-md-4">
-      <Widget>
+      <Widget class="mb-4">
         <template #title>Form Date</template>
 
         <FormDate v-model="date" label="Date" />
         <FormDate v-model="date" disabled label="Date **disabled**" />
+        <p>Date: {{ date }}</p>
+      </Widget>
+      <Widget>
+        <template #title>Form Date Range</template>
+
+        <FormDateRange v-model="dateRange" label="Date" :custom-ranges="customDateRanges" />
+        <FormDateRange
+          v-model="dateRange"
+          label="Date"
+          flex-field
+          :custom-ranges="customDateRanges"
+        />
+        <FormDateRange v-model="dateRange" disabled label="Date **disabled**" />
         <p>Date: {{ date }}</p>
       </Widget>
     </div>
@@ -95,9 +108,11 @@ import FormNumber from '@/components/Form/FormNumber.vue'
 import FormSelect from '@/components/Form/FormSelect.vue'
 import FormUploader from '@/components/Form/FormUploader.vue'
 import FormDate from '@/components/Form/FormDate.vue'
+import FormDateRange from '@/components/Form/FormDateRange.vue'
 import FormSwitch from '@/components/Form/FormSwitch.vue'
 // import FormHtml from '@/components/Form/FormHtml.vue'
 import UsersCombobox from '@/components/Comboboxes/UsersCombobox.vue'
+import moment from 'moment'
 
 export default {
   components: {
@@ -109,7 +124,8 @@ export default {
     FormDate,
     FormSwitch,
     // FormHtml,
-    UsersCombobox
+    UsersCombobox,
+    FormDateRange
   },
   data: () => ({
     number: null,
@@ -118,6 +134,12 @@ export default {
     selOpt: null,
     selFile: null,
     date: null,
+    dateRange: { start: null, end: null },
+    customDateRanges: [
+      { label: '1 month', qty: 1, unit: 'month' },
+      { label: '3 months', qty: 3, unit: 'month' },
+      { label: '6 months', qty: 6, unit: 'month' }
+    ],
     switched: false,
     options: [
       {
@@ -130,6 +152,13 @@ export default {
       }
     ],
     selectedUser: { value: 1, label: 'John Smith' }
-  })
+  }),
+  mounted() {
+    const start = moment()
+    console.log(start.format('YYYY-MM-DD'))
+
+    const end = start.add('1 month')
+    console.log(end.format('YYYY-MM-DD'))
+  }
 }
 </script>

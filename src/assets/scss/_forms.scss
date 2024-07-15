@@ -258,6 +258,15 @@
     }
   }
 }
+.form-date-ranges {
+  display: grid;
+  padding: 0.5em 0.75em;
+  gap: 0.25em;
+
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
 
 .vc-popover-content-wrapper button {
   background: transparent;

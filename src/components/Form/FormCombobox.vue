@@ -113,11 +113,18 @@ export default {
       }
     })
   },
+  watch: {
+    value: {
+      immediate: true,
+      handler(val) {
+        if (val?.[this.optionLabel]) {
+          this.search = val[this.optionLabel]
+        }
+      }
+    }
+  },
   mounted() {
     this.itemId = Math.floor(Math.random() * Date.now())
-    if (this.value?.[this.optionLabel]) {
-      this.search = this.value[this.optionLabel]
-    }
   },
   beforeUnmount() {
     this.optGetter.cancel && this.optGetter.cancel()

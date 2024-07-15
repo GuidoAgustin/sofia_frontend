@@ -58,7 +58,7 @@ export default {
       default: 5
     },
     maxChars: {
-      type: Number,
+      type: [Number, String],
       default: null
     }
   },

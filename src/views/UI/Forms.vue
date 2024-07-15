@@ -2,16 +2,11 @@
   <div class="row">
     <div class="col-md-4">
       <Widget>
-        <template #title>Form Autocomplete</template>
+        <template #title>Form Combobox</template>
 
-        <FormAutocomplete
-          :options="ac_options_filtered"
-          @onSearch="acGetter"
-          @onSelectOption="onSelectOption"
-          label="Autocomplete"
-        />
+        <UsersCombobox v-model="selectedUser" label="Users combo" icon="fa fa-users" />
 
-        <p>Value: {{ ac_result }}</p>
+        <p>Value: {{ selectedUser }}</p>
       </Widget>
     </div>
     <div class="col-md-4">
@@ -99,7 +94,7 @@ import FormUploader from '@/components/Form/FormUploader.vue'
 import FormDate from '@/components/Form/FormDate.vue'
 import FormSwitch from '@/components/Form/FormSwitch.vue'
 // import FormHtml from '@/components/Form/FormHtml.vue'
-import FormAutocomplete from '@/components/Form/FormAutocomplete.vue'
+import UsersCombobox from '@/components/Comboboxes/UsersCombobox.vue'
 
 export default {
   components: {
@@ -111,7 +106,7 @@ export default {
     FormDate,
     FormSwitch,
     // FormHtml,
-    FormAutocomplete
+    UsersCombobox
   },
   data: () => ({
     number: null,
@@ -131,32 +126,7 @@ export default {
         name: 'Opt 2'
       }
     ],
-    ac_options: [
-      { id: 1, name: 'Crock Pot Roast' },
-      { id: 2, name: 'Roasted Asparagus' },
-      { id: 3, name: 'Curried Lentils and Rice' },
-      { id: 4, name: 'Big Night Pizza' },
-      { id: 5, name: 'Cranberry and Apple Stuffed Acorn Squash Recipe' },
-      { id: 6, name: "Mic's Yorkshire Puds" },
-      { id: 7, name: 'Old-Fashioned Oatmeal Cookies' },
-      { id: 8, name: 'Blueberry Oatmeal Squares' },
-      { id: 9, name: 'Curried chicken salad' }
-    ],
-    ac_options_filtered: [],
-    ac_result: null
-  }),
-  mounted() {
-    this.ac_options_filtered = [...this.ac_options]
-  },
-  methods: {
-    // Function to filter ac_options
-    // Or to send a search to an API
-    acGetter(search) {
-      this.ac_options_filtered = this.ac_options.filter((x) => x.name.match(search))
-    },
-    onSelectOption(event) {
-      this.ac_result = event
-    }
-  }
+    selectedUser: { value: 1, label: 'John Smith' }
+  })
 }
 </script>

@@ -1,8 +1,8 @@
 <template>
   <div class="card widget h-auto">
-    <div class="card-header">
+    <div class="card-header" v-if="icon || $slots.title || $slots.buttons">
       <i class="widget-icon" :class="icon" v-if="icon"></i>
-      <h3 class="w-100"><slot name="title">Widget Title</slot></h3>
+      <h3 class="w-100"><slot name="title"></slot></h3>
 
       <div class="buttons"><slot name="buttons"> </slot></div>
     </div>
@@ -18,10 +18,10 @@ export default {
   props: {
     icon: {
       type: String,
-      default: null,
-    },
-  },
-};
+      default: null
+    }
+  }
+}
 </script>
 
 <style></style>

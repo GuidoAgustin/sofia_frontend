@@ -1,0 +1,30 @@
+.tabs {
+  display: grid;
+  gap: 0.5em;
+
+  .tabs-nav {
+    display: flex;
+    gap: 0.5em;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.05);
+    padding: 0.25em;
+    border-radius: var(--radius);
+
+    .btn {
+      flex: 1;
+      justify-content: center;
+      color: var(--color-dark);
+
+      .icon {
+        margin-right: 0.5em;
+      }
+
+      &.active {
+        background: var(--color-white);
+      }
+    }
+  }
+  .tabs-body {
+    padding: 1em;
+  }
+}

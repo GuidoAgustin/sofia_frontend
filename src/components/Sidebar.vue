@@ -11,7 +11,7 @@
             <li v-for="(submenu, smi) of menu.children" :key="smi">
               <router-link
                 :class="{
-                  disabled: !submenu.to,
+                  disabled: !submenu.to
                 }"
                 :to="submenu.to || '#'"
               >
@@ -22,17 +22,12 @@
           </ul>
           <a
             href="/"
-            :data-target="`deep-${menu.title
-              .toLowerCase()
-              .replaceAll(' ', '-')}`"
+            :data-target="`deep-${menu.title.toLowerCase().replaceAll(' ', '-')}`"
             @click.prevent="toggleTarget"
           >
             <i class="icon" :class="menu.icon" />
             {{ menu.title }}
-            <i
-              class="fa-solid fa-angle-right arrow"
-              v-if="menu.children && menu.children.length"
-            />
+            <i class="fa-solid fa-angle-right arrow" v-if="menu.children && menu.children.length" />
           </a>
         </template>
         <router-link
@@ -53,31 +48,31 @@
 </template>
 
 <script>
-import menus from "@/router/menus.js";
+import menus from '@/router/menus.js'
 
 export default {
   setup() {
     const toggleTarget = (e) => {
-      const others = document.querySelectorAll("ul.menu > li > ul");
-      const t = document.getElementById(e.target.dataset.target);
-      const canOpen = !t.classList.contains("opened");
+      const others = document.querySelectorAll('ul.menu > li > ul')
+      const t = document.getElementById(e.target.dataset.target)
+      const canOpen = !t.classList.contains('opened')
 
       others.forEach((x) => {
-        x.classList.remove("opened");
-      });
+        x.classList.remove('opened')
+      })
 
       if (canOpen) {
-        t.classList.add("opened");
+        t.classList.add('opened')
       }
-    };
+    }
     const closeSubmenus = () => {
-      const others = document.querySelectorAll("ul.menu > li > ul");
+      const others = document.querySelectorAll('ul.menu > li > ul')
       others.forEach((x) => {
-        x.classList.remove("opened");
-      });
-    };
+        x.classList.remove('opened')
+      })
+    }
 
-    return { toggleTarget, closeSubmenus, menus };
-  },
-};
+    return { toggleTarget, closeSubmenus, menus }
+  }
+}
 </script>

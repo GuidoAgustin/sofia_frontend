@@ -17,24 +17,24 @@
 <script>
 export default {
   mounted() {
-    document.addEventListener("click", this.closeSidebar);
+    document.addEventListener('click', this.closeSidebar)
   },
   beforeUnmount() {
-    document.removeEventListener("click", this.closeSidebar);
+    document.removeEventListener('click', this.closeSidebar)
   },
   methods: {
     closeSidebar(e) {
-      const sb = document.querySelector(".sidebar");
-      if (sb && sb.classList.contains("sidebar-open")) {
-        if (e.target.closest(".sidebar")) return;
+      const sb = document.querySelector('.sidebar')
+      if (sb && sb.classList.contains('sidebar-open')) {
+        if (e.target.closest('.sidebar')) return
 
-        sb.classList.remove("sidebar-open");
+        sb.classList.remove('sidebar-open')
       }
     },
     openSidebar() {
-      const sb = document.querySelector(".sidebar");
-      sb.classList.add("sidebar-open");
-    },
-  },
-};
+      const sb = document.querySelector('.sidebar')
+      sb.classList.add('sidebar-open')
+    }
+  }
+}
 </script>

@@ -22,10 +22,10 @@ export default {
   props: {
     noChangeSidebar: {
       type: Boolean,
-      default: false,
-    },
-  },
-};
+      default: false
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -51,7 +51,7 @@ export default {
   animation: lds-spinner 1.2s linear infinite;
 }
 .lds-spinner div:after {
-  content: " ";
+  content: ' ';
   display: block;
   position: absolute;
   top: 3px;

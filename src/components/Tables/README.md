@@ -1,9 +1,10 @@
 # VueTables
 
 VueTables is a table enhancing VueJs Component with server side pagination, filtering, and
- sorting.  
+sorting.
 
 ## Installing VueTables
+
 ```
 yarn add farena/vue-tables
 
@@ -24,10 +25,11 @@ Vue.use(VueTables);
 ```
 
 ## Basic Usage
+
 ```
 Inside any component in the project
 
-<template>    
+<template>
     <vue-table
       v-if="vTable.headers"
       :values="vTable.values"
@@ -92,15 +94,16 @@ data() {
 ```
 
 ## Headers Options
+
 ```
 headers: [
     {
       title: 'username', // Name of the key in values.data
       title: 'role.name', // we can concatenate JSON attributes.
-      
+
       mask: 'sign in user', // Title for this column at render
       sortable: true, // Boolean
-      sort_value: 'u_name', // (Optional) Name of the column to sort in backend. If it doesnt exist, we send the title string to sort. 
+      sort_value: 'u_name', // (Optional) Name of the column to sort in backend. If it doesnt exist, we send the title string to sort.
       width: 50, // (Optional)(%) Percentage width of the full table
       editable: 'TYPE' // (Optional) The column is editable, can be any of these types => ['text','number','select','checkbox']
       options: [ { id:1, label: 'option 1' } ], // If is an Editable type 'Select' have to send the options.
@@ -130,7 +133,7 @@ actions: [
 In this action example we defined a callback named 'onPressDelete', we have to subscribe to it.
 
 ```
-<template>    
+<template>
     <vue-table
       v-if="vTable.headers"
       :values="vTable.values"
@@ -155,11 +158,12 @@ export default {
 ```
 
 ## Available Options
+
 ```
 options: {
-  tableClass: 'customTableClass', // Table Class. Default: 'table table-bordered table-hover' 
+  tableClass: 'customTableClass', // Table Class. Default: 'table table-bordered table-hover'
   theadClass: 'customTHeadClass', // Table Head class. Default: null
-  tbodyClass: 'customTBodyClass', // Table Body class. Default: null 
+  tbodyClass: 'customTBodyClass', // Table Body class. Default: null
   checkeable: false, // Boolean / Activate the checkboxes option
   inputContainerClass: 'form-group', // class for editable colums type 'text','number','select' input container
   inputClass: 'form-control', // class for editable colums type 'text','number','select' input
@@ -171,11 +175,11 @@ options: {
 ## Values (with pagination and filters from backend)
 
 This object is received from Backend, it has been taken from laravel pagination
- 
+
 More info here: (https://laravel.com/docs/5.8/pagination)
 
 ```
-<template>    
+<template>
     <vue-table
       v-if="vTable.headers"
       :values="vTable.values"
@@ -200,24 +204,24 @@ export default {
         ],
         values: {}, // we initialize values as an empty Object
         options: {
-          /// 
+          ///
         },
       },
     };
   },
   mounted() {
-    // call the init method, and it calls getUsers 
+    // call the init method, and it calls getUsers
     // (with the corresponding params)
-    this.$refs.vTable.init(); 
+    this.$refs.vTable.init();
   },
   methods: {
-    // when this functions is called from the @changed event, 
+    // when this functions is called from the @changed event,
     // vue-table will send the params
     getUsers(params = {}) {
       // axios call to backend.
       // using the created String Prototype function "paginableUrl"
-      // we send the params 
-      axios.get('/api/users'.paginableUrl(params)) 
+      // we send the params
+      axios.get('/api/users'.paginableUrl(params))
         .then(res => {
             this.vTable.values = res;
 
@@ -248,8 +252,9 @@ export default {
 ```
 
 ## Reload table
+
 ```
-<template>    
+<template>
     <vue-table
       v-if="vTable.headers"
       :values="vTable.values"
@@ -274,7 +279,7 @@ export default {
         ],
         values: {},
         options: {
-          /// 
+          ///
         },
       },
     };
@@ -293,7 +298,9 @@ export default {
 ```
 
 ## Checkboxes option
+
 To make batch actions you could use this option
+
 ```
 options: {
   checkeable: true,
@@ -303,7 +310,7 @@ options: {
 If you turn it on, you have to subscribe to the @checkAll and @itemChecked callbacks.
 
 ```
-<template>    
+<template>
     <vue-table
       v-if="vTable.headers"
       :values="valuesWithCheck" // this item is modified before enter in vue-tables
@@ -373,7 +380,7 @@ You can add editable columns type: TEXT, NUMBER, SELECT and CHECKBOX
 Every editable column will emit 'editableInput' callback
 
 ```
-<template>    
+<template>
     <vue-table
       v-if="vTable.headers"
       :values="values"
@@ -395,7 +402,7 @@ methods: {
       value,
     });
 
-    // You can now, either store the data directly into the backend, 
+    // You can now, either store the data directly into the backend,
     // or update the VALUES array and send it all together after.
   },
 }
@@ -423,14 +430,14 @@ Vue.use(VueTables);
 .p_func {
     .p_func_item {
         label {}
-        
+
         select {}
-        
+
         ul {
             .page-item-desktop {}
             .page-item-mobile {}
         }
-    
+
         input {}
     }
 }

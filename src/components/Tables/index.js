@@ -1,7 +1,7 @@
-import VueTable from "./VueTable.vue";
+import VueTable from './VueTable.vue'
 
 export default {
   install: (app) => {
-    app.component("vue-table", VueTable);
-  },
-};
+    app.component('vue-table', VueTable)
+  }
+}

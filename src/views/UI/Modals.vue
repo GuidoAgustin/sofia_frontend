@@ -7,8 +7,8 @@
         <button
           class="btn btn-primary btn-block"
           @click="
-            showModal = true;
-            size = 'sm';
+            showModal = true
+            size = 'sm'
           "
         >
           Open Modal Small
@@ -18,8 +18,8 @@
         <button
           class="btn btn-primary btn-block"
           @click="
-            showModal = true;
-            size = 'md';
+            showModal = true
+            size = 'md'
           "
         >
           Open Modal Medium
@@ -29,8 +29,8 @@
         <button
           class="btn btn-primary btn-block"
           @click="
-            showModal = true;
-            size = 'lg';
+            showModal = true
+            size = 'lg'
           "
         >
           Open Modal Large
@@ -42,9 +42,9 @@
   <vue-modal @close="close" ref="modal" :size="size" v-if="showModal">
     <template #title>Modal Example</template>
     <template #body>
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit unde odit,
-      facilis non ipsum iure distinctio, deleniti odio commodi voluptatum omnis,
-      natus culpa ad amet pariatur laboriosam. Omnis, nostrum. Sapiente.
+      Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit unde odit, facilis non ipsum iure
+      distinctio, deleniti odio commodi voluptatum omnis, natus culpa ad amet pariatur laboriosam.
+      Omnis, nostrum. Sapiente.
     </template>
     <template #footer>
       <button class="btn btn-success">Save</button>
@@ -53,22 +53,22 @@
 </template>
 
 <script>
-import Widget from "@/components/Widget.vue";
+import Widget from '@/components/Widget.vue'
 
 export default {
   components: {
-    Widget,
+    Widget
   },
   data: () => ({
     showModal: false,
-    size: "sm",
+    size: 'sm'
   }),
   methods: {
     close() {
-      this.showModal = false;
-    },
-  },
-};
+      this.showModal = false
+    }
+  }
+}
 </script>
 
 <style></style>

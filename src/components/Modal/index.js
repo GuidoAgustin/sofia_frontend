@@ -1,7 +1,7 @@
-import VueModal from "./VueModal.vue";
+import VueModal from './VueModal.vue'
 
 export default {
   install: (app) => {
-    app.component("vue-modal", VueModal);
-  },
-};
+    app.component('vue-modal', VueModal)
+  }
+}

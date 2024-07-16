@@ -8,60 +8,60 @@
 </template>
 
 <script>
-import Trumbowyg from "vue-trumbowyg";
-import "trumbowyg/dist/ui/trumbowyg.css";
+import Trumbowyg from 'vue-trumbowyg'
+import 'trumbowyg/dist/ui/trumbowyg.css'
 
 export default {
   components: {
-    Trumbowyg,
+    Trumbowyg
   },
   props: {
     modelValue: {
       type: String,
-      default: null,
+      default: null
     },
     disabled: {
       type: Boolean,
-      default: false,
+      default: false
     },
     label: {
       type: String,
-      default: null,
+      default: null
     },
     config: {
       type: Object,
       default: () => ({
         btns: [
-          ["viewHTML"],
-          ["undo", "redo"], // Only supported in Blink browsers
-          ["formatting"],
-          ["strong", "em", "del"],
-          ["superscript", "subscript"],
-          ["link"],
-          ["insertImage"],
-          ["justifyLeft", "justifyCenter", "justifyRight", "justifyFull"],
-          ["unorderedList", "orderedList"],
-          ["horizontalRule"],
-          ["removeformat"],
+          ['viewHTML'],
+          ['undo', 'redo'], // Only supported in Blink browsers
+          ['formatting'],
+          ['strong', 'em', 'del'],
+          ['superscript', 'subscript'],
+          ['link'],
+          ['insertImage'],
+          ['justifyLeft', 'justifyCenter', 'justifyRight', 'justifyFull'],
+          ['unorderedList', 'orderedList'],
+          ['horizontalRule'],
+          ['removeformat']
         ],
         semantic: {
-          div: "div", // Editor does nothing on div tags now
-        },
-      }),
-    },
+          div: 'div' // Editor does nothing on div tags now
+        }
+      })
+    }
   },
   data: () => ({
-    resultHtml: null,
+    resultHtml: null
   }),
   watch: {
     resultHtml(val) {
-      this.$emit("update:modelValue", val);
-    },
+      this.$emit('update:modelValue', val)
+    }
   },
   mounted() {
-    this.resultHtml = this.modelValue;
-  },
-};
+    this.resultHtml = this.modelValue
+  }
+}
 </script>
 
 <style scoped></style>

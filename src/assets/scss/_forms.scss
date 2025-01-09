@@ -293,9 +293,6 @@ input[type='number']::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
-input[type='number'] {
-  -moz-appearance: textfield;
-}
 select {
   padding: 0.5em 0;
   border-right: 0.8em solid transparent;
@@ -411,4 +408,31 @@ label.checkbox {
 .text-center .btn {
   margin-left: auto;
   margin-right: auto;
+}
+
+.form-control {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  margin-bottom: 10px;
+}
+
+.input-group-prepend .input-group-text {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+.input-group-prepend .input-group-text i {
+  font-size: 18px;
+  color: #666;
+  margin-right: 10px;
+}
+
+.input-group-prepend.icon-left {
+  position: absolute;
+  left: 10px;
+  top: 50%;
+  transform: translateY(-50%);
 }

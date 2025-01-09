@@ -13,6 +13,10 @@ body,
 body {
   color: var(--body-text);
   background: var(--body-bg);
+  background-image: url("../../../public/img/flor-de-loto-fondo.jpg");
+  background-repeat: repeat-x;
+  background-position: 100% 0 ;
+  background-size: 50% 100%;
 }
 
 // Scrollbar Style
@@ -37,7 +41,23 @@ body {
 }
 
 img.brand-logo {
-  max-width: 100px;
+  border-radius: 10px;
+  height: auto;
+  max-width: 200px; /* Establece un ancho máximo para la imagen */
+  margin: 0 auto; /* Centra la imagen horizontalmente */
+  width: auto; /* Asegúrate de que la imagen se ajuste al ancho de la barra lateral */
+}
+
+.card-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.logo-text {
+  font-size: 20px;
 }
 
 h1,
@@ -105,6 +125,7 @@ a {
       img {
         height: 40px;
         margin-right: 1em;
+        transition: 0.5s ease;
       }
 
       h1 {

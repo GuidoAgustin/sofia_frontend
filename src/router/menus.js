@@ -15,6 +15,11 @@ export default [
         to: '/login'
       },
       {
+        icon: 'fa-solid fa-user',
+        title: 'Registro',
+        to: '/registro'
+      },
+      {
         icon: 'fa-solid fa-rectangle-list',
         title: 'Forms',
         to: '/forms'

@@ -25,33 +25,44 @@ export default {
       commit('SET_TOKEN', localStorage.getItem('token'))
       commit('SET_USER', JSON.parse(localStorage.getItem('user')))
     },
+    registrar(_, form) {
+      return new Promise((resolve) => {
+        console.log(baseUrl + 'registro');
+        axios
+          .post(baseUrl + 'registro', form)
+          .then(({ data }) => {
+            resolve(data.data);
+          })
+          .catch(this.$errorHandler);
+      });
+    },
     login({ commit }, form) {
       commit('SHOW_LOADER')
 
-      // commit('SET_TOKEN', 'test')
-      // commit('SET_USER', 'test')
-      // commit('HIDE_LOADER')
+    //   commit('SET_TOKEN', 'test')
+    //   commit('SET_USER', 'test')
+    //   commit('HIDE_LOADER')
 
       return new Promise((resolve) => {
         axios
-          .post(baseUrl + "login", form)
+          .post(baseUrl + 'login', form)
           .then(({ data }) => {
             if (form.remember) {
-              localStorage.setItem("default_email", form.email);
-              localStorage.setItem("default_pw", form.password);
+              localStorage.setItem('default_email', form.email)
+              localStorage.setItem('default_pw', form.password)
             } else {
-              localStorage.removeItem("default_email");
-              localStorage.removeItem("default_pw");
+              localStorage.removeItem('default_email')
+              localStorage.removeItem('default_pw')
             }
-            commit("SET_TOKEN", data.data.token);
-            commit("SET_USER", data.data.user);
-            resolve();
+            commit('SET_TOKEN', data.data.token)
+            commit('SET_USER', data.data.user)
+            resolve()
           })
           .catch(this.$errorHandler)
           .finally(() => {
-            commit("HIDE_LOADER");
-          });
-      });
+            commit('HIDE_LOADER')
+          })
+      })
     },
     logout({ commit }) {
       return new Promise((resolve) => {

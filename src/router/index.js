@@ -1,5 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
+
 const routes = [
   {
     path: '/',
@@ -9,6 +10,13 @@ const routes = [
     path: '/login',
     component: () => import('@/views/Auth/Login.vue')
   },
+  
+    
+    {
+      path: '/registro',
+      component: () => import('@/views/Auth/Registro.vue')
+    },
+    
   {
     path: '/',
     component: () => import('@/views/Dashboard/DashboardLayout.vue'),

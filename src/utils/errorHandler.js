@@ -2,7 +2,8 @@ export default {
   install: async (app) => {
     const { $toast, $store } = app.config.globalProperties
 
-    const errorHandler = (e) => {
+    const errorHandler = (e) => {console.log(e);
+    
       if (e.name === 'AxiosError') {
         const res = e.response.data
 

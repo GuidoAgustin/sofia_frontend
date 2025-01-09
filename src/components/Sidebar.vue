@@ -1,8 +1,8 @@
 <template>
   <div class="sidebar">
     <div class="brand">
-      <img src="/img/logo.svg" class="brand-logo" alt="" />
-      <h1>QUARTZ</h1>
+      <img src="/img/logosofia.png" class="brand-logo" alt="" />
+      <h1>DESPENSA SOFIA</h1>
     </div>
     <ul class="menu">
       <li v-for="(menu, mi) of menus" :key="mi">

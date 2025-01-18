@@ -1,17 +1,43 @@
 <template>
-  <h1>DASHBOARD</h1>
+  <h1>Panel central</h1>
   <div class="row">
     <div class="col-12">
       <div class="card">
-        <div class="card-header">Bienvenido!</div>
+        <div class="card-header">Bienvenido a la Plataforma de Gestión de la Despensa Sofía</div>
         <div class="card-body">
           <p>
-            Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sit assumenda similique quae
-            hic eaque, ex cum quaerat beatae odio autem voluptatibus earum quis omnis magni iste
-            ratione officiis veniam doloremque!
+            Aca podrás gestionar tus productos de manera fácil y eficiente, gestionar precios,
+            inventario y más. Nuestra plataforma está diseñada para ayudarte a ahorrar tiempo y
+            aumentar la productividad.
           </p>
         </div>
       </div>
     </div>
   </div>
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-primary" @click="$router.push('/calculadora')">
+        Ir a la calculadora
+        <i class="fa-solid fa-calculator"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-primary" @click="$router.push('/products')">
+        Ir a la lista de Productos
+        <i class="fa-solid fa-table"></i>
+      </button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-12">
+      <button class="btn btn-primary">Agregar Productos
+        <i class="fa-solid fa-store"></i>
+      </button>
+    </div>
+  </div>
+<button class="btn btn-primary" @click="$router.push('')">
+   Escanear productos <i class="fa-solid fa-barcode"></i>
+</button>
 </template>

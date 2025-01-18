@@ -167,7 +167,7 @@ options: {
   checkeable: false, // Boolean / Activate the checkboxes option
   inputContainerClass: 'form-group', // class for editable colums type 'text','number','select' input container
   inputClass: 'form-control', // class for editable colums type 'text','number','select' input
-  checkboxContainerClass: 'form-check', // class for editable colums type 'checkbox' input container
+  checkboxContainerClass: 'form-check', // class for editable colums type 'checkbox' input container 
   checkboxClass: 'form-check-input', // class for editable colums type 'checkbox' input
 },
 ```

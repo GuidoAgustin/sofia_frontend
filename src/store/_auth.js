@@ -27,21 +27,21 @@ export default {
     },
     registrar(_, form) {
       return new Promise((resolve) => {
-        console.log(baseUrl + 'registro');
+        console.log(baseUrl + 'registro')
         axios
           .post(baseUrl + 'registro', form)
           .then(({ data }) => {
-            resolve(data.data);
+            resolve(data.data)
           })
-          .catch(this.$errorHandler);
-      });
+          .catch(this.$errorHandler)
+      })
     },
     login({ commit }, form) {
       commit('SHOW_LOADER')
 
-    //   commit('SET_TOKEN', 'test')
-    //   commit('SET_USER', 'test')
-    //   commit('HIDE_LOADER')
+      //   commit('SET_TOKEN', 'test')
+      //   commit('SET_USER', 'test')
+      //   commit('HIDE_LOADER')
 
       return new Promise((resolve) => {
         axios
@@ -154,6 +154,24 @@ export default {
           .finally(() => {
             commit('HIDE_LOADER')
           })
+      })
+    },
+
+    allProducts({ commit, getters }) {
+      commit('SHOW_LOADER')
+      return new Promise((resolve) => {
+        axios.get(baseUrl + 'products', {
+          headers: {
+            Authorization: `Bearer ${getters.token}`
+          }
+        })
+        .then(({ data }) => {
+          resolve(data)
+        })
+        .catch(this.$errorHandler)
+        .finally(() => {
+          commit('HIDE_LOADER')
+        })
       })
     }
   },

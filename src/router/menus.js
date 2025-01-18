@@ -6,46 +6,20 @@ export default [
     children: [
       {
         icon: 'fa-solid fa-gauge-high',
-        title: 'Dashboard',
+        title: 'Panel Central',
         to: '/dashboard'
       },
       {
-        icon: 'fa-solid fa-right-to-bracket',
-        title: 'Login',
-        to: '/login'
-      },
-      {
-        icon: 'fa-solid fa-user',
-        title: 'Registro',
-        to: '/registro'
-      },
-      {
-        icon: 'fa-solid fa-rectangle-list',
-        title: 'Forms',
-        to: '/forms'
+        icon: 'fa-solid fa-calculator',
+        title: 'Calculadora',
+        to: '/calculadora'
       },
       {
         icon: 'fa-solid fa-table',
-        title: 'Tables',
-        to: '/tables'
+        title: 'Productos',
+        to: '/products'
       },
-      {
-        icon: 'fa-solid fa-table',
-        title: 'Modals',
-        to: '/modals'
-      },
-      {
-        icon: 'fa-solid fa-certificate',
-        title: 'Tabs',
-        to: '/tabs'
-      }
     ]
-  },
-  {
-    icon: 'fa-solid fa-people-group',
-    title: 'Usuarios',
-    to: null,
-    children: null
   },
   {
     icon: 'fa-solid fa-gear',

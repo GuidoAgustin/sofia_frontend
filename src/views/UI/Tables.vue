@@ -1,6 +1,6 @@
 <template>
   <Widget>
-    <template #title>Vue Tables</template>
+    <template #title>Productos</template>
     <vue-table
       v-if="vTable.headers"
       :values="vTable.values"
@@ -13,6 +13,7 @@
       @onShowDetails="onShowDetails"
     />
   </Widget>
+  <button @click="irAtras" class="btn btn-primary">Ir atrás</button>
 </template>
 
 <script>
@@ -24,96 +25,53 @@ export default {
   },
   data: () => ({
     vTable: {
-      filters: [
-        {
-          title: 'Status',
-          type: 'select-multiple',
-          options: [
-            'Waiting for approval',
-            'Pre enrolled',
-            'Enrolled',
-            'Completed',
-            'Cancelled',
-            'Void'
-          ],
-          column: 'status'
-        },
-        {
-          title: 'Status Simple',
-          type: 'select',
-          options: [
-            'Waiting for approval',
-            'Pre enrolled',
-            'Enrolled',
-            'Completed',
-            'Cancelled',
-            'Void'
-          ],
-          column: 'status_simple'
-        },
-        {
-          title: 'Responsible',
-          type: 'combobox',
-          column: 'agent_id',
-          module: 'users' // Combobox from combos-modules.js
-        },
-        {
-          title: 'Start Date',
-          type: 'date',
-          column: 'start_date'
-        },
-        {
-          title: 'Start Date (range)',
-          type: 'date-range',
-          column: 'start_date_range'
-        }
-      ],
+      filters: [],
       headers: [
         {
-          title: 'name',
+          title: 'product_id',
           sortable: true,
-          hideable: true
+          hideable: true,
+          mask: 'id',
         },
         {
-          title: 'username',
+          title: 'provider',
           sortable: true,
-          hideable: true
-        }
+          hideable: true,
+          mask: 'Proveedor'
+        },
+        {
+          title: 'code',
+          sortable: true,
+          hideable: true,
+          mask: 'Codigo'
+        },
+        {
+          title: 'name_product',
+          sortable: true,
+          hideable: true,
+          mask: 'Nombre del producto'
+        },
+        {
+          title: 'price',
+          sortable: true,
+          hideable: true,
+          mask: 'Precio'
+        },
       ],
       actions: [
-        {
-          title: 'Show Details',
-          callback: 'onShowDetails'
-        },
         {
           title: 'Delete item',
           callback: 'onDelete'
         }
       ],
       values: {
-        total: 3,
+        total: 5,
         per_page: 15,
         current_page: 1,
         last_page: 1,
         from: 1,
         to: 15,
-        data: [
-          {
-            id: 1,
-            name: 'Pedro Aznar',
-            username: 'paznar'
-          },
-          {
-            id: 2,
-            name: 'Charlie Alberti',
-            username: 'chalberti'
-          },
-          {
-            id: 3,
-            name: 'Gustavo Cerati',
-            username: 'gcerati'
-          }
-        ]
+        data: []
       },
       options: {
         /// Go to OPTIONS SECTION for explanation
@@ -121,13 +79,38 @@ export default {
     }
   }),
   methods: {
-    getData(params) {
-      axios.get('http://localhost:5010/test', {
-        params
+getData(params) {
+  const token = localStorage.getItem('token')
+  if (token) {
+    axios
+      .get('http://localhost:3001/products', {
+        params: {
+          page: params.page,
+          per_page: params.per_page,
+          filter: params.filter
+        },
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       })
-    },
+      .then((response) => {
+        const data = response.data
+        console.log('Data:', data)
+        this.vTable.values = data.data
+        console.log('vTable.values:', this.vTable.values);      
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  } else {
+    console.error('No token found');
+  }
+},
     onShowDetails(item, index) {
       console.log({ item, index })
+    },
+    irAtras() {
+      this.$router.go(-1) // Navegar a la página anterior
     }
   }
 }

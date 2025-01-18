@@ -5,12 +5,12 @@ $custom-theme-colors: map-merge(
   (
     'primary': #ef6367,
     'primary-text': #fff,
-    'primary-tint': #43d0d4,
+    'primary-tint': #e89a9a,
     'primary-shade': #e89a9a,
-    'primary-50': #34bec250,
-    'primary-25': #34bec225,
+    'primary-50': #ffacac,
+    'primary-25': #ffe0e0,
 
-    'secondary-tint': #6cd0ff,
+    'secondary-tint': #0084c2,
     'secondary': #3dc2ff,
     'secondary-text': #fff,
     'secondary-shade': #2a9bcf,
@@ -18,7 +18,7 @@ $custom-theme-colors: map-merge(
     'transparent': transparent,
     'transparent-text': #697a8d,
 
-    'white': #ffffff,
+    'white': #3d3333,
     'white-shade': #d8d6d6,
     'white-text': #010101,
 
@@ -26,8 +26,8 @@ $custom-theme-colors: map-merge(
     'light-text': #000,
     'light-shade': #f3f3f3,
 
-    'medium-tint': #c2c7cc,
-    'medium': #7c8691,
+    'medium-tint': #ef6367,
+    'medium': #ef6367,
     'medium-text': #fff,
     'medium-shade': #5a646e,
 

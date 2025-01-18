@@ -13,9 +13,10 @@ body,
 body {
   color: var(--body-text);
   background: var(--body-bg);
-  background-image: url("../../../public/img/flor-de-loto-fondo.jpg");
+  background-image: linear-gradient(rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.2)),
+    url('../../../public/img/flor-de-loto-fondo.jpg');
   background-repeat: repeat-x;
-  background-position: 100% 0 ;
+  background-position: 100% 0;
   background-size: 50% 100%;
 }
 

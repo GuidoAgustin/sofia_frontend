@@ -7,7 +7,6 @@ import toast from './utils/toast'
 import alert from './utils/alert'
 import errorHandler from './utils/errorHandler'
 import VueTables from './components/Tables'
-import VueModal from './components/Modal'
 
 import 'v-calendar/dist/style.css'
 import './assets/scss/styles.scss'
@@ -21,5 +20,5 @@ createApp(App)
   .use(errorHandler)
   .use(VCalendar, {})
   .use(VueTables)
-  .use(VueModal)
+
   .mount('#app')

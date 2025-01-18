@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
 
-
 const routes = [
   {
     path: '/',
@@ -10,13 +9,12 @@ const routes = [
     path: '/login',
     component: () => import('@/views/Auth/Login.vue')
   },
-  
-    
-    {
-      path: '/registro',
-      component: () => import('@/views/Auth/Registro.vue')
-    },
-    
+
+  {
+    path: '/registro',
+    component: () => import('@/views/Auth/Registro.vue')
+  },
+
   {
     path: '/',
     component: () => import('@/views/Dashboard/DashboardLayout.vue'),
@@ -26,25 +24,17 @@ const routes = [
         component: () => import('@/views/Dashboard/Dashboard.vue')
       },
       {
-        path: 'forms',
-        component: () => import('@/views/UI/Forms.vue')
-      },
-      {
-        path: 'tables',
+        path: 'products',
         component: () => import('@/views/UI/Tables.vue')
       },
       {
-        path: 'modals',
-        component: () => import('@/views/UI/Modals.vue')
-      },
-      {
-        path: 'tabs',
-        component: () => import('@/views/UI/Tabs.vue')
+        path: 'calculadora',
+        component: () => import('@/views/UI/Calculadora.vue')
       },
       {
         path: 'opciones',
         component: () => import('@/views/Dashboard/Options.vue')
-      }
+      },
     ]
   }
 ]

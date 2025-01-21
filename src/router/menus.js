@@ -19,6 +19,11 @@ export default [
         title: 'Productos',
         to: '/products'
       },
+      {
+        icon: 'fa-solid fa-store',
+        title: 'Agregar Productos',
+        to: '/addProducts'
+      },
     ]
   },
   {

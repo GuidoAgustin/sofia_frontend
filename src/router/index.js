@@ -32,6 +32,10 @@ const routes = [
         component: () => import('@/views/UI/Calculadora.vue')
       },
       {
+        path: 'addProducts',
+        component: () => import('@/views/UI/addProducts.vue')
+      },
+      {
         path: 'opciones',
         component: () => import('@/views/Dashboard/Options.vue')
       },

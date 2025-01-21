@@ -32,12 +32,13 @@
   </div>
   <div class="row">
     <div class="col-12">
-      <button class="btn btn-primary">Agregar Productos
+      <button class="btn btn-primary" @click="$router.push('/addProducts')">
+        Agregar Productos
         <i class="fa-solid fa-store"></i>
       </button>
     </div>
   </div>
-<button class="btn btn-primary" @click="$router.push('')">
-   Escanear productos <i class="fa-solid fa-barcode"></i>
-</button>
+  <button class="btn btn-primary" @click="$router.push('')">
+    Escanear productos <i class="fa-solid fa-barcode"></i>
+  </button>
 </template>

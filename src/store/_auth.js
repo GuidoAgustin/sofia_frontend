@@ -160,20 +160,37 @@ export default {
     allProducts({ commit, getters }) {
       commit('SHOW_LOADER')
       return new Promise((resolve) => {
-        axios.get(baseUrl + 'products', {
-          headers: {
-            Authorization: `Bearer ${getters.token}`
-          }
-        })
-        .then(({ data }) => {
-          resolve(data)
-        })
-        .catch(this.$errorHandler)
-        .finally(() => {
-          commit('HIDE_LOADER')
-        })
+        axios
+          .get(baseUrl + 'products', {
+            headers: {
+              Authorization: `Bearer ${getters.token}`
+            }
+          })
+          .then(({ data }) => {
+            resolve(data)
+          })
+          .catch(this.$errorHandler)
+          .finally(() => {
+            commit('HIDE_LOADER')
+          })
       })
-    }
+    },
+    addProduct({getters}, form) {
+      return new Promise((resolve) => {
+        console.log(baseUrl + 'addProducts')
+        axios
+          .post(baseUrl + 'addProducts', form, {
+            headers: {
+              Authorization: `Bearer ${getters.token}`
+            }
+          })
+          .then(({ data }) => {
+
+            resolve(data.data)
+          })
+          .catch(this.$errorHandler)
+      })
+    },
   },
   getters: {
     isLoggedIn(state) {

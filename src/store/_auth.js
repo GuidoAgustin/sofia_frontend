@@ -191,6 +191,24 @@ export default {
           .catch(this.$errorHandler)
       })
     },
+    scan({ commit, getters }, codigo) {
+      commit('SHOW_LOADER')
+      return new Promise((resolve) => {
+        axios
+          .get(baseUrl + `products/scan:${codigo}`, {
+            headers: {
+              Authorization: `Bearer ${getters.token}`
+            }
+          })
+          .then(({ data }) => {
+            resolve(data)
+          })
+          .catch(this.$errorHandler)
+          .finally(() => {
+            commit('HIDE_LOADER')
+          })
+      })
+    }
   },
   getters: {
     isLoggedIn(state) {

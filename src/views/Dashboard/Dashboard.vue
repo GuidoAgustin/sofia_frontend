@@ -38,7 +38,7 @@
       </button>
     </div>
   </div>
-  <button class="btn btn-primary" @click="$router.push('')">
+  <button class="btn btn-primary" @click="$router.push('/products/scan')">
     Escanear productos <i class="fa-solid fa-barcode"></i>
   </button>
 </template>

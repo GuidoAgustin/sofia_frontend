@@ -24,6 +24,11 @@ export default [
         title: 'Agregar Productos',
         to: '/addProducts'
       },
+      {
+        icon: 'fa-solid fa-barcode',
+        title: 'Escanea Productos',
+        to: 'products/scan'
+      },
     ]
   },
   {

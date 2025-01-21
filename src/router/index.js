@@ -36,6 +36,10 @@ const routes = [
         component: () => import('@/views/UI/addProducts.vue')
       },
       {
+        path: 'products/scan/',
+        component: () => import('@/views/UI/Scan.vue'),
+      },
+      {
         path: 'opciones',
         component: () => import('@/views/Dashboard/Options.vue')
       },

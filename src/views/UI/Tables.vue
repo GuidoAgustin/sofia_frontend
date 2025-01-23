@@ -55,7 +55,8 @@ export default {
           title: 'price',
           sortable: true,
           hideable: true,
-          mask: 'Precio'
+          mask: 'Precio',
+          pre: '$'
         },
       ],
       actions: [
@@ -80,15 +81,13 @@ export default {
   }),
   methods: {
 getData(params) {
+  console.log(params);
+  
   const token = localStorage.getItem('token')
   if (token) {
     axios
       .get('http://localhost:3001/products', {
-        params: {
-          page: params.page,
-          per_page: params.per_page,
-          filter: params.filter
-        },
+        params,
         headers: {
           Authorization: `Bearer ${token}`
         }

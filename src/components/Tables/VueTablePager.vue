@@ -14,7 +14,7 @@
         :class="current_page - 1 === 0 ? 'disabled' : ''"
         @click.prevent="changePage(1)"
       >
-        First
+        Anterior
       </li>
       <li
         v-for="page in pages_list"
@@ -30,7 +30,7 @@
         :class="!lastPage || current_page + 1 > lastPage ? 'disabled' : ''"
         @click.prevent="changePage(lastPage)"
       >
-        Last
+        Siguiente
       </li>
 
       <li

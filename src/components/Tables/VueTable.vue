@@ -125,7 +125,7 @@
       </tbody>
       <tfoot v-if="values.data && values.data.length <= 0">
         <tr>
-          <td colspan="1000" style="text-align: center">No data to show</td>
+          <td colspan="1000" style="text-align: center">No hay datos para mostrar</td>
         </tr>
       </tfoot>
     </table>
@@ -327,7 +327,7 @@ export default {
     },
 
     changed() {
-      const { sort_by, sort_dir, page, per_page, filters } = this.vTableParams
+      const { sort_by, sort_dir, page, per_page, ...filters } = this.vTableParams
 
       this.$emit('changed', {
         sort_by,

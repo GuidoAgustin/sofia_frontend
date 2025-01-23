@@ -4,7 +4,7 @@
       <input
         v-if="searchable"
         type="text"
-        placeholder="Search..."
+        placeholder="buscar..."
         class="form-control"
         @keyup.enter="search"
       />
@@ -17,7 +17,7 @@
         </button>
         <button class="btn btn-sm btn-outline-medium disabled">
           <span class="material-symbols-outlined"> filter_list </span>
-          <span>Sort: {{ sortedBy }}</span>
+          <span>Ordenado: {{ sortedBy }}</span>
         </button>
       </div>
 

@@ -2,11 +2,11 @@
   <VueModal size="sm" position="right" class="vt-filters-modal" ref="modal">
     <template #title>
       <span class="material-symbols-outlined"> tune </span>
-      <span>FILTERS</span>
+      <span>FILTROS</span>
     </template>
     <template #body>
-      <VueTableFiltersSection label="Show Items" :options="showOpts" v-model="result.showing" />
-      <VueTableFiltersSection label="Sort By" :options="sortOpts" v-model="result.sort" />
+      <VueTableFiltersSection label="Cantidad de filas" :options="showOpts" v-model="result.showing" />
+      <VueTableFiltersSection label="Ordenado por" :options="sortOpts" v-model="result.sort" />
       <VueTableFiltersSection
         section-type="select-multiple"
         label="Hidden Columns"
@@ -26,8 +26,8 @@
       />
     </template>
     <template #footer>
-      <a href="#" class="underlined text-medium" @click="clearAll">Clear All</a>
-      <button class="btn btn-sm btn-medium" @click="applyFilters">Apply filters</button>
+      <a href="#" class="underlined text-medium" @click="clearAll">Limpiar filtros</a>
+      <button class="btn btn-sm btn-medium" @click="applyFilters">Aplicar filtros</button>
     </template>
   </VueModal>
 </template>

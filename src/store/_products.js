@@ -27,7 +27,7 @@ export default {
       return new Promise((resolve) => {
         console.log(baseUrl + 'addProducts')
         axios
-          .post(baseUrl + 'addProducts', form, {
+          .post(baseUrl + 'products', form, {
             headers: {
               Authorization: `Bearer ${getters.token}`
             }

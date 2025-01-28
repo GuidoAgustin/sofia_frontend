@@ -7,7 +7,10 @@
         placeholder="buscar..."
         class="form-control"
         @keyup.enter="search"
-      />
+        />
+        <button class="btn btn-sm btn-medium">editar precios
+          <i class="fa-solid fa-pencil"></i>
+        </button>
     </div>
 
     <div class="vt-filters">
@@ -15,10 +18,10 @@
         <button class="btn btn-sm btn-medium" @click="showFilters = true">
           <span class="material-symbols-outlined"> tune </span>
         </button>
-        <button class="btn btn-sm btn-outline-medium disabled">
+        <!-- <button class="btn btn-sm btn-outline-medium disabled">
           <span class="material-symbols-outlined"> filter_list </span>
           <span>Ordenado: {{ sortedBy }}</span>
-        </button>
+        </button> -->
       </div>
 
       <Teleport to="#modal-container">

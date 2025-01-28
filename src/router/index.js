@@ -25,6 +25,7 @@ const routes = [
       },
       {
         path: 'products',
+        name: 'Products list',
         component: () => import('@/views/UI/Tables.vue')
       },
       {
@@ -33,16 +34,21 @@ const routes = [
       },
       {
         path: 'addProducts',
-        component: () => import('@/views/UI/addProducts.vue')
+        component: () => import('@/views/UI/ProductsForm.vue')
+      },
+      {
+        path: 'editProduct/:id',
+        name: 'Editar Producto',
+        component: () => import('@/views/UI/ProductsForm.vue'),
       },
       {
         path: 'products/scan/',
-        component: () => import('@/views/UI/Scan.vue'),
+        component: () => import('@/views/UI/Scan.vue')
       },
       {
         path: 'opciones',
         component: () => import('@/views/Dashboard/Options.vue')
-      },
+      }
     ]
   }
 ]

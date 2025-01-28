@@ -155,59 +155,6 @@ export default {
             commit('HIDE_LOADER')
           })
       })
-    },
-
-    allProducts({ commit, getters }) {
-      commit('SHOW_LOADER')
-      return new Promise((resolve) => {
-        axios
-          .get(baseUrl + 'products', {
-            headers: {
-              Authorization: `Bearer ${getters.token}`
-            }
-          })
-          .then(({ data }) => {
-            resolve(data)
-          })
-          .catch(this.$errorHandler)
-          .finally(() => {
-            commit('HIDE_LOADER')
-          })
-      })
-    },
-    addProduct({getters}, form) {
-      return new Promise((resolve) => {
-        console.log(baseUrl + 'addProducts')
-        axios
-          .post(baseUrl + 'addProducts', form, {
-            headers: {
-              Authorization: `Bearer ${getters.token}`
-            }
-          })
-          .then(({ data }) => {
-
-            resolve(data.data)
-          })
-          .catch(this.$errorHandler)
-      })
-    },
-    scan({ commit, getters }, codigo) {
-      commit('SHOW_LOADER')
-      return new Promise((resolve) => {
-        axios
-          .get(baseUrl + `products/scan:${codigo}`, {
-            headers: {
-              Authorization: `Bearer ${getters.token}`
-            }
-          })
-          .then(({ data }) => {
-            resolve(data)
-          })
-          .catch(this.$errorHandler)
-          .finally(() => {
-            commit('HIDE_LOADER')
-          })
-      })
     }
   },
   getters: {

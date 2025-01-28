@@ -11,6 +11,9 @@
       @changed="getData"
       ref="vtable"
       @onShowDetails="onShowDetails"
+      @itemChecked="onItemChecked"
+      @checkAll="onCheckAll"
+      @onDelete="onDelete"
     />
   </Widget>
   <button @click="irAtras" class="btn btn-primary">Ir atrás</button>
@@ -18,7 +21,7 @@
 
 <script>
 import Widget from '@/components/Widget.vue'
-import axios from 'axios'
+
 export default {
   components: {
     Widget
@@ -31,7 +34,7 @@ export default {
           title: 'product_id',
           sortable: true,
           hideable: true,
-          mask: 'id',
+          mask: 'id'
         },
         {
           title: 'provider',
@@ -57,12 +60,16 @@ export default {
           hideable: true,
           mask: 'Precio',
           pre: '$'
-        },
+        }
       ],
       actions: [
         {
-          title: 'Delete item',
+          title: 'Borrar Producto',
           callback: 'onDelete'
+        },
+        {
+          title: 'Editar Producto',
+          callback: 'onShowDetails'
         }
       ],
       values: {
@@ -75,41 +82,35 @@ export default {
         data: []
       },
       options: {
-        /// Go to OPTIONS SECTION for explanation
+        checkeable: true
       }
     }
   }),
   methods: {
-getData(params) {
-  console.log(params);
-  
-  const token = localStorage.getItem('token')
-  if (token) {
-    axios
-      .get('http://localhost:3001/products', {
-        params,
-        headers: {
-          Authorization: `Bearer ${token}`
-        }
+    getData(params) {
+      console.log(params)
+      this.$store.dispatch('allProducts', params).then((response) => {
+        this.vTable.values = response
       })
-      .then((response) => {
-        const data = response.data
-        console.log('Data:', data)
-        this.vTable.values = data.data
-        console.log('vTable.values:', this.vTable.values);      
-      })
-      .catch(error => {
-        console.error(error);
-      });
-  } else {
-    console.error('No token found');
-  }
-},
-    onShowDetails(item, index) {
-      console.log({ item, index })
+    },
+    onShowDetails(item) {
+      console.log('Valor de item.product_id:', item.product_id)
+      this.$router.push({ name: 'Editar Producto', params: { id: item.product_id } })
     },
     irAtras() {
       this.$router.go(-1) // Navegar a la página anterior
+    },
+    onItemChecked(index, checked) {
+      console.log(`Fila ${index} seleccionada: ${checked}`)
+    },
+    onCheckAll(checked) {
+      console.log(`Todas las filas seleccionadas: ${checked}`)
+    },
+    onDelete(item) {
+      console.log('Valor de item.product_id:', item.product_id)
+      this.$store.dispatch('onDelete', item.product_id).then(() => {
+        this.getData({ page: 1, per_page: 10 })
+      })
     }
   }
 }

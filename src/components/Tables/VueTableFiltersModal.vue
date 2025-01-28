@@ -6,10 +6,10 @@
     </template>
     <template #body>
       <VueTableFiltersSection label="Cantidad de filas" :options="showOpts" v-model="result.showing" />
-      <VueTableFiltersSection label="Ordenado por" :options="sortOpts" v-model="result.sort" />
+      <!-- <VueTableFiltersSection label="Ordenado por" :options="sortOpts" v-model="result.sort" /> -->
       <VueTableFiltersSection
         section-type="select-multiple"
-        label="Hidden Columns"
+        label="Ocultar Columnas"
         :options="hideOpts"
         v-model="result.hidden"
         v-if="hideOpts.length"

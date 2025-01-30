@@ -2,17 +2,14 @@
   <div class="v-table-filters">
     <div class="vt-search">
       <input
-        v-if="searchable"
-        type="text"
-        placeholder="buscar..."
-        class="form-control"
-        @keyup.enter="search"
-        />
-        <button class="btn btn-sm btn-medium">editar precios
-          <i class="fa-solid fa-pencil"></i>
-        </button>
+      v-if="searchable"
+      type="text"
+      placeholder="buscar..."
+      class="form-control"
+      @keyup.enter="search"
+      />
     </div>
-
+    
     <div class="vt-filters">
       <div class="vt-filters-wrapper">
         <button class="btn btn-sm btn-medium" @click="showFilters = true">
@@ -23,22 +20,22 @@
           <span>Ordenado: {{ sortedBy }}</span>
         </button> -->
       </div>
-
+      
       <Teleport to="#modal-container">
         <VueTableFiltersModal
-          v-if="showFilters"
-          @close="showFilters = false"
-          v-model="result"
-          @filter="applyFilters"
-          :defaultValue="resultDefault"
-          :sortOpts="sortOpts"
-          :showOpts="showOpts"
-          :hideOpts="hideOpts"
-          :filters="filters"
+        v-if="showFilters"
+        @close="showFilters = false"
+        v-model="result"
+        @filter="applyFilters"
+        :defaultValue="resultDefault"
+        :sortOpts="sortOpts"
+        :showOpts="showOpts"
+        :hideOpts="hideOpts"
+        :filters="filters"
         />
       </Teleport>
     </div>
-  </div>
+  </div> 
 </template>
 
 <script>
@@ -90,15 +87,16 @@ export default {
       }
     }
   },
+  showModal: false,
   computed: {
     sortedBy() {
       if (!this.result.sort) return 'Last update'
-
+      
       return this.sortOpts.find((x) => x.value === this.result.sort)?.name
     },
     sortOpts() {
       const sortableCols = this.headers.filter((x) => x.sortable)
-
+      
       return [
         {
           value: 'null',
@@ -116,11 +114,11 @@ export default {
     },
     hideOpts() {
       return this.headers
-        .filter((x) => x.hideable)
-        .map((x) => ({
-          value: x.title,
-          name: x.mask?.ucwords() || x.title.ucwords()
-        }))
+      .filter((x) => x.hideable)
+      .map((x) => ({
+        value: x.title,
+        name: x.mask?.ucwords() || x.title.ucwords()
+      }))
     }
   },
   mounted() {
@@ -130,19 +128,19 @@ export default {
       }
     }
     this.resultDefault = JSON.stringify(this.result)
-
+    
     this.loadFilters()
   },
   methods: {
     loadFilters() {
       const route = this.$route.fullPath.replaceAll('/', '_')
-
+      
       const inMemoryFilters = localStorage.getItem(`vt_filters_${route}`)
-
+      
       if (inMemoryFilters) {
         const DEFAULT_KEYS = Object.keys(JSON.parse(this.resultDefault)).sort().join(',')
         const INMEMORY_KEYS = Object.keys(JSON.parse(inMemoryFilters)).sort().join(',')
-
+        
         if (DEFAULT_KEYS === INMEMORY_KEYS) {
           this.result = JSON.parse(inMemoryFilters)
           this.applyFilters(this.result)
@@ -158,7 +156,7 @@ export default {
       this.saveFilters(evt)
       this.$emit('filter', evt)
     },
-
+    
     search(evt) {
       this.$emit('search', evt.target.value)
     }

@@ -3,7 +3,7 @@
   <div class="row">
     <div class="col-12">
       <div class="card">
-        <div class="card-header">Bienvenido a la Plataforma de Gestión de la Despensa Sofía</div>
+        <div class="card-header">Bienvenido a la Plataforma de Gestión de Despensa Sofía</div>
         <div class="card-body">
           <p>
             Aca podrás gestionar tus productos de manera fácil y eficiente, gestionar precios,

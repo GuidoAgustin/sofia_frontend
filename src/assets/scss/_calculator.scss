@@ -1,17 +1,17 @@
 .calculadora {
-  width: 50vw;
-  height: 75vh;
+  width: 70%;
+  height: 85%;
   background-color: #f2f2f2;
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 10px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  position: relative;
+  justify-content: center;
 }
 
 .pantalla {
   width: 100%;
-  height: 10vh;
+  height: 20%;
   background-color: #fff;
   padding: 10px;
   border: 1px solid #ccc;
@@ -24,11 +24,11 @@
 
 .botones {
   width: 100%;
-  height: 40vh;
-  padding: 20px;
+  height: 30%;
+  padding: 15px;
   display: grid;
   grid-template-columns: repeat(4, 2fr);
-  grid-gap: 10px;
+  grid-gap: 5px;
   position: relative;
   z-index: 1;
 }
@@ -50,12 +50,22 @@ button:hover {
   background-color: #ccc;
 }
 
-button:last-child {
-  grid-column: span 2;
-}
 
 button:nth-child(10) {
   grid-column: span 1;
   position: relative;
   z-index: 2;
+}
+.botonescalcu {
+  width: 100%;
+  height: 30%;
+  padding: 15px;
+  display: grid;
+  grid-template-columns: repeat(4, 2fr);
+  grid-gap: 5px;
+  position: relative;
+  z-index: 1;
+}
+.btn-0 {
+  grid-column: span 2;
 }

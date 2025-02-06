@@ -37,7 +37,7 @@
           </tr>
         </template>
         <tr v-for="(item, a) in values.data" :key="item.id">
-          <td v-if="opts.checkeable">
+          <td v-if="opts.checkeable" width="1%">
             <input
               v-model="item.checked"
               type="checkbox"
@@ -54,7 +54,10 @@
             }"
             :data-cell="(head.mask || head.title).ucwords()"
           >
-            <template v-if="head.editable">
+            <template v-if="head.slot">
+              <slot :name="head.slot" :item="item" :index="a"></slot>
+            </template>
+            <template v-else-if="head.editable">
               <div
                 v-if="head.editable !== 'checkbox'"
                 class="v-table-input-container"

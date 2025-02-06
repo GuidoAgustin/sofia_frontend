@@ -77,17 +77,15 @@ export default {
           })
       })
     },
-    updateProduct({ commit, getters }, {id ,form}) {
+    updateProduct({ commit, getters }, { id, form }) {
       commit('SHOW_LOADER')
       return new Promise((resolve) => {
         axios
-          .put(
-            baseUrl + 'products/' + id, form,{
-              headers:{
-                Authorization: `Bearer ${getters.token}`
-              }
+          .put(baseUrl + 'products/' + id, form, {
+            headers: {
+              Authorization: `Bearer ${getters.token}`
             }
-          )
+          })
           .then(() => {
             this.$toast.success('Producto editado con exito')
             resolve()
@@ -108,7 +106,7 @@ export default {
               Authorization: `Bearer ${getters.token}`
             }
           })
-          .then(({data}) => {
+          .then(({ data }) => {
             this.$toast.success(data.data)
             resolve()
           })
@@ -117,6 +115,52 @@ export default {
             commit('HIDE_LOADER')
           })
       })
-    }
+    },
+    updatePrices({ commit, getters }, nuevosPrecios) {
+      commit('SHOW_LOADER')
+      return new Promise((resolve) => {
+        axios
+          .put(
+            baseUrl + 'products/batch/price_update',
+            { productos: nuevosPrecios }, // ◀️ Envía { id, price } en "productos"
+            {
+              headers: {
+                Authorization: `Bearer ${getters.token}`
+              }
+            }
+          )
+          .then(() => {
+            this.$toast.success('Precios actualizados con éxito')
+            resolve()
+          })
+          .catch(this.$errorHandler)
+          .finally(() => {
+            commit('HIDE_LOADER')
+          })
+      })
+    },
+toggleFavorite({ commit, getters }, productId) {
+  commit('SHOW_LOADER');
+  return new Promise((resolve) => {
+    axios
+      .put(
+        `${baseUrl}products/${productId}/fecha_corta`,
+        {}, // No necesitamos enviar datos en el body
+        {
+          headers: {
+            Authorization: `Bearer ${getters.token}`,
+          },
+        }
+      )
+      .then(({ data }) => {
+        this.$toast.success('Estado actualizado');
+        resolve(data.data); // Resuelve con el producto actualizado
+      })
+      .catch(this.$errorHandler)
+      .finally(() => {
+        commit('HIDE_LOADER');
+      });
+  });
+},
   }
 }

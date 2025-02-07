@@ -30,7 +30,12 @@
         </span>
       </template>
       <template #fecha="{ item }">
-        <input type="checkbox" :checked="item.fecha_corta" @change="toggleFavorite(item)" style="width: auto;" />
+        <input
+          type="checkbox"
+          :checked="item.fecha_corta"
+          @change="toggleFavorite(item)"
+          style="width: auto"
+        />
       </template>
     </vue-table>
 
@@ -92,10 +97,15 @@ export default {
     showModal: false,
     idsChecked: []
   }),
-
+  mounted() {
+    this.initTable()
+  },
   methods: {
+    initTable() {
+      this.$refs.vtable.init()
+    },
     getData(params) {
-      console.log(params);
+      console.log(params)
       this.params = params
       this.$store.dispatch('allProducts', params).then((response) => {
         this.vTable.values = response
@@ -140,7 +150,7 @@ export default {
         .dispatch('updatePrices', nuevosPrecios)
         .then(() => {
           this.idsChecked = []
-            this.refreshTable()
+          this.refreshTable()
         })
         .catch((error) => {
           console.error('Error al actualizar precios:', error)
@@ -170,7 +180,7 @@ export default {
       } catch (error) {
         console.error('Error al cambiar el estado de favorito:', error)
       }
-    },
+    }
   }
 }
 </script>

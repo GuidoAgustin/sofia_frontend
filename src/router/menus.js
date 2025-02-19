@@ -10,6 +10,11 @@ export default [
         to: '/dashboard'
       },
       {
+        icon: 'fa fa-shopping-basket',
+        title: 'Ventas',
+        to: '/ventas'
+      },
+      {
         icon: 'fa-solid fa-calculator',
         title: 'Calculadora',
         to: '/calculadora'

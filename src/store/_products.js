@@ -4,9 +4,26 @@ const baseUrl = import.meta.env.VITE_BACKEND_URL
 
 export default {
   actions: {
-    allProducts({ commit, getters }, params) {
-      commit('SHOW_LOADER')
-      return new Promise((resolve) => {
+    scanSimple({ getters }, codigo) {
+      return new Promise((resolve, reject) => {
+        // <-- Importante: Añade reject
+        axios
+          .get(baseUrl + `products/scan/simple/${codigo}`, {
+            headers: {
+              Authorization: `Bearer ${getters.token}`
+            }
+          })
+          .then(({ data }) => {
+            resolve(data)
+          })
+          .catch((error) => {
+            reject(error) // <-- Importante: Rechaza la promesa en caso de error
+          })
+      })
+    },
+    allProducts({ getters }, params) {
+      return new Promise((resolve, reject) => {
+        // <-- Importante: Añade reject
         axios
           .get(baseUrl + 'products', {
             headers: {
@@ -15,7 +32,25 @@ export default {
             params
           })
           .then(({ data }) => {
-            resolve(data.data)
+            resolve(data.data) // Resuelve con data.data
+          })
+          .catch((error) => {
+            reject(error) // <-- Importante: Rechaza la promesa en caso de error
+          })
+      })
+    },
+
+    scan({ commit, getters }, codigo) {
+      commit('SHOW_LOADER')
+      return new Promise((resolve) => {
+        axios
+          .get(baseUrl + `products/scan/${codigo}`, {
+            headers: {
+              Authorization: `Bearer ${getters.token}`
+            }
+          })
+          .then(({ data }) => {
+            resolve(data) // Resuelve con data
           })
           .catch(this.$errorHandler)
           .finally(() => {
@@ -23,9 +58,9 @@ export default {
           })
       })
     },
+
     addProduct({ getters }, form) {
       return new Promise((resolve) => {
-        console.log(baseUrl + 'addProducts')
         axios
           .post(baseUrl + 'products', form, {
             headers: {
@@ -38,28 +73,10 @@ export default {
           .catch(this.$errorHandler)
       })
     },
-    scan({ commit, getters }, codigo) {
-      commit('SHOW_LOADER')
-      return new Promise((resolve) => {
-        axios
-          .get(baseUrl + `products/scan:${codigo}`, {
-            headers: {
-              Authorization: `Bearer ${getters.token}`
-            }
-          })
-          .then(({ data }) => {
-            resolve(data)
-          })
-          .catch(this.$errorHandler)
-          .finally(() => {
-            commit('HIDE_LOADER')
-          })
-      })
-    },
+
     oneProduct({ commit, getters }, id) {
-      console.log('Llamando a la acción oneProduct con id:', id)
+      commit('SHOW_LOADER')
       return new Promise((resolve, reject) => {
-        commit('SHOW_LOADER')
         axios
           .get(baseUrl + `products/` + id, {
             headers: {
@@ -77,6 +94,7 @@ export default {
           })
       })
     },
+
     updateProduct({ commit, getters }, { id, form }) {
       commit('SHOW_LOADER')
       return new Promise((resolve) => {
@@ -96,8 +114,8 @@ export default {
           })
       })
     },
+
     onDelete({ commit, getters }, productId) {
-      console.log('Llamando a onDelete en _auth.js con productId:', productId)
       commit('SHOW_LOADER')
       return new Promise((resolve) => {
         axios
@@ -116,13 +134,14 @@ export default {
           })
       })
     },
+
     updatePrices({ commit, getters }, nuevosPrecios) {
       commit('SHOW_LOADER')
       return new Promise((resolve) => {
         axios
           .put(
             baseUrl + 'products/batch/price_update',
-            { productos: nuevosPrecios }, // ◀️ Envía { id, price } en "productos"
+            { productos: nuevosPrecios },
             {
               headers: {
                 Authorization: `Bearer ${getters.token}`
@@ -139,28 +158,29 @@ export default {
           })
       })
     },
-toggleFavorite({ commit, getters }, productId) {
-  commit('SHOW_LOADER');
-  return new Promise((resolve) => {
-    axios
-      .put(
-        `${baseUrl}products/${productId}/fecha_corta`,
-        {}, // No necesitamos enviar datos en el body
-        {
-          headers: {
-            Authorization: `Bearer ${getters.token}`,
-          },
-        }
-      )
-      .then(({ data }) => {
-        this.$toast.success('Estado actualizado');
-        resolve(data.data); // Resuelve con el producto actualizado
+
+    toggleFavorite({ commit, getters }, productId) {
+      commit('SHOW_LOADER')
+      return new Promise((resolve) => {
+        axios
+          .put(
+            `${baseUrl}products/${productId}/fecha_corta`,
+            {},
+            {
+              headers: {
+                Authorization: `Bearer ${getters.token}`
+              }
+            }
+          )
+          .then(({ data }) => {
+            this.$toast.success('Estado actualizado')
+            resolve(data.data)
+          })
+          .catch(this.$errorHandler)
+          .finally(() => {
+            commit('HIDE_LOADER')
+          })
       })
-      .catch(this.$errorHandler)
-      .finally(() => {
-        commit('HIDE_LOADER');
-      });
-  });
-},
+    }
   }
 }

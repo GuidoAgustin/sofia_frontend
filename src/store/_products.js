@@ -181,6 +181,29 @@ export default {
             commit('HIDE_LOADER')
           })
       })
+    },
+    guardarVenta({ commit, getters }, venta) {
+      commit('SHOW_LOADER') // Opcional: mostrar un indicador de carga
+
+      return new Promise((resolve, reject) => {
+        console.log('URL completa:', baseUrl + 'ventas')
+        axios
+          .post(baseUrl + 'ventas', venta, {
+            // <-- Ruta y datos
+            headers: {
+              Authorization: `Bearer ${getters.token}` // Si usas autenticación
+            }
+          })
+          .then((response) => {
+            resolve(response.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+          .finally(() => {
+            commit('HIDE_LOADER') // Opcional: ocultar el indicador de carga
+          })
+      })
     }
   }
 }

@@ -8,14 +8,16 @@
           <div class="mb-3">
             <label for="buscarProducto" class="form-label">Buscar producto:</label>
             <div class="input-group">
+              <!-- Al presionar Enter se llama a buscarYAgregarProducto -->
               <input
                 type="text"
                 id="buscarProducto"
                 v-model="buscarProducto"
-                @keyup.enter="filtrarProductos"
+                @keyup.enter="buscarYAgregarProducto"
                 class="form-control"
                 placeholder="Ingrese nombre o código"
               />
+              <!-- El botón sigue llamando a la búsqueda tradicional -->
               <button @click="filtrarProductos" class="btn btn-outline-secondary">Buscar</button>
             </div>
           </div>
@@ -26,12 +28,7 @@
               v-model="productoSeleccionado"
               @change="agregarProducto"
               class="form-select"
-              style="
-                background-color: #ef6367;
-                border: 1px solid #ced4da;
-                color: white;
-                padding: 0.375rem 0.75rem;
-              "
+              style="background-color: #ef6367; border: 1px solid #ced4da; color: white; padding: 0.375rem 0.75rem;"
             >
               <option value="">Seleccione un producto</option>
               <option
@@ -47,10 +44,12 @@
           <div class="mb-3">
             <label for="montoManual" class="form-label">Agregar monto manual:</label>
             <div class="input-group">
+              <!-- Se agrega @keyup.enter para que al presionar Enter se llame a agregarMontoManual -->
               <input
                 type="number"
                 id="montoManual"
                 v-model="montoManual"
+                @keyup.enter="agregarMontoManual"
                 class="form-control"
                 placeholder="Ingrese un monto"
                 min="0"
@@ -104,12 +103,7 @@
               id="metodoPago"
               v-model="metodoPago"
               class="form-select"
-              style="
-                background-color: #ef6367;
-                border: 1px solid #ced4da;
-                color: white;
-                padding: 0.375rem 0.75rem;
-              "
+              style="background-color: #ef6367; border: 1px solid #ced4da; color: white; padding: 0.375rem 0.75rem;"
             >
               <option value="efectivo">Efectivo</option>
               <option value="tarjeta">Tarjeta</option>
@@ -148,7 +142,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions(['scanSimple', 'allProducts']),
+    ...mapActions(['scanSimple', 'allProducts', 'guardarVenta']),
 
     irAtras() {
       this.$router.go(-1)
@@ -161,15 +155,15 @@ export default {
       }).format(valor)
     },
 
-    filtrarProductos() {
+    // Función para búsqueda y agregar producto al presionar Enter en el input de búsqueda
+    buscarYAgregarProducto() {
       const busqueda = this.buscarProducto.trim()
       if (!busqueda) {
         this.resultadosBusqueda = []
         return
       }
 
-      // Verificar si la búsqueda parece un código (solo números)
-      const esCodigo = /^\d+$/.test(busqueda) // Expresión regular para verificar solo números
+      const esCodigo = /^\d+$/.test(busqueda)
 
       if (esCodigo) {
         this.scanSimple(busqueda)
@@ -178,18 +172,71 @@ export default {
             if (producto) {
               this.agregarProductoALista(producto)
             } else {
-              throw new Error('Producto no encontrado por código')
+              console.error('Producto no encontrado por código')
+              this.$toast.error('Producto no encontrado.')
             }
           })
           .catch((error) => {
             console.error('Error buscando por código:', error)
-            // No es necesario buscar por nombre si no es un código
+            this.$toast.error('Error al buscar producto.')
           })
       } else {
         this.allProducts({ search: busqueda.toLowerCase() })
           .then((productos) => {
             console.log('Productos encontrados por nombre:', productos)
-            this.resultadosBusqueda = productos.data || []
+            const resultados = productos.data || []
+            if (resultados.length === 1) {
+              this.agregarProductoALista(resultados[0])
+            } else if (resultados.length > 1) {
+              this.resultadosBusqueda = resultados
+            } else {
+              this.$toast.error('No se encontró ningún producto.')
+            }
+          })
+          .catch((error) => {
+            console.error('Error en la búsqueda por nombre:', error)
+            this.$toast.error('Error al buscar productos.')
+          })
+      }
+    },
+
+    // Función utilizada por el botón "Buscar"
+    filtrarProductos() {
+      const busqueda = this.buscarProducto.trim()
+      if (!busqueda) {
+        this.resultadosBusqueda = []
+        return
+      }
+
+      const esCodigo = /^\d+$/.test(busqueda)
+
+      if (esCodigo) {
+        this.scanSimple(busqueda)
+          .then((producto) => {
+            console.log('Producto encontrado por código:', producto)
+            if (producto) {
+              this.agregarProductoALista(producto)
+            } else {
+              console.error('Producto no encontrado por código')
+              this.$toast.error('Producto no encontrado.')
+            }
+          })
+          .catch((error) => {
+            console.error('Error buscando por código:', error)
+            this.$toast.error('Error al buscar producto.')
+          })
+      } else {
+        this.allProducts({ search: busqueda.toLowerCase() })
+          .then((productos) => {
+            console.log('Productos encontrados por nombre:', productos)
+            const resultados = productos.data || []
+            if (resultados.length === 1) {
+              this.agregarProductoALista(resultados[0])
+            } else if (resultados.length > 1) {
+              this.resultadosBusqueda = resultados
+            } else {
+              this.$toast.error('No se encontró ningún producto.')
+            }
           })
           .catch((error) => {
             console.error('Error en la búsqueda por nombre:', error)
@@ -210,18 +257,18 @@ export default {
           subtotal: producto.price
         })
       }
-
+      // Limpia la búsqueda y el select
       this.buscarProducto = ''
       this.resultadosBusqueda = []
       this.productoSeleccionado = null
     },
 
+    // Función llamada al seleccionar un producto del select
     agregarProducto() {
       if (!this.productoSeleccionado) return
       const productoEnCarrito = this.productos.find(
         (p) => p.code === this.productoSeleccionado.code
       )
-
       if (productoEnCarrito) {
         productoEnCarrito.cantidad++
         productoEnCarrito.subtotal = productoEnCarrito.cantidad * productoEnCarrito.price
@@ -232,7 +279,6 @@ export default {
           subtotal: this.productoSeleccionado.price
         })
       }
-
       this.buscarProducto = ''
       this.resultadosBusqueda = []
       this.productoSeleccionado = null
@@ -240,15 +286,13 @@ export default {
 
     agregarMontoManual() {
       if (!this.montoManual || this.montoManual <= 0) {
-        alert('Ingrese un monto válido')
+        this.$toast.error('Ingrese un monto válido')
         return
       }
-
-      const codigoManual = `manual-${Date.now()}` // Genera un código único
-
+      const codigoManual = `manual-${Date.now()}`
       this.productos.push({
         name_product: 'Monto manual',
-        code: codigoManual, // Usa el código único
+        code: codigoManual,
         price: parseFloat(this.montoManual),
         cantidad: 1,
         subtotal: parseFloat(this.montoManual)
@@ -264,8 +308,7 @@ export default {
     disminuirCantidad(index) {
       if (this.productos[index].cantidad > 1) {
         this.productos[index].cantidad--
-        this.productos[index].subtotal =
-          this.productos[index].cantidad * this.productos[index].price
+        this.productos[index].subtotal = this.productos[index].cantidad * this.productos[index].price
       } else {
         this.productos.splice(index, 1)
       }
@@ -273,15 +316,32 @@ export default {
 
     confirmarVenta() {
       if (this.productos.length === 0) {
-        alert('No hay productos en la venta')
+        this.$toast.error('No hay productos en la venta')
         return
       }
-      const mensaje = `Venta confirmada por ${this.formatoMoneda(this.total)}
-Método de pago: ${this.metodoPago.toUpperCase()}`
-      alert(mensaje)
-
-      this.productos = []
-      this.metodoPago = 'efectivo'
+      const venta = {
+        total: this.total,
+        metodo_pago: this.metodoPago,
+        productos: this.productos.map((producto) => ({
+          code: producto.code,
+          cantidad: producto.cantidad,
+          price: producto.price,
+          product: producto.name_product
+        }))
+      }
+      this.guardarVenta(venta)
+        .then(() => {
+          const mensaje =
+            `Venta confirmada por ${this.formatoMoneda(this.total)}\n` +
+            `Método de pago: ${this.metodoPago.toUpperCase()}`
+          this.$toast.success(mensaje)
+          this.productos = []
+          this.metodoPago = 'efectivo'
+        })
+        .catch((error) => {
+          console.error('Error al guardar la venta:', error)
+          this.$toast.error('Error al confirmar la venta.')
+        })
     }
   }
 }

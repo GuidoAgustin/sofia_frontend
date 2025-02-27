@@ -204,6 +204,25 @@ export default {
             commit('HIDE_LOADER') // Opcional: ocultar el indicador de carga
           })
       })
+    },
+        getVentas({ getters }) {
+      // Ajusta si usas token o no
+      return new Promise((resolve, reject) => {
+        axios
+          .get(baseUrl + 'ventas', {
+            headers: {
+              Authorization: `Bearer ${getters.token}` // si tu backend requiere token
+            }
+          })
+          .then(response => {
+            // asumiendo que el backend retorna { data: [...] }
+            // o solo un array. Ajusta según tu backend.
+            resolve(response.data.data || response.data)
+          })
+          .catch(error => {
+            reject(error)
+          })
+      })
     }
   }
 }

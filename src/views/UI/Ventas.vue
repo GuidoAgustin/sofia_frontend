@@ -28,7 +28,12 @@
               v-model="productoSeleccionado"
               @change="agregarProducto"
               class="form-select"
-              style="background-color: #ef6367; border: 1px solid #ced4da; color: white; padding: 0.375rem 0.75rem;"
+              style="
+                background-color: #ef6367;
+                border: 1px solid #ced4da;
+                color: white;
+                padding: 0.375rem 0.75rem;
+              "
             >
               <option value="">Seleccione un producto</option>
               <option
@@ -103,11 +108,16 @@
               id="metodoPago"
               v-model="metodoPago"
               class="form-select"
-              style="background-color: #ef6367; border: 1px solid #ced4da; color: white; padding: 0.375rem 0.75rem;"
+              style="
+                background-color: #ef6367;
+                border: 1px solid #ced4da;
+                color: white;
+                padding: 0.375rem 0.75rem;
+              "
             >
               <option value="efectivo">Efectivo</option>
               <option value="tarjeta">Tarjeta</option>
-              <option value="mercadopago">Mercado Pago</option>
+              <option value="transferencia">Transferencia</option>
             </select>
           </div>
 
@@ -308,7 +318,8 @@ export default {
     disminuirCantidad(index) {
       if (this.productos[index].cantidad > 1) {
         this.productos[index].cantidad--
-        this.productos[index].subtotal = this.productos[index].cantidad * this.productos[index].price
+        this.productos[index].subtotal =
+          this.productos[index].cantidad * this.productos[index].price
       } else {
         this.productos.splice(index, 1)
       }

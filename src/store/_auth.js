@@ -52,11 +52,9 @@ export default {
             }
 
             // Guardar el token y el usuario en Vuex
+            localStorage.setItem('user_role', data.data.user.role)
             commit('SET_TOKEN', data.data.token)
             commit('SET_USER', data.data.user)
-
-            // Guardar el rol en localStorage para mantenerlo en la sesión
-            localStorage.setItem('user_role', data.data.user.role)
 
             resolve()
           })

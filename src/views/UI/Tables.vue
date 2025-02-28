@@ -5,8 +5,8 @@
       v-if="vTable.headers"
       :values="vTable.values"
       :headers="vTable.headers"
-      :actions="vTable.actions"
-      :options="vTable.options"
+      :actions="userIsAdmin ? vTable.actions : []"
+      :options="userIsAdmin ? vTable.options : { checkeable: false }"
       :filters="vTable.filters"
       @changed="getData"
       ref="vtable"
@@ -41,7 +41,7 @@
 
     <button @click="irAtras" class="btn btn-sm btn-primary mt-1">Ir atrás</button>
 
-    <button @click="abrirModal" class="btn btn-sm btn-primary float-right mt-1">
+    <button v-if="userIsAdmin" @click="abrirModal" class="btn btn-sm btn-primary float-right mt-1">
       editar precios <i class="fa-solid fa-pencil"></i>
     </button>
   </Widget>
@@ -97,6 +97,12 @@ export default {
     showModal: false,
     idsChecked: []
   }),
+  computed: {
+    userIsAdmin() {
+      const user = this.$store.state.auth && this.$store.state.auth.user
+      return user && user.role === 'admin'
+    }
+  },
   mounted() {
     this.initTable()
   },
@@ -105,7 +111,6 @@ export default {
       this.$refs.vtable.init()
     },
     getData(params) {
-      console.log(params)
       this.params = params
       this.$store.dispatch('allProducts', params).then((response) => {
         this.vTable.values = response
@@ -114,15 +119,12 @@ export default {
     refreshTable() {
       this.getData(this.params)
     },
-
     onShowDetails(item) {
       this.$router.push({ name: 'Editar Producto', params: { id: item.product_id } })
     },
-
     irAtras() {
       this.$router.go(-1)
     },
-
     onItemChecked(index, value) {
       const { product_id, price } = this.vTable.values.data[index] // ◀️ ¡Agrega price!
       if (value) {
@@ -153,7 +155,7 @@ export default {
           this.refreshTable()
         })
         .catch((error) => {
-          console.error('Error al actualizar precios:', error)
+          this.$toast.error('Error al actualizar precios:', error)
         })
     },
 
@@ -178,7 +180,7 @@ export default {
         await this.$store.dispatch('toggleFavorite', item.product_id)
         this.refreshTable()
       } catch (error) {
-        console.error('Error al cambiar el estado de favorito:', error)
+        this.$toast.error('Error al cambiar el estado de favorito:', error)
       }
     }
   }

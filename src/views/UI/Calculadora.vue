@@ -29,7 +29,7 @@
 </template>
 
 <script>
-import { evaluate } from 'mathjs'; // Importa math.js
+import { evaluate } from 'mathjs';
 
 export default {
   data() {
@@ -56,13 +56,23 @@ export default {
     },
     calcular() {
       try {
-        // Usa math.js para evaluar expresiones, incluyendo porcentajes
-        const resultado = evaluate(this.pantalla);
+        let expresion = this.pantalla;
+        if (expresion.includes('%')) {
+          const partes = expresion.split('%');
+          if (partes.length === 2) {
+            const porcentaje = parseFloat(partes[0]) / 100;
+            const numero = parseFloat(partes[1]);
+            expresion = porcentaje + '*' + numero;
+          } else {
+            throw new Error("Formato de porcentaje incorrecto");
+          }
+        }
+        const resultado = evaluate(expresion);
         this.historial.push(this.pantalla + ' = ' + resultado);
         this.pantalla = resultado.toString();
       } catch (error) {
         this.pantalla = 'Error';
-        console.error("Error al calcular:", error); // Imprime el error en la consola
+        console.error("Error al calcular:", error);
       }
     },
     irAtras() {
@@ -71,7 +81,6 @@ export default {
   }
 }
 </script>
-
 <style>
 @import '../../assets/scss/_calculator.scss';
 </style>

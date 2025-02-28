@@ -39,11 +39,7 @@ export default {
     login({ commit }, form) {
       commit('SHOW_LOADER')
 
-      //   commit('SET_TOKEN', 'test')
-      //   commit('SET_USER', 'test')
-      //   commit('HIDE_LOADER')
-
-      return new Promise((resolve) => {
+      return new Promise((resolve, reject) => {
         axios
           .post(baseUrl + 'login', form)
           .then(({ data }) => {
@@ -54,16 +50,28 @@ export default {
               localStorage.removeItem('default_email')
               localStorage.removeItem('default_pw')
             }
+
+            // Guardar el token y el usuario en Vuex
             commit('SET_TOKEN', data.data.token)
             commit('SET_USER', data.data.user)
+
+            // Guardar el rol en localStorage para mantenerlo en la sesión
+            localStorage.setItem('user_role', data.data.user.role)
+
             resolve()
           })
-          .catch(this.$errorHandler)
+          .catch((error) => {
+            commit('SET_TOKEN', null)
+            commit('SET_USER', null)
+            localStorage.removeItem('user_role')
+            reject(error)
+          })
           .finally(() => {
             commit('HIDE_LOADER')
           })
       })
     },
+
     logout({ commit }) {
       return new Promise((resolve) => {
         localStorage.removeItem('token')

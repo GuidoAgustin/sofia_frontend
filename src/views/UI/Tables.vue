@@ -176,13 +176,17 @@ export default {
       return diffInDays < 2
     },
     async toggleFavorite(item) {
-      try {
-        await this.$store.dispatch('toggleFavorite', item.product_id)
-        this.refreshTable()
-      } catch (error) {
-        this.$toast.error('Error al cambiar el estado de favorito:', error)
+    try {
+      await this.$store.dispatch('toggleFavorite', item.product_id)
+      // Actualizar solo el estado de fecha_corta del item
+      const updatedItem = this.vTable.values.data.find(product => product.product_id === item.product_id)
+      if (updatedItem) {
+        updatedItem.fecha_corta = !updatedItem.fecha_corta
       }
+    } catch (error) {
+      this.$toast.error('Error al cambiar el estado de favorito:', error)
     }
+  }
   }
 }
 </script>

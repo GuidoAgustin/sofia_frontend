@@ -234,7 +234,7 @@ export default {
         },
         legend: { position: 'bottom' },
         plotOptions: {
-          bar: { columnWidth: '90%' }
+          bar: { columnWidth: '98%' }
         },
         responsive: [{
           breakpoint: 768,

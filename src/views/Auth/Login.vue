@@ -9,7 +9,7 @@
         <div class="input-group" style="position: relative; text-align: right">
           <div
             class="input-group-prepend"
-            style="position: absolute; top: 50%; right: 1px; transform: translateY(-50%)"
+            style="position: absolute; top: 20px; right: 1px; transform: translateY(-50%)"
           >
             <span class="input-group-text">
               <i class="fa fa-envelope" aria-hidden="true"></i>
@@ -23,19 +23,22 @@
           />
         </div>
         <div class="input-group">
-  <div class="input-group-prepend" style="position: absolute; top: 56%; right: 25px; transform: translateY(-50%);">
-    <span class="input-group-text">
-      <i class="fa fa-lock" aria-hidden="true"></i>
-    </span>
-  </div>
-  <input
-    :type="mostrarContraseña ? 'text' : 'password'"
-    v-model="form.password"
-    @keyup.enter="signIn"
-    class="form-control"
-    placeholder="Ingrese su contraseña"
-  />
-</div>
+          <div
+            class="input-group-prepend"
+            style="position: absolute; top: 353px; right: 27px; transform: translateY(-50%)"
+          >
+            <span class="input-group-text">
+              <i class="fa fa-lock" aria-hidden="true"></i>
+            </span>
+          </div>
+          <input
+            :type="mostrarContraseña ? 'text' : 'password'"
+            v-model="form.password"
+            @keyup.enter="signIn"
+            class="form-control"
+            placeholder="Ingrese su contraseña"
+          />
+        </div>
 
         <button type="button" @click="toggleMostrarContraseña" class="btn btn-primary btn-block">
           {{ mostrarContraseñaTexto }}
@@ -43,7 +46,11 @@
         <FormSwitch label="Recordarme" v-model="form.remember" small />
 
         <button class="btn btn-primary btn-block" @click="signIn">Ingresar</button>
-        <button class="btn btn-primary btn-block" @click="$router.push('/registro')">
+        <button
+          v-if="showRegisterButton"
+          class="btn btn-primary btn-block"
+          @click="$router.push('/registro')"
+        >
           Registrarme
         </button>
 
@@ -86,6 +93,9 @@ export default {
   computed: {
     mostrarContraseñaTexto() {
       return this.mostrarContraseña ? 'Ocultar contraseña' : 'Mostrar contraseña'
+    },
+    showRegisterButton() {
+      return this.$store.getters.showRegisterButton
     }
   },
   methods: {

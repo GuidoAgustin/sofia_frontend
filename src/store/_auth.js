@@ -6,7 +6,8 @@ const baseUrl = import.meta.env.VITE_BACKEND_URL
 export default {
   state: () => ({
     token: null,
-    user: null
+    user: null,
+    showRegisterButton: JSON.parse(localStorage.getItem('showRegisterButton')) ?? true // Estado para controlar la visibilidad del botón "Registrarme"
   }),
   mutations: {
     SET_TOKEN(state, value) {
@@ -18,6 +19,10 @@ export default {
       if (value) localStorage.setItem('user', JSON.stringify(value))
       else localStorage.removeItem('user')
       state.user = value
+    },
+    SET_SHOW_REGISTER_BUTTON(state, value) {
+      state.showRegisterButton = value
+      localStorage.setItem('showRegisterButton', JSON.stringify(value))
     }
   },
   actions: {
@@ -161,6 +166,10 @@ export default {
             commit('HIDE_LOADER')
           })
       })
+    },
+
+    toggleShowRegisterButton({ commit }, value) {
+      commit('SET_SHOW_REGISTER_BUTTON', value)
     }
   },
   getters: {
@@ -172,6 +181,9 @@ export default {
     },
     user(state) {
       return state.user
+    },
+    showRegisterButton(state) {
+      return state.showRegisterButton
     }
   }
 }

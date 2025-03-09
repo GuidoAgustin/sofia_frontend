@@ -2,7 +2,7 @@
   <div class="d-flex align-items-center justify-content-center h-100">
     <div class="card mx-4">
       <div class="card-body px-4 pb-4">
-        <h1>Crear cuenta</h1>
+        <h1>Crear cuenta de administrador</h1>
         <form @submit.prevent="crearCuenta">
           <!-- Campo de Usuario -->
           <div class="form-group">
@@ -67,7 +67,8 @@ export default {
       formulario: {
         name: '',
         email: '',
-        password: ''
+        password: '',
+        role: 'admin' // Set role to admin
       },
       mostrarContraseña: false // Estado para mostrar/ocultar la contraseña
     }

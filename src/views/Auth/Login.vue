@@ -6,53 +6,32 @@
         <small class="logo-text">Sistema de Gestión</small>
       </div>
       <div class="card-body px-4 pb-4">
-        <div class="input-group" style="position: relative; text-align: right">
-          <div
-            class="input-group-prepend"
-            style="position: absolute; top: 20px; right: 1px; transform: translateY(-50%)"
-          >
-            <span class="input-group-text">
-              <i class="fa fa-envelope" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input
-            type="email"
-            v-model="form.email"
-            class="form-control"
-            placeholder="Ingrese su email "
+        <FormText label="Email" v-model="form.email" icon="fa fa-envelope" />
+        <FormText label="Contraseña" v-model="form.password" :password="!mostrarContraseña" icon="fa fa-lock">
+          <FormButton
+            :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
+            @click="toggleMostrarContraseña"
+            class="p-0 m-0"
           />
-        </div>
-        <div class="input-group">
-          <div
-            class="input-group-prepend"
-            style="position: absolute; top: 353px; right: 27px; transform: translateY(-50%)"
-          >
-            <span class="input-group-text">
-              <i class="fa fa-lock" aria-hidden="true"></i>
-            </span>
-          </div>
-          <input
-            :type="mostrarContraseña ? 'text' : 'password'"
-            v-model="form.password"
-            @keyup.enter="signIn"
-            class="form-control"
-            placeholder="Ingrese su contraseña"
-          />
-        </div>
-
-        <button type="button" @click="toggleMostrarContraseña" class="btn btn-primary btn-block">
-          {{ mostrarContraseñaTexto }}
-        </button>
+        </FormText>
         <FormSwitch label="Recordarme" v-model="form.remember" small />
-
-        <button class="btn btn-primary btn-block" @click="signIn">Ingresar</button>
-        <button
+        <FormButton
+          class="btn btn-primary btn-block"
+          @click="signIn"
+          theme="primary"
+          block
+        >
+          Ingresar
+        </FormButton>
+        <FormButton
           v-if="showRegisterButton"
           class="btn btn-primary btn-block"
           @click="$router.push('/registro')"
+          theme="primary"
+          block
         >
           Registrarme
-        </button>
+        </FormButton>
 
         <div class="text-center mt-3">
           <small> by GuidoB. </small>
@@ -64,10 +43,14 @@
 
 <script>
 import FormSwitch from '@/components/Form/FormSwitch.vue'
+import FormText from '../../components/Form/FormText.vue'
+import FormButton from '../../components/Form/FormButton.vue'
 
 export default {
   components: {
-    FormSwitch
+    FormSwitch,
+    FormText,
+    FormButton
   },
   data: () => ({
     form: {
@@ -91,9 +74,6 @@ export default {
     if (default_pw) this.form.password = default_pw
   },
   computed: {
-    mostrarContraseñaTexto() {
-      return this.mostrarContraseña ? 'Ocultar contraseña' : 'Mostrar contraseña'
-    },
     showRegisterButton() {
       return this.$store.getters.showRegisterButton
     }
@@ -105,7 +85,12 @@ export default {
         .then(() => {
           this.$router.push('/dashboard')
         })
-        .catch((err) => this.$toast.error(err))
+        .catch((err) => {
+          const errorMessage = err.response && err.response.data && err.response.data.message
+            ? err.response.data.message
+            : 'Error al iniciar sesión';
+          this.$toast.error(errorMessage);
+        });
     },
     toggleMostrarContraseña() {
       this.mostrarContraseña = !this.mostrarContraseña

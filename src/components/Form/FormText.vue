@@ -18,6 +18,7 @@
         v-if="!textarea"
       />
       <textarea placeholder=" " :rows="textareaRows" :id="itemId" v-model="result" v-else />
+      <slot/>
     </div>
     <p
       v-if="maxChars"
@@ -100,4 +101,3 @@ export default {
 }
 </script>
 
-<style></style>

@@ -8,66 +8,76 @@
         <form @submit.prevent="savePassword">
           <div class="card-body">
             <!-- Campo de Nueva Contraseña -->
-            <div class="form-group">
-              <label class="form-label">Nueva Contraseña:</label>
-              <div class="password-container">
-                <input
-                  :type="mostrarContraseña ? 'text' : 'password'"
-                  v-model="form.new_password"
-                  placeholder="Ingrese su nueva contraseña"
-                  class="form-control"
-                />
-              </div>
-            </div>
+            <FormText
+              label="Nueva Contraseña"
+              v-model="form.new_password"
+              :password="!mostrarContraseña"
+              placeholder="Ingrese su nueva contraseña"
+            >
+              <FormButton
+                :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                @click.prevent="toggleMostrarContraseña"
+                class="p-0 m-0"
+              />
+            </FormText>
 
             <!-- Campo de Repetir Nueva Contraseña -->
-            <div class="form-group">
-              <label class="form-label">Repetir Nueva Contraseña:</label>
-              <div class="password-container">
-                <input
-                  :type="mostrarContraseña ? 'text' : 'password'"
-                  v-model="form.new_password_confirmation"
-                  placeholder="Repita su nueva contraseña"
-                  class="form-control"
-                />
-              </div>
-            </div>
+            <FormText
+              label="Repetir Nueva Contraseña"
+              v-model="form.new_password_confirmation"
+              :password="!mostrarContraseña"
+              placeholder="Repita su nueva contraseña"
+            >
+              <FormButton
+                :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                @click.prevent="toggleMostrarContraseña"
+                class="p-0 m-0"
+              />
+            </FormText>
 
             <!-- Campo de Contraseña Actual -->
-            <div class="form-group">
-              <label class="form-label">Contraseña Actual:</label>
-              <div class="password-container">
-                <input
-                  :type="mostrarContraseña ? 'text' : 'password'"
-                  v-model="form.password"
-                  placeholder="Ingrese su contraseña actual"
-                  class="form-control"
+            <FormText
+              label="Contraseña Actual"
+              v-model="form.password"
+              :password="!mostrarContraseña"
+              placeholder="Ingrese su contraseña actual"
+            >
+              <FormButton
+                :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                @click.prevent="toggleMostrarContraseña"
+                class="p-0 m-0"
+              />
+            </FormText>
+
+            <FormButton
+              class="btn btn-primary btn-block"
+              type="submit"
+              theme="primary"
+              block
+            >
+              Guardar
+            </FormButton>
+            <FormButton
+              type="button"
+              @click="irAtras"
+              class="btn btn-primary btn-block"
+              theme="primary"
+              block
+            >
+              Ir atrás
+            </FormButton>
+            <div class="d-flex align-items-center">
+              <div v-if="userIsAdmin" class="d-flex align-items-center">
+                <FormSwitch
+                  label="Ocultar botón de registrarme"
+                  v-model="showRegisterButton"
+                  @change="toggleRegisterButton"
                 />
-                <button
-                  type="button"
-                  @click="toggleMostrarContraseña"
-                  class="btn btn-primary btn-block"
-                >
-                  {{ mostrarContraseña ? 'Ocultar contraseñas' : 'Mostrar contraseñas' }}
-                </button>
-              </div>
-              <button class="btn btn-primary btn-block" type="submit">Guardar</button>
-              <button type="button" @click="irAtras" class="btn btn-primary btn-block">
-                Ir atrás
-              </button>
-              <div class="d-flex align-items-center">
-                <div v-if="userIsAdmin" class="d-flex align-items-center">
-                  <FormSwitch
-                    label="Ocultar botón de registrarme"
-                    v-model="showRegisterButton"
-                    @change="toggleRegisterButton"
-                  />
-                  <i
-                    class="fa fa-info-circle fa-2x ml-2"
-                    title="Esta opción oculta el botón de registrarse en el login para evitar que cualquier usuario cree una cuenta con permisos especiales. Así, solo los administradores podrán hacer cambios importantes."
-                    style="cursor: pointer"
-                  ></i>
-                </div>
+                <i
+                  class="fa fa-info-circle fa-2x ml-2"
+                  title="Esta opción oculta el botón de registrarse en el login para evitar que cualquier usuario cree una cuenta con permisos especiales. Así, solo los administradores podrán hacer cambios importantes."
+                  style="cursor: pointer"
+                ></i>
               </div>
             </div>
           </div>
@@ -76,51 +86,42 @@
           <h1>Crear cuenta de usuario</h1>
           <form @submit.prevent="crearCuenta">
             <!-- Campo de Usuario -->
-            <div class="form-group">
-              <label class="form-label">Crear usuario:</label>
-              <input
-                type="text"
-                v-model="formulario.name"
-                placeholder="Ingrese su nombre de usuario"
-                class="form-control"
-              />
-            </div>
+            <FormText
+              label="Crear usuario"
+              v-model="formulario.name"
+              placeholder="Ingrese su nombre de usuario"
+            />
 
             <!-- Campo de Gmail -->
-            <div class="form-group">
-              <label class="form-label">Ingrese su Gmail:</label>
-              <input
-                type="email"
-                v-model="formulario.email"
-                placeholder="Ingrese su Gmail"
-                class="form-control"
-              />
-            </div>
+            <FormText
+              label="Ingrese su Gmail"
+              v-model="formulario.email"
+              type="email"
+              placeholder="Ingrese su Gmail"
+            />
 
             <!-- Campo de Contraseña -->
-            <div class="form-group">
-              <label class="form-label">Cree una Contraseña:</label>
-              <div class="password-container">
-                <input
-                  :type="mostrarContraseñaCrearCuenta ? 'text' : 'password'"
-                  v-model="formulario.password"
-                  placeholder="Ingrese su contraseña"
-                  class="form-control"
-                />
-                <button
-                  type="button"
-                  @click="toggleMostrarContraseñaCrearCuenta"
-                  class="btn btn-primary btn-block"
-                >
-                  {{ mostrarContraseñaCrearCuenta ? 'Ocultar contraseña' : 'Mostrar contraseña' }}
-                </button>
-              </div>
-              <button type="submit" class="btn btn-primary btn-block">
-                Crear cuenta de usuario
-              </button>
-            </div>
+            <FormText
+              label="Cree una Contraseña"
+              v-model="formulario.password"
+              :password="!mostrarContraseñaCrearCuenta"
+              placeholder="Ingrese su contraseña"
+            >
+              <FormButton
+                :icon="mostrarContraseñaCrearCuenta ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                @click.prevent="toggleMostrarContraseñaCrearCuenta"
+                class="p-0 m-0"
+              />
+            </FormText>
 
-            <!-- Botón de Enviar -->
+            <FormButton
+              type="submit"
+              class="btn btn-primary btn-block"
+              theme="primary"
+              block
+            >
+              Crear cuenta de usuario
+            </FormButton>
           </form>
         </div>
       </div>
@@ -130,10 +131,14 @@
 
 <script>
 import FormSwitch from '@/components/Form/FormSwitch.vue'
+import FormText from '@/components/Form/FormText.vue'
+import FormButton from '@/components/Form/FormButton.vue'
 
 export default {
   components: {
-    FormSwitch
+    FormSwitch,
+    FormText,
+    FormButton
   },
   data: () => ({
     form: {

@@ -11,7 +11,7 @@
     </div>
     
     <div class="vt-filters">
-      <div class="vt-filters-wrapper">
+      <div class="vt-filters-wrapper" v-if="showFiltersButton">
         <button class="btn btn-sm btn-medium" @click="showFilters = true">
           <span class="material-symbols-outlined"> tune </span>
         </button>
@@ -63,6 +63,10 @@ export default {
     headers: {
       type: Array,
       default: () => []
+    },
+    showFiltersButton: {
+      type: Boolean,
+      default: true
     }
   },
   components: {

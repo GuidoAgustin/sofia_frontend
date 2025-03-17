@@ -36,6 +36,7 @@
             ref="vtable"
             @changed="getData"
             @onDelete="onDelete"
+            :showFiltersButton="false"
           >
           </vue-table>
         </div>

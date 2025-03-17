@@ -6,6 +6,7 @@
       :headers="headers"
       @search="searched"
       @filter="filtered"
+      :show-filters-button="showFiltersButton"
     />
 
     <table :class="opts.tableClass">
@@ -222,6 +223,10 @@ export default {
     searchMinLen: {
       type: Number,
       default: 3
+    },
+    showFiltersButton: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

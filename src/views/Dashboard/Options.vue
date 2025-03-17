@@ -4,13 +4,18 @@
     <div class="col-md-10 mt-4" v-if="userIsAdmin">
       <div class="card">
         <div class="card-body d-flex align-items-center">
-          <FormSwitch label="Ocultar botón de registrarme" v-model="showRegisterButton"
-            @change="toggleRegisterButton" />
-          <i class="fa fa-info-circle fa-2x ml-2"
+          <FormSwitch
+            label="Ocultar botón de registrarme"
+            v-model="showRegisterButton"
+            @change="toggleRegisterButton"
+          />
+          <i
+            class="fa fa-info-circle fa-2x ml-2"
             title="Esta opción oculta el botón de registrarse en el login para evitar que cualquier usuario 
             cree una cuenta con permisos especiales. Así, solo los administradores podrán hacer cambios importantes. 
             Se recomienda mantener esta opción activa para mantener la seguridad de la plataforma."
-            style="cursor: pointer"></i>
+            style="cursor: pointer"
+          ></i>
         </div>
       </div>
     </div>
@@ -23,30 +28,52 @@
           </FormButton>
         </div>
         <div class="card-body">
-          <vue-table v-if="vTable.headers" :values="vTable.values" :headers="vTable.headers" ref="vtable"
-            @changed="getData" />
+          <vue-table
+            v-if="vTable.headers"
+            :values="vTable.values"
+            :headers="vTable.headers"
+            :actions="vTable.actions"
+            ref="vtable"
+            @changed="getData"
+            @onDelete="onDelete"
+          >
+          </vue-table>
         </div>
       </div>
     </div>
 
     <!-- Modal para crear nuevo usuario -->
     <VueModal v-if="showCreateUserModal" @close="showCreateUserModal = false" size="sm">
-      <template #title>
-        Crear cuenta de usuario
-      </template>
+      <template #title> Crear cuenta de usuario </template>
       <template #body>
         <form @submit.prevent="crearCuenta">
           <!-- Campo de Usuario -->
-          <FormText label="Crear usuario" v-model="formulario.name" placeholder="Ingrese su nombre de usuario" />
+          <FormText
+            label="Crear usuario"
+            v-model="formulario.name"
+            placeholder="Ingrese su nombre de usuario"
+          />
 
           <!-- Campo de Gmail -->
-          <FormText label="Ingrese su Gmail" v-model="formulario.email" type="email" placeholder="Ingrese su Gmail" />
+          <FormText
+            label="Ingrese su Gmail"
+            v-model="formulario.email"
+            type="email"
+            placeholder="Ingrese su Gmail"
+          />
 
           <!-- Campo de Contraseña -->
-          <FormText label="Cree una Contraseña" v-model="formulario.password" :password="!mostrarContraseñaCrearCuenta"
-            placeholder="Ingrese su contraseña">
-            <FormButton :icon="mostrarContraseñaCrearCuenta ? 'fa fa-eye' : 'fa fa-eye-slash'"
-              @click.prevent="toggleMostrarContraseñaCrearCuenta" class="p-0 m-0" />
+          <FormText
+            label="Cree una Contraseña"
+            v-model="formulario.password"
+            :password="!mostrarContraseñaCrearCuenta"
+            placeholder="Ingrese su contraseña"
+          >
+            <FormButton
+              :icon="mostrarContraseñaCrearCuenta ? 'fa fa-eye' : 'fa fa-eye-slash'"
+              @click.prevent="toggleMostrarContraseñaCrearCuenta"
+              class="p-0 m-0"
+            />
           </FormText>
 
           <FormButton type="submit" class="btn btn-primary btn-block" theme="primary" block>
@@ -65,24 +92,45 @@
         <form @submit.prevent="savePassword">
           <div class="card-body">
             <!-- Campo de Nueva Contraseña -->
-            <FormText label="Nueva Contraseña" v-model="form.new_password" :password="!mostrarContraseña"
-              placeholder="Ingrese su nueva contraseña">
-              <FormButton :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
-                @click.prevent="toggleMostrarContraseña" class="p-0 m-0" />
+            <FormText
+              label="Nueva Contraseña"
+              v-model="form.new_password"
+              :password="!mostrarContraseña"
+              placeholder="Ingrese su nueva contraseña"
+            >
+              <FormButton
+                :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                @click.prevent="toggleMostrarContraseña"
+                class="p-0 m-0"
+              />
             </FormText>
 
             <!-- Campo de Repetir Nueva Contraseña -->
-            <FormText label="Repetir Nueva Contraseña" v-model="form.new_password_confirmation"
-              :password="!mostrarContraseña" placeholder="Repita su nueva contraseña">
-              <FormButton :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
-                @click.prevent="toggleMostrarContraseña" class="p-0 m-0" />
+            <FormText
+              label="Repetir Nueva Contraseña"
+              v-model="form.new_password_confirmation"
+              :password="!mostrarContraseña"
+              placeholder="Repita su nueva contraseña"
+            >
+              <FormButton
+                :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                @click.prevent="toggleMostrarContraseña"
+                class="p-0 m-0"
+              />
             </FormText>
 
             <!-- Campo de Contraseña Actual -->
-            <FormText label="Contraseña Actual" v-model="form.password" :password="!mostrarContraseña"
-              placeholder="Ingrese su contraseña actual">
-              <FormButton :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
-                @click.prevent="toggleMostrarContraseña" class="p-0 m-0" />
+            <FormText
+              label="Contraseña Actual"
+              v-model="form.password"
+              :password="!mostrarContraseña"
+              placeholder="Ingrese su contraseña actual"
+            >
+              <FormButton
+                :icon="mostrarContraseña ? 'fa fa-eye' : 'fa fa-eye-slash'"
+                @click.prevent="toggleMostrarContraseña"
+                class="p-0 m-0"
+              />
             </FormText>
 
             <FormButton class="btn btn-primary btn-block" type="submit" theme="primary" block>
@@ -92,7 +140,6 @@
         </form>
       </div>
     </div>
-
   </div>
 </template>
 
@@ -107,9 +154,10 @@ export default {
     FormSwitch,
     FormText,
     FormButton,
-    VueModal,
+    VueModal
   },
   data: () => ({
+    params: {},
     formulario: {
       name: '',
       email: '',
@@ -130,8 +178,9 @@ export default {
         { title: 'user_id', sortable: true, hideable: true, mask: 'Id del usuario' },
         { title: 'name', sortable: true, hideable: true, mask: 'Nombre' },
         { title: 'email', sortable: true, hideable: true, mask: 'Email' },
-        { title: 'role', sortable: true, hideable: true, mask: 'Rol' },
+        { title: 'role', sortable: true, hideable: true, mask: 'Rol' }
       ],
+      actions: [{ title: 'Eliminar usuario', callback: 'onDelete' }],
       values: {
         total: 0,
         per_page: 15,
@@ -166,7 +215,11 @@ export default {
         this.$refs.vtable.init()
       }
     },
+    refreshTable() {
+    this.getData(this.params)
+    },
     getData(params) {
+      this.params = params
       this.$store.dispatch('allUsers', params).then((response) => {
         this.vTable.values = response
       })
@@ -177,13 +230,16 @@ export default {
         return
       }
 
-      this.$store.dispatch('registrar', this.formulario).then(() => {
-        this.$toast.success('Usuario creado exitosamente')
-        this.showCreateUserModal = false
-        this.getData(this.params)
-      }).catch(() => {
-        this.$toast.error('Error al crear usuario')
-      })
+      this.$store
+        .dispatch('registrar', this.formulario)
+        .then(() => {
+          this.$toast.success('Usuario creado exitosamente')
+          this.showCreateUserModal = false
+          this.getData(this.params)
+        })
+        .catch(() => {
+          this.$toast.error('Error al crear usuario')
+        })
     },
     toggleMostrarContraseña() {
       this.mostrarContraseña = !this.mostrarContraseña
@@ -195,8 +251,6 @@ export default {
       this.$store.dispatch('updateProfile', this.form).then(() => {
         this.$toast.success('Contraseña actualizada exitosamente')
         this.resetForm()
-      }).catch(() => {
-        this.$toast.error('Error al actualizar la contraseña')
       })
     },
     resetForm() {
@@ -206,6 +260,17 @@ export default {
     },
     toggleRegisterButton() {
       this.$store.dispatch('toggleShowRegisterButton', this.showRegisterButton)
+    },
+    onDelete(item) {
+      this.$store
+        .dispatch('deleteUser', item.user_id)
+        .then(() => {
+          this.getData(this.params)
+          this.$toast.success('Usuario eliminado exitosamente')
+        })
+        .catch(() => {
+          this.$toast.error('Error al eliminar usuario')
+        })
     }
   }
 }

@@ -185,6 +185,23 @@ export default {
       })
     },
 
+    deleteUser({ getters }, userId) {
+      return new Promise((resolve, reject) => {
+        axios
+          .delete(`${baseUrl}users/${userId}`, {
+            headers: {
+              Authorization: `Bearer ${getters.token}`
+            }
+          })
+          .then(() => {
+            resolve()
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
+
     toggleShowRegisterButton({ commit }, value) {
       commit('SET_SHOW_REGISTER_BUTTON', value)
     }

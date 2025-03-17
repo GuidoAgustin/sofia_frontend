@@ -167,6 +167,23 @@ export default {
           })
       })
     },
+    allUsers({ getters }, params) {
+      return new Promise((resolve, reject) => {
+        axios
+          .get(baseUrl + 'users', {
+            headers: {
+              Authorization: `Bearer ${getters.token}`
+            },
+            params
+          })
+          .then(({ data }) => {
+            resolve(data.data)
+          })
+          .catch((error) => {
+            reject(error)
+          })
+      })
+    },
 
     toggleShowRegisterButton({ commit }, value) {
       commit('SET_SHOW_REGISTER_BUTTON', value)

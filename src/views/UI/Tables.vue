@@ -169,7 +169,7 @@ export default {
     shouldShowArrow(item) {
       if (!item.updated_at) return false // Si no hay fecha de actualización, no mostrar flecha
 
-      const updatedAt = moment(item.updated_at) // Fecha de actualización
+      const updatedAt = moment(item.price_updated_at) // Fecha de actualización
       const now = moment() // Fecha actual
       const diffInDays = now.diff(updatedAt, 'days') // Diferencia en días
       // Mostrar flecha solo si la diferencia es menor a 2 días

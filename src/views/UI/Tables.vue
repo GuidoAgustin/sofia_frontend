@@ -67,7 +67,17 @@ export default {
   data: () => ({
     params: {},
     vTable: {
-      filters: [],
+      filters: [
+        {
+          title: 'Fecha corta primero',
+          type: 'select',
+          options: [
+            { value: 'true', label: 'Si' },
+            { value: 'false', label: 'No' }
+          ],
+          column: 'fecha_corta',
+        }
+      ], // Filtros que se pasarán al componente VueTable
       headers: [
         { title: 'product_id', sortable: true, hideable: true, mask: 'id' },
         { title: 'provider', sortable: true, hideable: true, mask: 'Proveedor' },
@@ -112,6 +122,9 @@ export default {
     },
     getData(params) {
       this.params = params
+      console.log('params', params)
+      // Aquí se envía la petición al store.
+      // 'params' contendrá fecha_corta=true o false cuando el usuario active el filtro
       this.$store.dispatch('allProducts', params).then((response) => {
         this.vTable.values = response
       })

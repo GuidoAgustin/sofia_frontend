@@ -6,7 +6,7 @@
     </template>
     <template #body>
       <VueTableFiltersSection label="Cantidad de filas" :options="showOpts" v-model="result.showing" />
-      <!-- <VueTableFiltersSection label="Ordenado por" :options="sortOpts" v-model="result.sort" /> -->
+      <VueTableFiltersSection label="Ordenado por" :options="sortOpts" v-model="result.sort" />
       <VueTableFiltersSection
         section-type="select-multiple"
         label="Ocultar Columnas"

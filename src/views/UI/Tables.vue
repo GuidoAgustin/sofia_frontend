@@ -41,11 +41,7 @@
 
     <button @click="irAtras" class="btn btn-sm btn-primary mt-1">Ir atrás</button>
 
-    <button
-      v-if="userIsAdmin"
-      @click="abrirModal"
-      class="btn btn-sm btn-primary float-right mt-1"
-    >
+    <button v-if="userIsAdmin" @click="abrirModal" class="btn btn-sm btn-primary float-right mt-1">
       editar precios <i class="fa-solid fa-pencil"></i>
     </button>
   </Widget>
@@ -72,7 +68,15 @@ export default {
     params: {},
     vTable: {
       filters: [
-        
+        {
+          title: 'Fecha corta primero',
+          type: 'select',
+          options: [
+            { value: 'true', label: 'Si' },
+            { value: 'false', label: 'No' }
+          ],
+          column: 'fecha_corta',
+        }
       ], // Filtros que se pasarán al componente VueTable
       headers: [
         { title: 'product_id', sortable: true, hideable: true, mask: 'id' },
@@ -119,7 +123,8 @@ export default {
     },
     getData(params) {
       this.params = params
-      // Aquí se envía la petición al store. 
+      console.log('params', params)
+      // Aquí se envía la petición al store.
       // 'params' contendrá fecha_corta=true o false cuando el usuario active el filtro
       this.$store.dispatch('allProducts', params).then((response) => {
         this.vTable.values = response

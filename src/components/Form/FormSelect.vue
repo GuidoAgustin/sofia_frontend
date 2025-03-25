@@ -4,7 +4,8 @@
     <div class="form-wrapper">
       <i class="icon" :class="icon" v-if="icon"></i>
       <select :id="itemId" v-model="result" :multiple="multiple">
-        <option :value="opt.value || opt" v-for="opt in options" :key="opt.value || opt">
+        <option :value="opt.value || opt" v-for="opt in options" 
+        :key="opt.value || opt">
           {{ opt.name || opt }}
         </option>
       </select>

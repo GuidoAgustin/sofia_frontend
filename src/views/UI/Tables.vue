@@ -67,6 +67,7 @@ export default {
   data: () => ({
     params: {},
     vTable: {
+<<<<<<< HEAD
       filters: [
         {
           title: 'Fecha corta primero',
@@ -78,6 +79,9 @@ export default {
           column: 'fecha_corta',
         }
       ], // Filtros que se pasarán al componente VueTable
+=======
+      filters: [],
+>>>>>>> parent of 8e58d54 (actualizamos colores)
       headers: [
         { title: 'product_id', sortable: true, hideable: true, mask: 'id' },
         { title: 'provider', sortable: true, hideable: true, mask: 'Proveedor' },
@@ -114,7 +118,6 @@ export default {
     }
   },
   mounted() {
-    this.refreshTable()
     this.initTable()
   },
   methods: {
@@ -123,9 +126,12 @@ export default {
     },
     getData(params) {
       this.params = params
+<<<<<<< HEAD
       console.log('params', params)
       // Aquí se envía la petición al store.
       // 'params' contendrá fecha_corta=true o false cuando el usuario active el filtro
+=======
+>>>>>>> parent of 8e58d54 (actualizamos colores)
       this.$store.dispatch('allProducts', params).then((response) => {
         this.vTable.values = response
       })
@@ -140,23 +146,26 @@ export default {
       this.$router.go(-1)
     },
     onItemChecked(index, value) {
-      const { product_id, price } = this.vTable.values.data[index]
+      const { product_id, price } = this.vTable.values.data[index] // ◀️ ¡Agrega price!
       if (value) {
-        this.idsChecked.push({ id: product_id, price })
+        this.idsChecked.push({ id: product_id, price }) // ◀️ Objeto con id y precio
       } else {
         this.idsChecked = this.idsChecked.filter((item) => item.id !== product_id)
       }
     },
+
     onCheckAll(value) {
       this.idsChecked = value
         ? this.vTable.values.data.map((x) => ({ id: x.product_id, price: x.price }))
         : []
     },
+
     onDelete(item) {
       this.$store.dispatch('onDelete', item.product_id).then(() => {
         this.refreshTable()
       })
     },
+
     updateProductPrices(nuevosPrecios) {
       this.showModal = false
       this.$store
@@ -169,6 +178,7 @@ export default {
           this.$toast.error('Error al actualizar precios:', error)
         })
     },
+
     abrirModal() {
       if (this.idsChecked.length === 0) {
         this.$toast.warning('Primero debes seleccionar al menos un producto.')
@@ -177,27 +187,26 @@ export default {
       }
     },
     shouldShowArrow(item) {
-      if (!item.updated_at) return false
+      if (!item.updated_at) return false // Si no hay fecha de actualización, no mostrar flecha
 
-      const updatedAt = moment(item.price_updated_at)
-      const now = moment()
-      const diffInDays = now.diff(updatedAt, 'days')
+      const updatedAt = moment(item.price_updated_at) // Fecha de actualización
+      const now = moment() // Fecha actual
+      const diffInDays = now.diff(updatedAt, 'days') // Diferencia en días
+      // Mostrar flecha solo si la diferencia es menor a 2 días
       return diffInDays < 2
     },
     async toggleFavorite(item) {
-      try {
-        await this.$store.dispatch('toggleFavorite', item.product_id)
-        const updatedItem = this.vTable.values.data.find(
-          (product) => product.product_id === item.product_id
-        )
-        if (updatedItem) {
-          updatedItem.fecha_corta = !updatedItem.fecha_corta
-          this.refreshTable()
-        }
-      } catch (error) {
-        this.$toast.error('Error al cambiar el estado de favorito:', error)
+    try {
+      await this.$store.dispatch('toggleFavorite', item.product_id)
+      // Actualizar solo el estado de fecha_corta del item
+      const updatedItem = this.vTable.values.data.find(product => product.product_id === item.product_id)
+      if (updatedItem) {
+        updatedItem.fecha_corta = !updatedItem.fecha_corta
       }
+    } catch (error) {
+      this.$toast.error('Error al cambiar el estado de favorito:', error)
     }
+  }
   }
 }
 </script>

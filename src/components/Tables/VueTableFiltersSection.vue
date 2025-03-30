@@ -35,7 +35,7 @@
       <div class="filters-section-body">
         <div :class="`filters-type-${sectionType}`">
           <FormCheckbox
-            :label="o.name || o"
+            :label="o.label || o"
             v-for="(o, i) of options"
             :key="i"
             :value="o.value || o"

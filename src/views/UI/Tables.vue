@@ -114,6 +114,7 @@ export default {
     }
   },
   mounted() {
+    this.refreshTable()
     this.initTable()
   },
   methods: {
@@ -122,7 +123,6 @@ export default {
     },
     getData(params) {
       this.params = params
-      console.log('params', params)
       // Aquí se envía la petición al store.
       // 'params' contendrá fecha_corta=true o false cuando el usuario active el filtro
       this.$store.dispatch('allProducts', params).then((response) => {

@@ -305,7 +305,6 @@ export default {
     },
     filtered(val) {
       const { sort, showing, hidden, ...filters } = val
-
       if (sort && sort !== 'null') {
         const [by, dir] = sort.split('__')
 
@@ -335,13 +334,14 @@ export default {
     },
 
     changed() {
-      const { sort_by, sort_dir, page, per_page, ...filters } = this.vTableParams
+      const { sort_by, sort_dir, page, per_page, search, filters } = this.vTableParams
 
       this.$emit('changed', {
         sort_by,
         sort_dir,
         page,
         per_page,
+        search,
         ...this.parseFilters(filters)
       })
     },
@@ -350,24 +350,27 @@ export default {
       const allowedSubKeys = ['start', 'end', 'value']
       const aux = {}
 
+      const notNull = (val) => val !== null && val !== undefined
+
       for (const key of Object.keys(filters)) {
         const filter = filters[key]
 
         if (typeof filter === 'object' && !Array.isArray(filter) && filter !== null) {
           for (const subkey of Object.keys(filters[key])) {
             if (allowedSubKeys.includes(subkey)) {
-              if (subkey === 'value') {
-                aux[`${key}`] = filters[key][subkey]
-              } else {
-                aux[`${key}_${subkey}`] = filters[key][subkey]
+              if (notNull(filters[key][subkey])) {
+                if (subkey === 'value') {
+                  aux[`${key}`] = filters[key][subkey]
+                } else {
+                  aux[`${key}_${subkey}`] = filters[key][subkey]
+                }
               }
             }
           }
-        } else {
+        } else if (notNull(filters[key])) {
           aux[key] = filters[key]
         }
       }
-
       return aux
     },
 

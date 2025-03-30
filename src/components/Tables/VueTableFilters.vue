@@ -107,11 +107,11 @@ export default {
           label: 'Sin orden'
         },
         ...sortableCols.map((x) => ({
-          value: `${x.sort_value || x.mask}__asc`,
+          value: `${x.sort_value || x.title}__asc`,
           label: `${x.mask.ucwords()} - ASC`
         })),
         ...sortableCols.map((x) => ({
-          value: `${x.sort_value || x.mask}__desc`,
+          value: `${x.sort_value || x.title}__desc`,
           label: `${x.mask.ucwords()} - DESC`
         }))
       ].sort((a, b) => (a.label < b.label ? -1 : 1))
@@ -120,7 +120,7 @@ export default {
       return this.headers
         .filter((x) => x.hideable)
         .map((x) => ({
-          value: x.mask || x.title,
+          value: x.title,
           label: x.mask?.ucwords() || x.title.ucwords()
         }))
     }

@@ -67,17 +67,7 @@ export default {
   data: () => ({
     params: {},
     vTable: {
-      filters: [
-        {
-          title: 'Fecha corta primero',
-          type: 'select',
-          options: [
-            { value: 'true', label: 'Si' },
-            { value: 'false', label: 'No' }
-          ],
-          column: 'fecha_corta'
-        }
-      ], // Filtros que se pasarán al componente VueTable
+      filters: [], // Filtros que se pasarán al componente VueTable
       headers: [
         { title: 'product_id', sortable: true, hideable: true, mask: 'id' },
         { title: 'provider', sortable: true, hideable: true, mask: 'Proveedor' },
@@ -85,7 +75,7 @@ export default {
         { title: 'name_product', sortable: true, hideable: true, mask: 'Nombre del producto' },
         { title: 'price', sortable: true, hideable: true, mask: 'Precio', pre: '$' },
         { slot: 'cambio_precio', mask: 'Aumento/Bajo' },
-        { title: 'fecha_corta', mask: 'Fecha corta', slot: 'fecha' }
+        { title: 'fecha_corta', sortable: true, mask: 'Fecha corta', slot: 'fecha' }
       ],
       actions: [
         { title: 'Borrar Producto', callback: 'onDelete' },
@@ -134,6 +124,7 @@ export default {
     },
     onShowDetails(item) {
       this.$router.push({ name: 'Editar Producto', params: { id: item.product_id } })
+      this.refreshTable()
     },
     irAtras() {
       this.$router.go(-1)
@@ -151,6 +142,9 @@ export default {
       this.idsChecked = value
         ? this.vTable.values.data.map((x) => ({ id: x.product_id, price: x.price }))
         : []
+      this.vTable.values.data.forEach((item) => {
+        item.checked = value
+      })
     },
 
     onDelete(item) {

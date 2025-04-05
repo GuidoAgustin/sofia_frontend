@@ -37,8 +37,10 @@
             </td>
           </tr>
         </template>
-        <tr v-for="(item, a) in values.data" :key="item.id">
-          <td v-if="opts.checkeable" width="1%">
+        <!-- tr fila de la tabla -->
+        <tr v-for="(item, a) in values.data" :key="item.id"> 
+         <!-- td columna de la tabla -->
+          <td v-if="opts.checkeable" width="1%">  
             <input
               v-model="item.checked"
               type="checkbox"
